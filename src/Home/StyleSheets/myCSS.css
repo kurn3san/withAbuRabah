@@ -1,0 +1,66 @@
+/*#button{
+    width: 350px; height: 330px; -fx-background-color: #f9f9f9;
+
+      line-height: 1.15;
+    -webkit-box-direction: normal;
+    cursor: pointer;
+    color: inherit;
+    font-size: 2em;
+    box-sizing: inherit;
+
+}*/
+#WelcomePageExitButton{
+    -fx-color-label-visible: #fff !important;
+    -fx-background-color: #ed3330;
+    fx-padding: 20px;
+    fx-border-radius: 5px;
+    fx-border: none;
+    fx-transition: all 0.4s ease 0s;
+}
+#ExitViewExitButton{
+    -fx-color-label-visible: #fff !important;
+    -fx-background-color: #ed3330;
+    fx-padding: 20px;
+    fx-border-radius: 5px;
+    fx-border: none;
+    fx-transition: all 0.4s ease 0s;
+}
+#button2 {
+
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-text-inner-color: #D43E21;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+    -fx-background-color:#222222;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 3, 2;
+}
+.text-area {
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-text-inner-color: #FFFFFF;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+    -fx-background-color:#000000;
+    -fx-opacity: 0.85;
+    -fx-background-radius: 3, 2;
+}
+
+#SignUpInInputPane {
+    -fx-background-color: #F4F5E0 ;
+}
+#SignInOuterPane{
+    -fx-background-color: #F4F5E0 ;
+}
+
+#KorogementLabel{
+    line-height: 1.15;
+    font-family: fa5-proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-box-direction: normal;
+    cursor: pointer;
+    color: inherit;
+    font-size: 2em;
+    box-sizing: inherit;
+
+}

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="untitled:GWT">
+    <output-path>$PROJECT_DIR$/out/artifacts/untitled_GWT</output-path>
+    <root id="root">
+      <element id="gwt-compiler-output" facet="untitled/gwt/GWT" />
+    </root>
+  </artifact>
+</component>
