@@ -14,10 +14,8 @@ public class DatabaseHandler extends Configs {
         dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);
     }
 
-    public static Connection getDbConnection() {// throws ClassNotFoundException, SQLException
-        /*String connectionString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false";
-        Class.forName("com.mysql.jdbc.Driver");
-        dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);*/
+    public static Connection getDbConnection() {
+
         return dbConnection;
     }
 
@@ -32,27 +30,24 @@ public class DatabaseHandler extends Configs {
         System.out.println(insert);
 
         try {
-            Connection connection = DatabaseHandler.getDbConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(insert);
+            PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert);
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getUserName());
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setInt(5,user.getLevel());
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public ResultSet getUserByUserName(User user) {
-        Connection connection = DatabaseHandler.getDbConnection();
         ResultSet resultSet = null;
         if (!user.getUserName().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? ";
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
                 preparedStatement.setString(1, user.getUserName());
                 resultSet = preparedStatement.executeQuery();
             } catch (SQLException e) {
@@ -74,8 +69,7 @@ public class DatabaseHandler extends Configs {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? " + " AND " + Consts.USERS_PASSWORD + " =? ";
 
             try {
-                Connection connection = DatabaseHandler.getDbConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
                 preparedStatement.setString(1, user.getUserName());
                 preparedStatement.setString(2, user.getPassword());
                 resultSet = preparedStatement.executeQuery();
@@ -93,12 +87,11 @@ public class DatabaseHandler extends Configs {
     //////////// add employyes
 
     public void AddEmployee(Employee employee) {
-        Connection connection = DatabaseHandler.getDbConnection();
         String insert2 = "INSERT INTO " + " project.employee " + "("
                 + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_JOBINFO + ","
                 + Consts.EMPLOYEE_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(insert2);
+            PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert2);
             preparedStatement.setString(1, employee.getFirstName());
             preparedStatement.setString(2, employee.getLastName());
             preparedStatement.setString(3, employee.getUsername());
@@ -112,11 +105,10 @@ public class DatabaseHandler extends Configs {
 
     public ResultSet getEmployee(Employee employee) {
         ResultSet resultSet = null;
-        Connection connection = DatabaseHandler.getDbConnection();
         if (!employee.getLastName().equals("") || !employee.getFirstName().equals("")) {
             String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + "=?" +" AND "+ Consts.EMPLOYEE_LASTNAME + "=?";
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
                 preparedStatement.setString(1, employee.getFirstName());
                 preparedStatement.setString(2, employee.getLastName());
                 resultSet = preparedStatement.executeQuery();
