@@ -19,7 +19,6 @@
     <orderEntry type="library" name="com.jfoenix:jfoenix:9.0.9" level="project" />
     <orderEntry type="library" name="org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4" level="project" />
     <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
-    <orderEntry type="library" name="gwt-user" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.48" level="project" />
   </component>
 </module>

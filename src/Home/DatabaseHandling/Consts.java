@@ -1,4 +1,4 @@
-package Home.Databases;
+package Home.DatabaseHandling;
 
 public class Consts {
     public static final String USERS_TABLE = "project.users";

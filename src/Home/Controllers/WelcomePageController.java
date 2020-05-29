@@ -1,19 +1,22 @@
 package Home.Controllers;
+
 import Home.Animations.Shaker;
-import Home.Databases.DatabaseHandler;
+import Home.DatabaseHandling.DatabaseHandler;
 import Home.model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
 
-import javax.xml.transform.Result;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -74,12 +77,24 @@ public class WelcomePageController implements Initializable{
     public AnchorPane SignInToSignUpAnchorPane;
     @FXML
     public Label ErrorEmptyFieldsLabel;
-    private DatabaseHandler databaseHandler;
+    DatabaseHandler dbh = new DatabaseHandler();
+    //private static Connection connection =;
 
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        DatabaseHandler databaseHandler = new DatabaseHandler();
+        try {
+            DatabaseHandler.connect();
+            //dbh.connect();
+            //connection = dbh.getDbConnection();
+            System.out.println("connected to database!!");
+        } catch (SQLException e) {
+            System.out.println("connection failed!");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("connection failed!");
+        }
         System.out.println("First View initialized!");
         //Main Screen
 
@@ -119,7 +134,7 @@ public class WelcomePageController implements Initializable{
             user.setPassword(SignInPassword);
             System.out.println("SignInButton click!");
             ErrorEmptyFieldsLabel.setVisible(false); // gotta move from here..
-            ResultSet userRow = databaseHandler.getUser(user); //passing the query result set for finding matches
+                ResultSet userRow = dbh.getUser(user); //passing the query result set for finding matches
             int counter = 0;
                 try {
                     while (userRow.next()) {
@@ -130,7 +145,7 @@ public class WelcomePageController implements Initializable{
                         goToSignedIn();
                         ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
                     }else{
-                        userRow = databaseHandler.getUserByUserName(user);
+                        userRow = dbh.getUserByUserName(user);
                         while (userRow.next()) {
                             counter++;
                         }
@@ -178,7 +193,10 @@ public class WelcomePageController implements Initializable{
 
 
     }
-    private void goToSignedIn(){Stage primaryStage = new Stage();
+
+    private void goToSignedIn() {
+
+        Stage primaryStage = new Stage();
         //String uurl = this.getClass().getResource("/Home/exp/two.fxml").toExternalForm();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Home/Views/SignedIn.fxml"));
@@ -210,9 +228,11 @@ public class WelcomePageController implements Initializable{
         } catch (Exception e){
             e.printStackTrace();
         }
+
         User user =new User(firstName,lastName,userName,Password,level);
         System.out.println(firstName + lastName+ userName+Password+ level );
-        databaseHandler.SignUpUser(user);
+        if (DatabaseHandler.getDbConnection() != null) databaseHandler.SignUpUser(user);
+        System.out.println("user created and signed up!");
     }
 }
 
