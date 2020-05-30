@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SignedIn implements Initializable {
@@ -29,13 +31,25 @@ public class SignedIn implements Initializable {
     public Button EmployeesManagementToAddWorkerButton;
     @FXML
     public AnchorPane AddWorkerPageAnchorPane;
+    @FXML
+    public Button EmployeesManagementToEditWorkerButton;
+    @FXML
+    public AnchorPane EditWorkerPageAnchorPane;
+    @FXML
+    public Button EditWorkerSearchButton;
+    @FXML
+    public TextField SearchWorkerFirstNameTextField;
+    @FXML
+    public TextField SearchWorkerLastNameTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+
+        System.out.println("SignedIN initialised!");
         EmployeesManagementToAddWorkerButton.setOnAction((event) -> {
             System.out.println("Employees Management To Add Workerpage Button click!");
             AddWorkerPageAnchorPane.setVisible(true);
-
+            EditWorkerPageAnchorPane.setVisible(false);
         });
 
         AddEmployeeButton.setOnAction((event) -> {
@@ -58,6 +72,38 @@ public class SignedIn implements Initializable {
             databaseHandler.AddEmployee(new Employee(firstName, lastName, userName, level,jobinfo));
             System.out.println("added maan!");
         });
+        EmployeesManagementToEditWorkerButton.setOnAction((actionEvent -> {
+            System.out.println("on action Edit profile menu");
+            AddWorkerPageAnchorPane.setVisible(false);
+            EditWorkerPageAnchorPane.setVisible(true);
+
+        }));
+
+        EditWorkerSearchButton.setOnAction((actionEvent -> {
+            Employee employee = new Employee();
+            if (!SearchWorkerFirstNameTextField.getText().equals(""))
+                employee.setFirstName(SearchWorkerFirstNameTextField.getText().toLowerCase());
+            if (!SearchWorkerLastNameTextField.getText().equals(""))
+                employee.setLastName(SearchWorkerLastNameTextField.getText().toLowerCase());
+            ResultSet rsRow = DatabaseHandler.getEmployee(employee);
+
+            try {
+
+                while (rsRow.next()) {
+                    employee.setLastName(rsRow.getString(3));
+                    employee.setFirstName(rsRow.getString(2));
+                    employee.setLevel(rsRow.getInt(5));
+                    employee.setJobinfo(rsRow.getString(6));
+                    employee.setUsername(rsRow.getString(4));
+                    System.out.println(employee);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }));
+
 
     }
 }

@@ -57,4 +57,8 @@ public class Employee {
     public void setJobinfo(String jobinfo) {
         this.jobinfo = jobinfo;
     }
+
+    public String toString() {
+        return "Username: " + this.getUsername() + " First name: " + this.getFirstName() + " Last name: " + this.getLastName() + " Level: " + this.getLevel();
+    }
 }

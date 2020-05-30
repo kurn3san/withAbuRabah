@@ -1,6 +1,6 @@
 package Home.model;
 
-public class User {
+public class Admin {
 
     private String firstName;
     private String lastName;
@@ -8,14 +8,15 @@ public class User {
     private String password;
     private int level;
 
-    public User(String firstName, String lastName, String userName, String password, int level) {
+    public Admin(String firstName, String lastName, String userName, String password, int level) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
         this.level = 1;
     }
-    public User() {
+
+    public Admin() {
         this.level = 1;
 
     }
@@ -56,5 +57,11 @@ public class User {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public String toString() {
+        return "First name = " + this.getFirstName() + " Last name = " +
+                this.getLastName() + " Admin name = " + this.getUserName() +
+                " Access level = " + this.getLevel() + " .";
     }
 }

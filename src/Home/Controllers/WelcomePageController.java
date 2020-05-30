@@ -2,7 +2,7 @@ package Home.Controllers;
 
 import Home.Animations.Shaker;
 import Home.DatabaseHandling.DatabaseHandler;
-import Home.model.User;
+import Home.model.Admin;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -119,8 +119,8 @@ public class WelcomePageController implements Initializable{
             ErrorEmptyFieldsLabel.setVisible(false);
         });
         SignInButton.setOnAction((event) -> {
-            String signInUsername = SignInUsernameTextField.getText().trim();
-            String SignInPassword = SignInPasswordField.getText().trim();
+            String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
+            String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();
             // checking validity of fields' informatinos
             if(signInUsername.equals("")) System.out.println("please enter a username man");
             Shaker shaker = new Shaker(SignInUsernameTextField); // not working apparently...
@@ -129,24 +129,37 @@ public class WelcomePageController implements Initializable{
             if(SignInPassword.equals("")&&signInUsername.equals("")) ErrorEmptyFieldsLabel.setVisible(true);
             if(!signInUsername.equals("")||!SignInPassword.equals("")){
 
-            User user = new User();
-            user.setUserName(signInUsername);
-            user.setPassword(SignInPassword);
+                Admin admin = new Admin();
+                admin.setUserName(signInUsername);
+                admin.setPassword(SignInPassword);
             System.out.println("SignInButton click!");
             ErrorEmptyFieldsLabel.setVisible(false); // gotta move from here..
-                ResultSet userRow = dbh.getUser(user); //passing the query result set for finding matches
+                ResultSet userRow = dbh.getUser(admin); //passing the query result set for finding matches
             int counter = 0;
                 try {
                     while (userRow.next()) {
                         counter++;
+                        admin.setUserName(userRow.getString(4));
+                        admin.setFirstName(userRow.getString(2));
+                        admin.setLastName(userRow.getString(3));
+                        admin.setLevel(userRow.getInt(6));
+                        admin.toString();
                     }
-                    if(counter==1){ //checking for that one match...
+                    if (counter == 1) {
+                        //checking for that one match...
                         System.out.println("successful...");
                         goToSignedIn();
                         ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
                     }else{
-                        userRow = dbh.getUserByUserName(user);
+                        userRow = dbh.getUserByUserName(admin);
                         while (userRow.next()) {
+                            //System.out.println(userRow.getInt(1)+" "+userRow.getString(2));
+                            admin.setUserName(userRow.getString(4));
+                            admin.setFirstName(userRow.getString(2));
+                            admin.setLastName(userRow.getString(3));
+                            admin.setLevel(userRow.getInt(6));
+                            System.out.println(admin.toString());
+                            //System.out.println(admin.getUserName()+admin.getLastName()+admin.getFirstName());
                             counter++;
                         }
                         if(counter==1){
@@ -165,39 +178,13 @@ public class WelcomePageController implements Initializable{
             System.out.println("Sign up Button click!");
             createUser();
 
-            // method preforms follloooowwing....
-            /*
-            String firstName = SignUpFirstnameTextField.getText() ;
-            String lastName = SignUpLastNameTextField.getText() ;
-            String userName = SignUpUsernameTextField.getText() ;
-            String Password = SignUpPasswordField.getText();
-            System.out.println(firstName + lastName+ userName+Password );
-            databaseHandler.SignUpUser(firstName, lastName, userName, Password);*/
         });
-      /*  Stage primaryStage = new Stage();
-        //String uurl = this.getClass().getResource("/Home/exp/two.fxml").toExternalForm();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Home/exp/sample.fxml"));
-        try{
-            loader.load();
-        }catch(Exception e){
-            System.out.println("exception");
-            e.printStackTrace();
-        }
-        //button.getScene().getWindow().hide();
-        Parent root = loader.getRoot();
-        primaryStage.setTitle("two");
-        Scene scene = new Scene(root, 300,540);
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
-
 
     }
 
     private void goToSignedIn() {
 
         Stage primaryStage = new Stage();
-        //String uurl = this.getClass().getResource("/Home/exp/two.fxml").toExternalForm();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Home/Views/SignedIn.fxml"));
         try{
@@ -215,11 +202,12 @@ public class WelcomePageController implements Initializable{
 
     }
     private void createUser(){
+
         System.out.println("CREATING USER...");
         DatabaseHandler databaseHandler = new DatabaseHandler();
-        String firstName = SignUpFirstnameTextField.getText() ;
-        String lastName = SignUpLastNameTextField.getText() ;
-        String userName = SignUpUsernameTextField.getText() ;
+        String firstName = SignUpFirstnameTextField.getText().toLowerCase();
+        String lastName = SignUpLastNameTextField.getText().toLowerCase();
+        String userName = SignUpUsernameTextField.getText().toLowerCase();
         String Password = SignUpPasswordField.getText();
         int level = 1;
         try{
@@ -229,10 +217,12 @@ public class WelcomePageController implements Initializable{
             e.printStackTrace();
         }
 
-        User user =new User(firstName,lastName,userName,Password,level);
+        Admin admin = new Admin(firstName, lastName, userName, Password, level);
         System.out.println(firstName + lastName+ userName+Password+ level );
-        if (DatabaseHandler.getDbConnection() != null) databaseHandler.SignUpUser(user);
-        System.out.println("user created and signed up!");
+        if (DatabaseHandler.getDbConnection() != null) databaseHandler.SignUpUser(admin);
+        System.out.println("admin created and signed up!");
+
     }
+
 }
 

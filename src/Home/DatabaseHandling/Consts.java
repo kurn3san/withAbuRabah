@@ -1,8 +1,8 @@
 package Home.DatabaseHandling;
 
 public class Consts {
-    public static final String USERS_TABLE = "project.users";
-    public static final String EMPLOYEE_TABLE = "project.employee";
+    public static final String USERS_TABLE = " project.users ";
+    public static final String EMPLOYEE_TABLE = " project.employee ";
     // Column Names
     public static final String USERS_USERID = "userid";
     public static final String USERS_USERNAME = "username";

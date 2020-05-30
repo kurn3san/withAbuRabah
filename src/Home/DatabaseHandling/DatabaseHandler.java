@@ -1,7 +1,7 @@
 package Home.DatabaseHandling;
 
+import Home.model.Admin;
 import Home.model.Employee;
-import Home.model.User;
 
 import java.sql.*;
 
@@ -19,8 +19,44 @@ public class DatabaseHandler extends Configs {
         return dbConnection;
     }
 
+    public static ResultSet getEmployee(Employee employee) {
+        ResultSet resultSet = null;
+        if (!employee.getLastName().equals("") || !employee.getFirstName().equals("")) {
+            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + " =? " + " AND " + Consts.EMPLOYEE_LASTNAME + " =? ";
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                preparedStatement.setString(1, employee.getFirstName());
+                preparedStatement.setString(2, employee.getLastName());
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+        } else if (!employee.getFirstName().equals("")) {
+            String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + employee.getFirstName();
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+            //returns null... or that's what I thought
+        } else {
+            String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_LASTNAME + employee.getLastName();
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+            //returns null... or that's what I thought
+        }
+    }
+
     ///write
-    public void SignUpUser(User user) {
+    public void SignUpUser(Admin admin) {
         String insert2 = " INSERT INTO " + "project.users" + "("
                 + Consts.USERS_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.USERS_USERNAME + "," + Consts.USERS_PASSWORD + ","
                 + Consts.USERS_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
@@ -31,24 +67,24 @@ public class DatabaseHandler extends Configs {
 
         try {
             PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert);
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getUserName());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setInt(5,user.getLevel());
+            preparedStatement.setString(1, admin.getFirstName());
+            preparedStatement.setString(2, admin.getLastName());
+            preparedStatement.setString(3, admin.getUserName());
+            preparedStatement.setString(4, admin.getPassword());
+            preparedStatement.setInt(5, admin.getLevel());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public ResultSet getUserByUserName(User user) {
+    public ResultSet getUserByUserName(Admin admin) {
         ResultSet resultSet = null;
-        if (!user.getUserName().equals("")) {
+        if (!admin.getUserName().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? ";
             try {
                 PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                preparedStatement.setString(1, user.getUserName());
+                preparedStatement.setString(1, admin.getUserName());
                 resultSet = preparedStatement.executeQuery();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -62,16 +98,17 @@ public class DatabaseHandler extends Configs {
             return resultSet;
         }
     }
+    //////////// add employyes
 
-    public ResultSet getUser(User user) {
+    public ResultSet getUser(Admin admin) {
         ResultSet resultSet = null;
-        if (!user.getUserName().equals("") || !user.getPassword().equals("")) {
+        if (!admin.getUserName().equals("") || !admin.getPassword().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? " + " AND " + Consts.USERS_PASSWORD + " =? ";
 
             try {
                 PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                preparedStatement.setString(1, user.getUserName());
-                preparedStatement.setString(2, user.getPassword());
+                preparedStatement.setString(1, admin.getUserName());
+                preparedStatement.setString(2, admin.getPassword());
                 resultSet = preparedStatement.executeQuery();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -84,11 +121,10 @@ public class DatabaseHandler extends Configs {
             //returns null...
         }
     }
-    //////////// add employyes
 
     public void AddEmployee(Employee employee) {
         String insert2 = "INSERT INTO " + " project.employee " + "("
-                + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_JOBINFO + ","
+                + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.EMPLOYEE_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_JOBINFO + ","
                 + Consts.EMPLOYEE_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert2);
@@ -100,25 +136,6 @@ public class DatabaseHandler extends Configs {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    public ResultSet getEmployee(Employee employee) {
-        ResultSet resultSet = null;
-        if (!employee.getLastName().equals("") || !employee.getFirstName().equals("")) {
-            String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + "=?" +" AND "+ Consts.EMPLOYEE_LASTNAME + "=?";
-            try {
-                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                preparedStatement.setString(1, employee.getFirstName());
-                preparedStatement.setString(2, employee.getLastName());
-                resultSet = preparedStatement.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return resultSet;
-        } else {
-            return resultSet;
-            //returns null... or that's what I thought
         }
     }
 
