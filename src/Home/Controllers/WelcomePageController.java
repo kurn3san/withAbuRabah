@@ -134,7 +134,7 @@ public class WelcomePageController implements Initializable{
                 admin.setPassword(SignInPassword);
             System.out.println("SignInButton click!");
             ErrorEmptyFieldsLabel.setVisible(false); // gotta move from here..
-                ResultSet userRow = dbh.getUser(admin); //passing the query result set for finding matches
+                ResultSet userRow = DatabaseHandler.getUser(admin); //passing the query result set for finding matches
             int counter = 0;
                 try {
                     while (userRow.next()) {
@@ -151,7 +151,7 @@ public class WelcomePageController implements Initializable{
                         goToSignedIn();
                         ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
                     }else{
-                        userRow = dbh.getUserByUserName(admin);
+                        userRow = DatabaseHandler.getUserByUserName(admin);
                         while (userRow.next()) {
                             //System.out.println(userRow.getInt(1)+" "+userRow.getString(2));
                             admin.setUserName(userRow.getString(4));
@@ -219,7 +219,7 @@ public class WelcomePageController implements Initializable{
 
         Admin admin = new Admin(firstName, lastName, userName, Password, level);
         System.out.println(firstName + lastName+ userName+Password+ level );
-        if (DatabaseHandler.getDbConnection() != null) databaseHandler.SignUpUser(admin);
+        if (DatabaseHandler.getDbConnection() != null) DatabaseHandler.SignUpUser(admin);
         System.out.println("admin created and signed up!");
 
     }

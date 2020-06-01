@@ -28,7 +28,7 @@
                                         <Label id="SignUpFirstnameLabel" fx:id="SignUpFirstnameLabel" alignment="CENTER"
                                                contentDisplay="CENTER" prefHeight="26.0" prefWidth="72.0"
                                                stylesheets="@../StyleSheets/myCSS.css" text="First name"/>
-                                        <Label id="SignUpActivatinoCodeLabel" layoutX="72.0" layoutY="268.0"
+                                        <Label id="SignUpActivatinoCodeLabel" layoutX="50.0" layoutY="280.0"
                                                prefHeight="26.0" prefWidth="44.0"
                                                stylesheets="@../StyleSheets/myCSS.css" text="LEVEL"
                                                textAlignment="CENTER"/>
@@ -54,15 +54,17 @@
                                                    prefHeight="25.0" prefWidth="386.0"
                                                    promptText="Enter employee's user name"
                                                    stylesheets="@../StyleSheets/myCSS.css"/>
-                                        <PasswordField id="AddEmployeeJobinfoField" fx:id="AddEmployeeJobinfoField"
-                                                       accessibleRole="TEXT_FIELD" layoutX="1.0" layoutY="200.0"
-                                                       prefHeight="25.0" prefWidth="386.0"
-                                                       promptText="Enter employee's Title"
-                                                       stylesheets="@../StyleSheets/myCSS.css"/>
                                         <TextField id="AddEmployeeActivatinoCodeTextField"
-                                                   fx:id="AddEmployeeLevelCodeTextField" layoutX="112.0" layoutY="269.0"
+                                                   fx:id="AddEmployeeLevelCodeTextField" layoutX="117.0" layoutY="281.0"
                                                    prefHeight="25.0" prefWidth="152.0" promptText="Example: 1, 2, 3 ..."
                                                    stylesheets="@../StyleSheets/myCSS.css"/>
+                                        <TextField id="AddEmployeeTitelField" fx:id="AddEmployeeTitelField"
+                                                   layoutY="200.0" prefHeight="25.0" prefWidth="386.0"
+                                                   promptText="enter titel"/>
+                                        <DatePicker id="AddEmployeeDatePicker" fx:id="AddEmployeeDatePicker"
+                                                    layoutX="116.0" layoutY="238.0" prefHeight="25.0" prefWidth="152.0"
+                                                    promptText="Select Certificate date"/>
+                                        <Label layoutX="32.0" layoutY="242.0" text="Certificate date"/>
                                     </children>
                                 </Pane>
                             </children>
@@ -105,41 +107,58 @@
                         </Pane>
                     </children>
                 </AnchorPane>
-            </children>
-
-        </AnchorPane>
-        <AnchorPane id="EditWorkerPageAnchorPane" fx:id="EditWorkerPageAnchorPane" layoutX="29.0" layoutY="143.0"
-                    prefHeight="442.0" prefWidth="991.0">
-            <children>
-                <Pane id="SignUpInInputPane" fx:id="SignUpInputOuterPane1" layoutX="-14.0" layoutY="-28.0"
-                      prefHeight="442.0" prefWidth="1004.0" stylesheets="@../StyleSheets/myCSS.css"
-                      AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0"
-                      AnchorPane.topAnchor="-28.0">
+                <AnchorPane id="EditWorkerPageAnchorPane" fx:id="EditWorkerPageAnchorPane" layoutX="14.0"
+                            layoutY="126.0" prefHeight="442.0" prefWidth="991.0" visible="false">
                     <children>
-                        <Pane id="SignUpInnerPane" fx:id="SignUpInnerPane2" layoutX="622.0" layoutY="87.0"
-                              maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="268.0"
-                              prefWidth="337.0">
+                        <Pane id="SignUpInInputPane" fx:id="SignUpInputOuterPane1" prefHeight="442.0" prefWidth="1004.0"
+                              stylesheets="@../StyleSheets/myCSS.css" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <Button id="EditWorkerSearchButton" fx:id="EditWorkerSearchButton" layoutX="73.0"
-                                        layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0"
-                                        stylesheets="@../StyleSheets/myCSS.css" text="Save"/>
-                                <TextField id="EditWorkerSearchButton" fx:id="SearchWorkerFirstNameTextField"
-                                           layoutX="116.0" layoutY="51.0" promptText="serach with first name"/>
-                                <TextField id="SearchWorkerFirstNameTextField" fx:id="SearchWorkerLastNameTextField"
-                                           layoutX="116.0" layoutY="102.0" promptText="search with last name"/>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="51.0"
-                                       prefHeight="26.0" prefWidth="72.0" stylesheets="@../StyleSheets/myCSS.css"
-                                       text="First name"/>
-                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="37.0" layoutY="102.0"
-                                       prefHeight="26.0" prefWidth="72.0" stylesheets="@../StyleSheets/myCSS.css"
-                                       text="Last name"/>
+                                <Pane id="SignUpInnerPane" fx:id="SignUpInnerPane2" layoutX="444.0" layoutY="103.0"
+                                      maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                      prefHeight="114.0" prefWidth="533.0">
+                                    <children>
+                                        <Button id="EditWorkerSearchButton" fx:id="EditWorkerSearchButton"
+                                                layoutX="293.0" layoutY="64.0" mnemonicParsing="false" prefHeight="25.0"
+                                                prefWidth="192.0" stylesheets="@../StyleSheets/myCSS.css" text="find"/>
+                                        <TextField id="EditWorkerSearchButton" fx:id="SearchWorkerFirstNameTextField"
+                                                   layoutX="103.0" layoutY="41.0" promptText="serach with first name"/>
+                                        <TextField id="SearchWorkerFirstNameTextField"
+                                                   fx:id="SearchWorkerLastNameTextField" layoutX="103.0" layoutY="77.0"
+                                                   promptText="search with last name"/>
+                                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="40.0"
+                                               prefHeight="26.0" prefWidth="72.0"
+                                               stylesheets="@../StyleSheets/myCSS.css" text="First name"/>
+                                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="76.0"
+                                               prefHeight="26.0" prefWidth="72.0"
+                                               stylesheets="@../StyleSheets/myCSS.css" text="Last name"/>
+                                        <Label alignment="CENTER" contentDisplay="CENTER" layoutY="6.0"
+                                               prefHeight="17.0" prefWidth="533.0" text="Search criteria"/>
+                                    </children>
+                                </Pane>
+                                <TableView id="EditWorkerTableView" fx:id="EditWorkerTableView" layoutX="444.0"
+                                           layoutY="222.0" prefHeight="200.0" prefWidth="533.0">
+                                    <columns>
+                                        <TableColumn id="FirstnameColumn" fx:id="FirstNameColumn"
+                                                     prefWidth="104.80001831054688"/>
+                                        <TableColumn id="LastNameColumn" fx:id="LastNameColumn"
+                                                     prefWidth="97.60000610351562"/>
+                                        <TableColumn id="TitelColumn" fx:id="titleColumn"
+                                                     prefWidth="54.39996337890625"/>
+                                        <TableColumn id="TitelColumn" fx:id="UsernameColumn"
+                                                     prefWidth="89.60003662109375"/>
+                                        <TableColumn id="LevelColumn" fx:id="LevelColumn"
+                                                     prefWidth="35.20001220703125"/>
+                                        <TableColumn id="CertificateDateColumn" fx:id="CertificateDateColumn"
+                                                     prefWidth="150.4000244140625"/>
+                                    </columns>
+                                </TableView>
                             </children>
                         </Pane>
-                        <Pane id="EditWorkerResultAndEditingPane" fx:id="EditWorkerResultAndEditingPane" layoutX="14.0"
-                              layoutY="17.0" prefHeight="409.0" prefWidth="628.0"/>
                     </children>
-                </Pane>
+                </AnchorPane>
             </children>
+
         </AnchorPane>
     </children>
 </AnchorPane>

@@ -19,44 +19,10 @@ public class DatabaseHandler extends Configs {
         return dbConnection;
     }
 
-    public static ResultSet getEmployee(Employee employee) {
-        ResultSet resultSet = null;
-        if (!employee.getLastName().equals("") || !employee.getFirstName().equals("")) {
-            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + " =? " + " AND " + Consts.EMPLOYEE_LASTNAME + " =? ";
-            try {
-                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                preparedStatement.setString(1, employee.getFirstName());
-                preparedStatement.setString(2, employee.getLastName());
-                resultSet = preparedStatement.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return resultSet;
-        } else if (!employee.getFirstName().equals("")) {
-            String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + employee.getFirstName();
-            try {
-                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                resultSet = preparedStatement.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return resultSet;
-            //returns null... or that's what I thought
-        } else {
-            String query = "SELECT * FROM project.employees " + " WHERE " + Consts.EMPLOYEE_LASTNAME + employee.getLastName();
-            try {
-                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-                resultSet = preparedStatement.executeQuery();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return resultSet;
-            //returns null... or that's what I thought
-        }
-    }
+
 
     ///write
-    public void SignUpUser(Admin admin) {
+    public static void SignUpUser(Admin admin) {
         String insert2 = " INSERT INTO " + "project.users" + "("
                 + Consts.USERS_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.USERS_USERNAME + "," + Consts.USERS_PASSWORD + ","
                 + Consts.USERS_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
@@ -78,7 +44,7 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public ResultSet getUserByUserName(Admin admin) {
+    public static ResultSet getUserByUserName(Admin admin) {
         ResultSet resultSet = null;
         if (!admin.getUserName().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? ";
@@ -100,7 +66,7 @@ public class DatabaseHandler extends Configs {
     }
     //////////// add employyes
 
-    public ResultSet getUser(Admin admin) {
+    public static ResultSet getUser(Admin admin) {
         ResultSet resultSet = null;
         if (!admin.getUserName().equals("") || !admin.getPassword().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? " + " AND " + Consts.USERS_PASSWORD + " =? ";
@@ -122,21 +88,96 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public void AddEmployee(Employee employee) {
+    ///////////////
+    // Employeee proooblemmms
+    ///////////////
+    public static void AddEmployee(Employee employee) {
         String insert2 = "INSERT INTO " + " project.employee " + "("
-                + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.EMPLOYEE_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_JOBINFO + ","
-                + Consts.EMPLOYEE_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
+                + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.EMPLOYEE_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_TITEL + ","
+                + Consts.EMPLOYEE_LEVEL + "," + Consts.EMPLOYEE_CERTIFICATE_DATE + " ) " + " VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert2);
             preparedStatement.setString(1, employee.getFirstName());
             preparedStatement.setString(2, employee.getLastName());
             preparedStatement.setString(3, employee.getUsername());
-            preparedStatement.setString(4, employee.getJobinfo());
+            preparedStatement.setString(4, employee.getTitle());
             preparedStatement.setInt(5,employee.getLevel());
+            preparedStatement.setDate(6, java.sql.Date.valueOf(employee.getCertificateDate()));
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public static ResultSet getEmployee(Employee employee) {
+        ResultSet resultSet = null;
+     /*   if (employee.equals(null)){
+            String query = " SELECT * FROM  project.employee " ; // + Consts.EMPLOYEE_TABLE ;
+            System.out.println("query is: "+query);
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+        }
+        else */
+        if (!employee.getLastName().equals("") && !employee.getFirstName().equals("")) {
+            System.out.println("getEmployee() got: " + employee.toString());
+
+            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE "
+                    + Consts.EMPLOYEE_FIRSTNAME + " =? " + " AND " +
+                    Consts.EMPLOYEE_LASTNAME + " =? ";
+            System.out.println("query is: " + query);
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                preparedStatement.setString(1, employee.getFirstName());
+                preparedStatement.setString(2, employee.getLastName());
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+        } else if (!employee.getFirstName().equals("")) {
+            System.out.println("getEmployee() got: " + employee.toString());
+
+            String query = "SELECT * FROM project.employee " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + " = " + "'" + employee.getFirstName() + "'";
+            System.out.println("query is:   " + query);
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+            //returns null... or that's what I thought
+        } else if (!employee.getLastName().equals("")) {
+            System.out.println("getEmployee() got: " + employee.toString());
+
+            String query = "SELECT * FROM project.employee " + " WHERE " + Consts.EMPLOYEE_LASTNAME + " = " + "'" + employee.getLastName() + "'";
+            System.out.println("query is:   " + query);
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return resultSet;
+            //returns null... or that's what I thought
+        } else {
+            System.out.println("getEmployee() got: " + employee.toString());
+
+            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE;
+            System.out.println("query is: " + query);
+            try {
+                PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+                resultSet = preparedStatement.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return resultSet;
+        }
+    }
 }

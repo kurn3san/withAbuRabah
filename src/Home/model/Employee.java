@@ -1,18 +1,22 @@
 package Home.model;
 
+import java.time.LocalDate;
+
 public class Employee {
     private String firstName;
     private String lastName;
     private String username;
     private int level;
-    private String jobinfo;
+    private String title;
+    private LocalDate certificateDate;
 
-    public Employee(String firstName, String lastName, String username, int level, String jobinfo) {
+    public Employee(String firstName, String lastName, String username, int level, String title, LocalDate CDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.level = level;
-        this.jobinfo = jobinfo;
+        this.title = title;
+        this.certificateDate = CDate;
     }
     public Employee() {
 
@@ -50,15 +54,42 @@ public class Employee {
         this.level = level;
     }
 
-    public String getJobinfo() {
-        return jobinfo;
+    public String getTitle() {
+        return title;
     }
 
-    public void setJobinfo(String jobinfo) {
-        this.jobinfo = jobinfo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String toString() {
-        return "Username: " + this.getUsername() + " First name: " + this.getFirstName() + " Last name: " + this.getLastName() + " Level: " + this.getLevel();
+        return "Username: " + this.getUsername() +
+                " First name: " + this.getFirstName() +
+                " Last name: " + this.getLastName() +
+                " Level: " + this.getLevel() +
+                "Certificate date: " + this.getCertificateDate();
     }
+
+    public LocalDate getCertificateDate() {
+        return certificateDate;
+    }
+
+    public void setCertificateDate(LocalDate certificateDate) {
+        this.certificateDate = certificateDate;
+    }
+    /*public StringProperty lastNameProperty() {
+        return lastname;
+    }
+
+    public Object getDateOfBirth() {
+        return dateofbirth.get();
+    }
+
+    public void setDateOfBirth(LocalDate dateofbirth) {
+        this.dateofbirth.set(dateofbirth);
+    }
+
+    public ObjectProperty<LocalDate> dateOfBirthProperty() {
+        return dateofbirth;
+    }*/
 }

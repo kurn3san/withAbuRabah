@@ -12,12 +12,13 @@ public class Consts {
     public static final String USERS_LEVEL = "level";
 
     /// EMPLOYEES TABLE COLUMN NAMES
-    public static final String EMPLOYEE_EMPLOYEEID = "employeeid";
-    public static final String EMPLOYEE_USERNAME = "username";
-    public static final String EMPLOYEE_FIRSTNAME = "firstname";
-    public static final String EMPLOYEE_LASTNAME = "lastname";
-    public static final String EMPLOYEE_LEVEL = "level";
-    public static final String EMPLOYEE_JOBINFO = "jobinfo";
+    public static final String EMPLOYEE_EMPLOYEEID = " employeeid ";
+    public static final String EMPLOYEE_USERNAME = " username ";
+    public static final String EMPLOYEE_FIRSTNAME = " firstname ";
+    public static final String EMPLOYEE_LASTNAME = " lastname ";
+    public static final String EMPLOYEE_LEVEL = " level ";
+    public static final String EMPLOYEE_TITEL = " titel ";
+    public static final String EMPLOYEE_CERTIFICATE_DATE = " certificatedate ";
 
 
 
