@@ -109,7 +109,7 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public static ResultSet getEmployee(Employee employee) {
+    public ResultSet getEmployee(Employee employee) {
         ResultSet resultSet = null;
      /*   if (employee.equals(null)){
             String query = " SELECT * FROM  project.employee " ; // + Consts.EMPLOYEE_TABLE ;
@@ -124,7 +124,7 @@ public class DatabaseHandler extends Configs {
         }
         else */
         if (!employee.getLastName().equals("") && !employee.getFirstName().equals("")) {
-            System.out.println("getEmployee() got: " + employee.toString());
+            System.out.println("getEmployee() got: " + toString());
 
             String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE "
                     + Consts.EMPLOYEE_FIRSTNAME + " =? " + " AND " +
@@ -140,9 +140,9 @@ public class DatabaseHandler extends Configs {
             }
             return resultSet;
         } else if (!employee.getFirstName().equals("")) {
-            System.out.println("getEmployee() got: " + employee.toString());
+            System.out.println("getEmployee() got: " + toString());
 
-            String query = "SELECT * FROM project.employee " + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + " = " + "'" + employee.getFirstName() + "'";
+            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_FIRSTNAME + " = " + "'" + employee.getFirstName() + "'";
             System.out.println("query is:   " + query);
             try {
                 PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
@@ -153,9 +153,9 @@ public class DatabaseHandler extends Configs {
             return resultSet;
             //returns null... or that's what I thought
         } else if (!employee.getLastName().equals("")) {
-            System.out.println("getEmployee() got: " + employee.toString());
+            System.out.println("getEmployee() got: " + toString());
 
-            String query = "SELECT * FROM project.employee " + " WHERE " + Consts.EMPLOYEE_LASTNAME + " = " + "'" + employee.getLastName() + "'";
+            String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_LASTNAME + " = " + "'" + employee.getLastName() + "'";
             System.out.println("query is:   " + query);
             try {
                 PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
@@ -166,7 +166,7 @@ public class DatabaseHandler extends Configs {
             return resultSet;
             //returns null... or that's what I thought
         } else {
-            System.out.println("getEmployee() got: " + employee.toString());
+            System.out.println("getEmployee() got: " + toString());
 
             String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE;
             System.out.println("query is: " + query);
@@ -180,4 +180,5 @@ public class DatabaseHandler extends Configs {
             return resultSet;
         }
     }
+
 }

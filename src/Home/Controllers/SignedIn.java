@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class SignedIn implements Initializable {
-    private static ObservableList<Employee> emps = FXCollections.observableArrayList();
+    private ObservableList<Employee> emps = FXCollections.observableArrayList();
     @FXML
     public Button AddEmployeeButton;
     @FXML
@@ -118,15 +118,15 @@ public class SignedIn implements Initializable {
 
         EditWorkerSearchButton.setOnAction((actionEvent -> {
 
-            Employee employee = new Employee();
+            Employee employee1 = new Employee();
             if (!SearchWorkerFirstNameTextField.getText().equals(null))
-                employee.setFirstName(SearchWorkerFirstNameTextField.getText().toLowerCase());
+                employee1.setFirstName(SearchWorkerFirstNameTextField.getText().toLowerCase());
             if (!SearchWorkerLastNameTextField.getText().equals(null))
-                employee.setLastName(SearchWorkerLastNameTextField.getText().toLowerCase());
+                employee1.setLastName(SearchWorkerLastNameTextField.getText().toLowerCase());
             //getting a result set from the DB
-            ResultSet rsRow = DatabaseHandler.getEmployee(employee);
+            ResultSet rsRow = new DatabaseHandler().getEmployee(employee1);
             ObservableList<Employee> list = FXCollections.observableArrayList();
-
+            Employee employee = new Employee();
             try {
 
                 int counter = 0;
