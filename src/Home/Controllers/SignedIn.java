@@ -17,7 +17,45 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class SignedIn implements Initializable {
-    private ObservableList<Employee> emps = FXCollections.observableArrayList();
+    //edit general info stuff...
+    @FXML
+    public TextField EditFirstNameTextField;
+    @FXML
+    public CheckBox EditFirstNameCheckBox;
+    @FXML
+    public TextField EditLastNameTextField;
+    @FXML
+    public CheckBox EditLastNameCheckBox;
+    @FXML
+    public CheckBox EditTitlecheckBox;
+    @FXML
+    public TextField EditTitleTextField;
+    @FXML
+    public CheckBox EditLevelCheckBox;
+    @FXML
+    public ChoiceBox EditLevelChoiceBox;
+    @FXML
+    public CheckBox EditCDateCheckBox;
+    @FXML
+    public DatePicker EditCdateDatePicker;
+    @FXML
+    public Button EditSelectedEmployeesSaveButton;
+    //password tab stuff
+    @FXML
+    public PasswordField EnterNewPasswordFirstPasswordField;
+    @FXML
+    public PasswordField EnterNewPasswordSecondPasswordField;
+    @FXML
+    public PasswordField EnterOldPasswordPasswordField;
+    @FXML
+    public Button SaveNewPasswordButton;
+    @FXML
+    public CheckBox ChangePasswordCheckBox;
+    @FXML
+    public Button EmployeesManagementToDeleteProfileButton;
+    //Table view stuff
+    @FXML
+    public TableColumn<Employee, String> FirstNameColumn;
     @FXML
     public Button AddEmployeeButton;
     @FXML
@@ -46,8 +84,7 @@ public class SignedIn implements Initializable {
     public TextField SearchWorkerLastNameTextField;
     @FXML
     public DatePicker AddEmployeeDatePicker;
-    @FXML
-    public TableColumn<Employee, String> FirstNameColumn;
+    Employee selectedEmployee = new Employee();
     @FXML
     public TableColumn<Employee, String> LastNameColumn;
     @FXML
@@ -60,8 +97,16 @@ public class SignedIn implements Initializable {
     public TableColumn<Employee, LocalDate> CertificateDateColumn;
     @FXML
     public TableView<Employee> EditWorkerTableView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
+        ObservableList<Employee> emps = FXCollections.observableArrayList();
+        FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        LevelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        CertificateDateColumn.setCellValueFactory(new PropertyValueFactory<>("certificateDate"));
         /*FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -126,64 +171,65 @@ public class SignedIn implements Initializable {
             //getting a result set from the DB
             ResultSet rsRow = new DatabaseHandler().getEmployee(employee1);
             ObservableList<Employee> list = FXCollections.observableArrayList();
-            Employee employee = new Employee();
-            try {
+            EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
 
-                int counter = 0;
-                emps.clear();
 
-                while (rsRow.next()) {
-                    //going through each row of results
-                    employee.setLastName(rsRow.getString(3).toUpperCase());
-                    employee.setFirstName(rsRow.getString(2));
-                    employee.setLevel(rsRow.getInt(5));
-                    employee.setTitle(rsRow.getString(6));
-                    employee.setUsername(rsRow.getString(4));
-                    employee.setCertificateDate(rsRow.getDate(7).toLocalDate());
-                    System.out.println(employee.toString() + " counter: " + counter);
-                    //adding each employee to the observable list frookin emps
-                    //emps.add(employee);
-                    emps.add(counter, employee);
-                    list.add(employee);
-                    // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
-                    counter++;
-                }
-                System.out.println("showing elements from observable list emps : " + counter + "  elements... ");
-                for (int i = counter - 1; i != 0; i--) {
-                    System.out.println("showing element number: '" + i + "'   from list: " + emps.get(i));
-                }
-                for (int i = counter - 1; i != 0; i--) {
-                    System.out.println("showing element number: '" + i + "'   from list: " + list.get(i));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            //ObservableList<Employee> emps = FXCollections.observableArrayList();
-            FirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-            LastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-            titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-            UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-            LevelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
-            CertificateDateColumn.setCellValueFactory(new PropertyValueFactory<>("certificateDate"));
-            //adding the observable list to the table view...
-            EditWorkerTableView.setItems(emps);
         }));
+
+        EditWorkerTableView.setRowFactory(tv -> {
+            TableRow<Employee> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getClickCount() == 2) {
+                    selectedEmployee = row.getItem();
+                    EditFirstNameTextField.setText(selectedEmployee.getFirstName());
+                    EditLastNameTextField.setText(selectedEmployee.getLastName());
+                    EditTitleTextField.setText(selectedEmployee.getTitle());
+                    EditLevelChoiceBox.setValue(selectedEmployee.getLevel());///
+
+                    System.out.println(selectedEmployee.toString());
+                }
+            });
+            return row;
+        });
+
+
 
 
     }
-    /*public void refreshTable(){
-        ObservableList<Employee> foundemployees = FXCollections.observableArrayList();
-        FirstNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("firstName"));
-        LastNameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("lastName"));
-        titleColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("title"));
-        UsernameColumn.setCellValueFactory(new PropertyValueFactory<Employee, String>("username"));
-        LevelColumn.setCellValueFactory(new PropertyValueFactory<Employee, Integer>("level"));
-        CertificateDateColumn.setCellValueFactory(new PropertyValueFactory<Employee, LocalDate>("certificateDate"));
-        EditWorkerTableView.setItems(foundemployees);
-        EditWorkerTableView.refresh();
 
-    }*/
+    public ObservableList getObservableListOfEmployees(ResultSet rsRow) {
+        ObservableList<Employee> list = FXCollections.observableArrayList();
 
 
+        int counter = 0;
+        list.clear();
+
+        while (true) {
+            Employee employee = new Employee();
+            try {
+                //going through each row of results
+                if (!rsRow.next()) break;
+                employee.setLastName(rsRow.getString(3).toUpperCase());
+                employee.setFirstName(rsRow.getString(2));
+                employee.setLevel(rsRow.getInt(5));
+                employee.setTitle(rsRow.getString(6));
+                employee.setUsername(rsRow.getString(4));
+                employee.setCertificateDate(rsRow.getDate(7).toLocalDate());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Employee added to list!" + employee.toString() + " counter: " + counter);
+            //adding each employee to the observable list frookin emps
+            //emps.add(employee);
+            list.add(counter, employee);
+            // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+            counter++;
+        }
+        System.out.println("showing elements from observable list emps : " + counter + "  elements... ");
+        for (int i = counter - 1; i != 0; i--) {
+            System.out.println("showing element number: '" + i + "'   from list: " + list.get(i));
+        }
+        return list;
+    }
 
 }
