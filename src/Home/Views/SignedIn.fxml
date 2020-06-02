@@ -50,15 +50,14 @@
                                            layoutY="138.0" prefHeight="25.0" prefWidth="386.0"
                                            promptText="Enter employee's user name"
                                            stylesheets="@../StyleSheets/myCSS.css"/>
-                                <TextField id="AddEmployeeActivatinoCodeTextField" fx:id="AddEmployeeLevelCodeTextField"
-                                           layoutX="117.0" layoutY="281.0" prefHeight="25.0" prefWidth="152.0"
-                                           promptText="Example: 1, 2, 3 ..." stylesheets="@../StyleSheets/myCSS.css"/>
                                 <TextField id="AddEmployeeTitelField" fx:id="AddEmployeeTitelField" layoutY="200.0"
                                            prefHeight="25.0" prefWidth="386.0" promptText="enter titel"/>
                                 <DatePicker id="AddEmployeeDatePicker" fx:id="AddEmployeeDatePicker" layoutX="116.0"
                                             layoutY="238.0" prefHeight="25.0" prefWidth="152.0"
                                             promptText="Select Certificate date"/>
                                 <Label layoutX="32.0" layoutY="242.0" text="Certificate date"/>
+                                <ChoiceBox id="AddEmployeeLevelChoiceBox" fx:id="AddEmployeeLevelChoiceBox"
+                                           layoutX="112.0" layoutY="280.0" prefWidth="150.0"/>
                             </children>
                         </Pane>
                     </children>
@@ -69,7 +68,7 @@
                     prefHeight="543.0" prefWidth="582.0">
             <children>
                 <Pane id="SignInOuterPane" fx:id="SignInOuterPane" layoutY="4.0" prefHeight="535.0" prefWidth="566.0"
-                      stylesheets="@../StyleSheets/myCSS.css">
+                      style="-fx-background-color: #9AECDB;">
                     <children>
                         <Pane layoutX="12.0" layoutY="8.0" prefHeight="552.0" prefWidth="581.0">
                             <children>
@@ -103,10 +102,10 @@
                                                 layoutX="121.0" layoutY="217.0" mnemonicParsing="false"
                                                 prefHeight="41.0" prefWidth="192.0"
                                                 stylesheets="@../StyleSheets/myCSS.css" text="EDIT PROFILE"/>
-                                        <Button id="SignInButton" fx:id="EmployeesManagementToDeleteProfileButton"
-                                                layoutX="121.0" layoutY="344.0" mnemonicParsing="false"
-                                                prefHeight="42.0" prefWidth="192.0"
-                                                stylesheets="@../StyleSheets/myCSS.css" text="DELETE PROFILE"/>
+                                        <Button id="EmployeesManagementToDeleteProfileButton"
+                                                fx:id="EmployeesManagementToDeleteProfileButton" layoutX="121.0"
+                                                layoutY="344.0" mnemonicParsing="false" prefHeight="42.0"
+                                                prefWidth="192.0" text="DELETE PROFILE"/>
                                         <Label id="SignInPasswordLabel" fx:id="SignInPasswordLabel1"
                                                alignment="BOTTOM_LEFT" layoutX="19.0" layoutY="302.0" prefHeight="26.0"
                                                prefWidth="299.0" stylesheets="@../StyleSheets/myCSS.css"
@@ -228,7 +227,7 @@
                                 <Button id="EditWorkerSearchButton" fx:id="EditWorkerSearchButton" layoutX="293.0"
                                         layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0"
                                         stylesheets="@../StyleSheets/myCSS.css" text="find"/>
-                                <TextField id="EditWorkerSearchButton" fx:id="SearchWorkerFirstNameTextField"
+                                <TextField id="SearchWorkerFirstNameTextField" fx:id="SearchWorkerFirstNameTextField"
                                            layoutX="103.0" layoutY="41.0" promptText="serach with first name"/>
                                 <TextField id="SearchWorkerFirstNameTextField" fx:id="SearchWorkerLastNameTextField"
                                            layoutX="103.0" layoutY="77.0" promptText="search with last name"/>
@@ -257,6 +256,64 @@
                                              text="Level"/>
                                 <TableColumn id="CertificateDateColumn" fx:id="CertificateDateColumn" prefWidth="140.0"
                                              text="Certification date"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+        <AnchorPane id="DeleteWorkerPageAnchorPane" fx:id="DeleteWorkerPageAnchorPane" layoutX="24.0" layoutY="136.0"
+                    prefHeight="442.0" prefWidth="991.0">
+            <children>
+                <Pane id="SignUpInInputPane" fx:id="SignUpInputOuterPane11" prefHeight="442.0" prefWidth="1004.0"
+                      stylesheets="@../StyleSheets/myCSS.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="361.0" layoutY="21.0"
+                               prefHeight="17.0" prefWidth="182.0" text="Search and Delete Empoyees"/>
+                        <Pane layoutX="14.0" layoutY="80.0" prefHeight="346.0" prefWidth="386.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" layoutY="107.0"
+                                       prefHeight="17.0" prefWidth="284.0" text="Delete selected employee's profile"
+                                       textAlignment="CENTER" wrapText="true"/>
+                                <Button id="PerminatelyDeleteButton" fx:id="PerminatelyDeleteButton" layoutX="134.0"
+                                        layoutY="221.0" mnemonicParsing="false" text="perminately delete!"/>
+                            </children>
+                        </Pane>
+                        <Pane id="SignUpInnerPane" fx:id="SignUpInnerPane21" layoutX="444.0" layoutY="76.0"
+                              maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="141.0"
+                              prefWidth="533.0">
+                            <children>
+                                <Button id="DeleteWorkerSearchButton" fx:id="DeleteWorkerSearchButton" layoutX="293.0"
+                                        layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0"
+                                        stylesheets="@../StyleSheets/myCSS.css" text="find"/>
+                                <TextField id="DeletehWorkerFirstNameTextField" fx:id="DeletehWorkerFirstNameTextField"
+                                           layoutX="103.0" layoutY="41.0" promptText="serach with first name"/>
+                                <TextField id="DeleteWorkerLastNameTextField" fx:id="DeleteWorkerLastNameTextField"
+                                           layoutX="103.0" layoutY="77.0" promptText="search with last name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="40.0"
+                                       prefHeight="26.0" prefWidth="72.0" text="First name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="76.0"
+                                       prefHeight="26.0" prefWidth="72.0" text="Last name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutY="6.0" prefHeight="17.0"
+                                       prefWidth="533.0" text="Search criteria"/>
+                            </children>
+                        </Pane>
+                        <TableView id="DelWorkerTableView" fx:id="DelWorkerTableView" layoutX="444.0" layoutY="222.0"
+                                   prefHeight="200.0" prefWidth="543.0">
+                            <columns>
+                                <TableColumn id="DelFirstnameColumn" fx:id="DelFirstNameColumn"
+                                             prefWidth="104.80001831054688" text="First name"/>
+                                <TableColumn id="DelLastNameColumn" fx:id="DelLastNameColumn"
+                                             prefWidth="97.60000610351562" text="LAST NAME"/>
+                                <TableColumn id="DeltitleColumn" fx:id="DeltitleColumn" prefWidth="54.39996337890625"
+                                             text="Title"/>
+                                <TableColumn id="DelUsernameColumn" fx:id="DelUsernameColumn"
+                                             prefWidth="89.60003662109375" text="username"/>
+                                <TableColumn id="LevelColumn" fx:id="DelLevelColumn" prefWidth="35.20001220703125"
+                                             text="Level"/>
+                                <TableColumn id="CertificateDateColumn" fx:id="DelCertificateDateColumn"
+                                             prefWidth="140.0" text="Certification date"/>
                             </columns>
                         </TableView>
                     </children>

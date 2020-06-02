@@ -79,7 +79,7 @@ public class WelcomePageController implements Initializable{
     public Label ErrorEmptyFieldsLabel;
     DatabaseHandler dbh = new DatabaseHandler();
     //private static Connection connection =;
-
+    protected static Admin signedInAdmin;
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -105,9 +105,6 @@ public class WelcomePageController implements Initializable{
             SignUpToSignInAnchorPane.setVisible(false);
             SignInInputAnchorPane.setVisible(true);
             SignInToSignUpAnchorPane.setVisible(true);
-
-
-
         });
         //Changes to the Sign UP Menu
         SignInGoTOSingUpSVGButton.setOnMouseClicked((event) -> {
@@ -143,7 +140,8 @@ public class WelcomePageController implements Initializable{
                         admin.setFirstName(userRow.getString(2));
                         admin.setLastName(userRow.getString(3));
                         admin.setLevel(userRow.getInt(6));
-                        admin.toString();
+                        System.out.println(admin.toString());
+                        signedInAdmin = admin;
                     }
                     if (counter == 1) {
                         //checking for that one match...

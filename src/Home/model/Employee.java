@@ -10,6 +10,7 @@ public class Employee {
     private String title;
     private LocalDate certificateDate;
 
+
     public Employee(String firstName, String lastName, String username, int level, String title, LocalDate CDate) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,27 +70,10 @@ public class Employee {
                 " Level: " + this.getLevel() +
                 "Certificate date: " + this.getCertificateDate();
     }
-
     public LocalDate getCertificateDate() {
         return certificateDate;
     }
-
     public void setCertificateDate(LocalDate certificateDate) {
         this.certificateDate = certificateDate;
     }
-    /*public StringProperty lastNameProperty() {
-        return lastname;
-    }
-
-    public Object getDateOfBirth() {
-        return dateofbirth.get();
-    }
-
-    public void setDateOfBirth(LocalDate dateofbirth) {
-        this.dateofbirth.set(dateofbirth);
-    }
-
-    public ObjectProperty<LocalDate> dateOfBirthProperty() {
-        return dateofbirth;
-    }*/
 }
