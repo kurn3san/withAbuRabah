@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class SignedIn implements Initializable {
+public class AdminSignedInController implements Initializable {
     private static Employee selectedEmployee = new Employee();
     //edit general info stuff...
     @FXML
@@ -41,6 +41,7 @@ public class SignedIn implements Initializable {
     public DatePicker EditCdateDatePicker;
     @FXML
     public Button EditSelectedEmployeesSaveButton;
+
     //password tab stuff
     @FXML
     public PasswordField EnterNewPasswordFirstPasswordField;
@@ -52,8 +53,7 @@ public class SignedIn implements Initializable {
     public Button SaveNewPasswordButton;
     @FXML
     public CheckBox ChangePasswordCheckBox;
-    @FXML
-    public Button EmployeesManagementToDeleteProfileButton;
+
     //Table view stuff
     @FXML
     public TableColumn<Employee, String> FirstNameColumn;
@@ -97,23 +97,18 @@ public class SignedIn implements Initializable {
     public TableColumn<Employee, LocalDate> CertificateDateColumn;
     @FXML
     public TableView<Employee> EditWorkerTableView;
-    public AnchorPane DeleteWorkerPageAnchorPane;
-    public TableView DelWorkerTableView;
-    public TableColumn DelFirstNameColumn;
-    public Button DeleteWorkerSearchButton;
-    public TextField DeletehWorkerFirstNameTextField;
-    public TextField DeleteWorkerLastNameTextField;
-    public TableColumn DelLastNameColumn;
-    public TableColumn DeltitleColumn;
-    public TableColumn DelUsernameColumn;
-    public TableColumn DelLevelColumn;
-    public TableColumn DelCertificateDateColumn;
+    public Button DeleteProfileButton;
+    public Button AddWorkerClearAllFieldsButton;
+    public PasswordField AddEmployeeSecondPasswordField;
+    public PasswordField AddEmployeeFirstPasswordField;
+    public Label CurrentSessionInfoLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //Current session: Admin:
+        CurrentSessionInfoLabel.setText("Current session: Admin:  " + WelcomePageController.signedInAdmin.toString());
         AddWorkerPageAnchorPane.setVisible(false);
         EditWorkerPageAnchorPane.setVisible(false);
-        DeleteWorkerPageAnchorPane.setVisible(false);
         System.out.println("SignedIN initialised!");
         System.out.println("Admin: " + WelcomePageController.signedInAdmin.toString());
         ObservableList<Integer> EditLevelChoiceBoxItems = FXCollections.observableArrayList();
@@ -136,8 +131,6 @@ public class SignedIn implements Initializable {
             System.out.println("Employees Management To Add Workerpage Button click!");
             AddWorkerPageAnchorPane.setVisible(true);
             EditWorkerPageAnchorPane.setVisible(false);
-            DeleteWorkerPageAnchorPane.setVisible(false);
-
         });
 
         AddEmployeeButton.setOnAction((event) -> {
@@ -148,26 +141,23 @@ public class SignedIn implements Initializable {
             String lastName = AddEmployeeLastNameTextField.getText();
             String userName = AddEmployeeUsernameTextField.getText();
             LocalDate localDate = AddEmployeeDatePicker.getValue();
-            LocalDate cDate = null;
+            String password = AddEmployeeFirstPasswordField.getText();
+            String passConf = AddEmployeeSecondPasswordField.getText();
             if (localDate == null) System.out.println("error pick date!");
-            else {
-                /*Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
-                java.util.Date date =  Date.from(instant);
-             cDate =(java.sql.Date) date;*/
-                System.out.println(localDate);
-            }
-
+            else System.out.println(localDate);
             int level = 1;
             try {
-                //level = Integer.parseInt(AddEmployeeLevelCodeTextField.getText());
-                System.out.println(level);
+                System.out.println("Level is: " + level);
                 level = (Integer) AddEmployeeLevelChoiceBox.getValue();
+                if (password.equals(passConf) && !password.equals("")) System.out.println("two passwords match...");
             } catch (Exception e) {
                 e.printStackTrace();
             }
             String jobinfo = AddEmployeeTitelField.getText();
-            System.out.println(firstName + lastName + userName + level);
-            DatabaseHandler.AddEmployee(new Employee(firstName, lastName, userName, level, jobinfo, localDate));
+            System.out.println(firstName + lastName + userName + level + password);
+            if (!DatabaseHandler.isThereSuchNEmployee(new Employee(firstName, lastName, userName, level, jobinfo, localDate, password)))
+                DatabaseHandler.AddEmployee(new Employee(firstName, lastName, userName, level, jobinfo, localDate, password));
+            else System.out.println("this username is taken man... sorry...");
             System.out.println("added maan!");
         });
         EmployeesManagementToEditWorkerButton.setOnAction((actionEvent -> {
@@ -175,10 +165,8 @@ public class SignedIn implements Initializable {
             System.out.println("on action Edit profile menu");
             AddWorkerPageAnchorPane.setVisible(false);
             EditWorkerPageAnchorPane.setVisible(true);
-            DeleteWorkerPageAnchorPane.setVisible(false);
 
         }));
-
         EditWorkerSearchButton.setOnAction((actionEvent -> {
 
             Employee employee1 = new Employee();
@@ -190,9 +178,7 @@ public class SignedIn implements Initializable {
             ResultSet rsRow = DatabaseHandler.getEmployee(employee1);
             //ObservableList<Employee> list = FXCollections.observableArrayList();
             EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
-
         }));
-
         EditWorkerTableView.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -209,6 +195,9 @@ public class SignedIn implements Initializable {
                     EditCdateDatePicker.setValue(selectedEmployee.getCertificateDate());
                     EditCDateCheckBox.setSelected(false);
                     System.out.println(selectedEmployee.toString());
+                    EditSelectedEmployeesSaveButton.setVisible(true);
+                    DeleteProfileButton.setVisible(true);
+                    SaveNewPasswordButton.setVisible(true);
                 }
             });
             return row;
@@ -235,23 +224,11 @@ public class SignedIn implements Initializable {
                 System.out.println("nothing is selected nigga!");
                 e.printStackTrace();
             }
+            EditSelectedEmployeesSaveButton.setVisible(false);
+            DeleteProfileButton.setVisible(false);
+            SaveNewPasswordButton.setVisible(false);
 
             //////////
-        });
-        EmployeesManagementToDeleteProfileButton.setOnAction(actionEvent -> {
-            AddWorkerPageAnchorPane.setVisible(false);
-            EditWorkerPageAnchorPane.setVisible(false);
-            DeleteWorkerPageAnchorPane.setVisible(true);
-            Employee employee2 = new Employee();
-            if (!DeletehWorkerFirstNameTextField.getText().equals(null))
-                employee2.setFirstName(DeletehWorkerFirstNameTextField.getText().toLowerCase());
-            if (!DeleteWorkerLastNameTextField.getText().equals(null))
-                employee2.setLastName(DeleteWorkerLastNameTextField.getText().toLowerCase());
-            //getting a result set from the DB
-            DatabaseHandler.deleteEmployee(employee2);
-            //ObservableList<Employee> list = FXCollections.observableArrayList();
-            Employee emp = null;
-            EditWorkerTableView.setItems(getObservableListOfEmployees(DatabaseHandler.getEmployee(emp)));
         });
     }
 
@@ -279,10 +256,6 @@ public class SignedIn implements Initializable {
             list.add(counter, employee);
             // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
             counter++;
-        }
-        System.out.println("showing elements from observable list emps : " + counter + "  elements... ");
-        for (int i = counter - 1; i != 0; i--) {
-            if (!list.isEmpty()) System.out.println("showing element number: '" + i + "'   from list: " + list.get(i));
         }
         return list;
     }

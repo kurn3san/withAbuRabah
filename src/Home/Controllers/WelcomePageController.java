@@ -3,15 +3,14 @@ package Home.Controllers;
 import Home.Animations.Shaker;
 import Home.DatabaseHandling.DatabaseHandler;
 import Home.model.Admin;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
@@ -77,12 +76,18 @@ public class WelcomePageController implements Initializable{
     public AnchorPane SignInToSignUpAnchorPane;
     @FXML
     public Label ErrorEmptyFieldsLabel;
+    public ChoiceBox<String> SignInChoiceBox;
     DatabaseHandler dbh = new DatabaseHandler();
     //private static Connection connection =;
     protected static Admin signedInAdmin;
     @FXML
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<String> ChoiceBoxObsrvblList = FXCollections.observableArrayList();
+        ChoiceBoxObsrvblList.add("Admin");
+        ChoiceBoxObsrvblList.add("Employee");
+        SignInChoiceBox.setItems(ChoiceBoxObsrvblList);
+        SignInChoiceBox.setValue("Admin");
         try {
             DatabaseHandler.connect();
             //dbh.connect();
@@ -116,61 +121,67 @@ public class WelcomePageController implements Initializable{
             ErrorEmptyFieldsLabel.setVisible(false);
         });
         SignInButton.setOnAction((event) -> {
-            String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
-            String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();
-            // checking validity of fields' informatinos
-            if(signInUsername.equals("")) System.out.println("please enter a username man");
-            Shaker shaker = new Shaker(SignInUsernameTextField); // not working apparently...
-            shaker.shake();
-            if(SignInPassword.equals("")) System.out.println("please enter a pasword man.. come on!");
-            if(SignInPassword.equals("")&&signInUsername.equals("")) ErrorEmptyFieldsLabel.setVisible(true);
-            if(!signInUsername.equals("")||!SignInPassword.equals("")){
+                    if (SignInChoiceBox.getValue().equals("Admin")) {
+                        String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
+                        String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();
+                        // checking validity of fields' informatinos
+                        if (signInUsername.equals("")) System.out.println("please enter a username man");
+                        Shaker shaker = new Shaker(SignInUsernameTextField); // not working apparently...
+                        shaker.shake();
+                        if (SignInPassword.equals("")) System.out.println("please enter a pasword man.. come on!");
+                        if (SignInPassword.equals("") && signInUsername.equals("")) ErrorEmptyFieldsLabel.setVisible(true);
+                        if (!signInUsername.equals("") || !SignInPassword.equals("")) {
 
-                Admin admin = new Admin();
-                admin.setUserName(signInUsername);
-                admin.setPassword(SignInPassword);
-            System.out.println("SignInButton click!");
-            ErrorEmptyFieldsLabel.setVisible(false); // gotta move from here..
-                ResultSet userRow = DatabaseHandler.getUser(admin); //passing the query result set for finding matches
-            int counter = 0;
-                try {
-                    while (userRow.next()) {
-                        counter++;
-                        admin.setUserName(userRow.getString(4));
-                        admin.setFirstName(userRow.getString(2));
-                        admin.setLastName(userRow.getString(3));
-                        admin.setLevel(userRow.getInt(6));
-                        System.out.println(admin.toString());
-                        signedInAdmin = admin;
-                    }
-                    if (counter == 1) {
-                        //checking for that one match...
-                        System.out.println("successful...");
-                        goToSignedIn();
-                        ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
-                    }else{
-                        userRow = DatabaseHandler.getUserByUserName(admin);
-                        while (userRow.next()) {
-                            //System.out.println(userRow.getInt(1)+" "+userRow.getString(2));
-                            admin.setUserName(userRow.getString(4));
-                            admin.setFirstName(userRow.getString(2));
-                            admin.setLastName(userRow.getString(3));
-                            admin.setLevel(userRow.getInt(6));
-                            System.out.println(admin.toString());
-                            //System.out.println(admin.getUserName()+admin.getLastName()+admin.getFirstName());
-                            counter++;
+                            Admin admin = new Admin();
+                            admin.setUserName(signInUsername);
+                            admin.setPassword(SignInPassword);
+                            System.out.println("SignInButton click!");
+                            ErrorEmptyFieldsLabel.setVisible(false); // gotta move from here..
+                            ResultSet userRow = DatabaseHandler.getAdmin(admin); //passing the query result set for finding matches
+                            int counter = 0;
+                            try {
+                                while (userRow.next()) {
+                                    counter++;
+                                    admin.setUserName(userRow.getString(4));
+                                    admin.setFirstName(userRow.getString(2));
+                                    admin.setLastName(userRow.getString(3));
+                                    admin.setLevel(userRow.getInt(6));
+                                    System.out.println(admin.toString());
+                                    signedInAdmin = admin;
+                                }
+                                if (counter == 1) {
+                                    //checking for that one match...
+                                    System.out.println("successful...");
+                                    goToSignedIn();
+                                    ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
+                                }else{
+                                    userRow = DatabaseHandler.getUserByUserName(admin);
+                                    while (userRow.next()) {
+                                        //System.out.println(userRow.getInt(1)+" "+userRow.getString(2));
+                                        admin.setUserName(userRow.getString(4));
+                                        admin.setFirstName(userRow.getString(2));
+                                        admin.setLastName(userRow.getString(3));
+                                        admin.setLevel(userRow.getInt(6));
+                                        System.out.println(admin.toString());
+                                        //System.out.println(admin.getUserName()+admin.getLastName()+admin.getFirstName());
+                                        counter++;
+                                    }
+                                    if (counter == 1) {
+                                        System.out.println("username exists. password incorrect.");
+                                    } else {
+                                        System.out.println("please stop wasting out time man...");
+                                    }
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        if(counter==1){
-                            System.out.println("username exists. password incorrect.");
-                        } else{
-                            System.out.println("please stop wasting out time man...");
-                        }
+                    } else {
+                        ////Employee Sign in
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
-            }
-        });
+        );
         SignUpButton.setOnAction((event) -> {
 
             System.out.println("Sign up Button click!");
@@ -184,7 +195,7 @@ public class WelcomePageController implements Initializable{
 
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Home/Views/SignedIn.fxml"));
+        loader.setLocation(getClass().getResource("/Home/Views/AdminSignedIn.fxml"));
         try{
             loader.load();
         }catch(Exception e){

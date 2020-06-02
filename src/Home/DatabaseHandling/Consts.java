@@ -18,6 +18,7 @@ public class Consts {
     public static final String EMPLOYEE_LASTNAME = " lastname ";
     public static final String EMPLOYEE_LEVEL = " level ";
     public static final String EMPLOYEE_TITEL = " titel ";
+    public static final String EMPLOYEE_PASSWORD = " password ";
     public static final String EMPLOYEE_CERTIFICATE_DATE = " certificatedate ";
 
 

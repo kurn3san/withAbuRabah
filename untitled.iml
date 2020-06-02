@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="gwt" name="GWT">
-      <configuration>
-        <setting name="compilerMaxHeapSize" value="1024" />
-        <setting name="gwtScriptOutputStyle" value="DETAILED" />
-        <setting name="gwtSdkUrl" value="file://$USER_HOME$/Downloads/gwt-2.8.2/gwt-2.8.2" />
-      </configuration>
-    </facet>
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
@@ -20,5 +11,30 @@
     <orderEntry type="library" name="org.kordamp.ikonli:ikonli-fontawesome5-pack:11.3.4" level="project" />
     <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.48" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx-swt.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.base.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.controls.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.fxml.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.graphics.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.media.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.swing.jar!/" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/javafx.web.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.base" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.controls" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.fxml" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.graphics" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.media" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.swing" />
+          <root url="jar://C:/Program Files/Java/javafx-sdk-14/lib/src.zip!/javafx.web" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="javafx-swt" level="project" />
   </component>
 </module>

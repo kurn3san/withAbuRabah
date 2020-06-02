@@ -9,16 +9,19 @@ public class Employee {
     private int level;
     private String title;
     private LocalDate certificateDate;
+    private String password;
 
 
-    public Employee(String firstName, String lastName, String username, int level, String title, LocalDate CDate) {
+    public Employee(String firstName, String lastName, String username, int level, String title, LocalDate CDate, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.level = level;
         this.title = title;
         this.certificateDate = CDate;
+        this.password = password;
     }
+
     public Employee() {
 
     }
@@ -70,10 +73,20 @@ public class Employee {
                 " Level: " + this.getLevel() +
                 "Certificate date: " + this.getCertificateDate();
     }
+
     public LocalDate getCertificateDate() {
         return certificateDate;
     }
+
     public void setCertificateDate(LocalDate certificateDate) {
         this.certificateDate = certificateDate;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

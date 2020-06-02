@@ -62,8 +62,9 @@ public class DatabaseHandler extends Configs {
             return resultSet;
         }
     }
+
     //////////// add employyes
-    public static ResultSet getUser(Admin admin) {
+    public static ResultSet getAdmin(Admin admin) {
         ResultSet resultSet = null;
         if (!admin.getUserName().equals("") || !admin.getPassword().equals("")) {
             String query = "SELECT * FROM project.users " + " WHERE " + Consts.USERS_USERNAME + " =? " + " AND " + Consts.USERS_PASSWORD + " =? ";
@@ -91,19 +92,51 @@ public class DatabaseHandler extends Configs {
     public static void AddEmployee(Employee employee) {
         String insert2 = "INSERT INTO " + " project.employee " + "("
                 + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.EMPLOYEE_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_TITEL + ","
-                + Consts.EMPLOYEE_LEVEL + "," + Consts.EMPLOYEE_CERTIFICATE_DATE + " ) " + " VALUES (?,?,?,?,?,?)";
+                + Consts.EMPLOYEE_LEVEL + "," + Consts.EMPLOYEE_CERTIFICATE_DATE + "," + Consts.EMPLOYEE_PASSWORD + " ) " + " VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(insert2);
             preparedStatement.setString(1, employee.getFirstName());
             preparedStatement.setString(2, employee.getLastName());
             preparedStatement.setString(3, employee.getUsername());
             preparedStatement.setString(4, employee.getTitle());
-            preparedStatement.setInt(5,employee.getLevel());
+            preparedStatement.setInt(5, employee.getLevel());
             preparedStatement.setDate(6, java.sql.Date.valueOf(employee.getCertificateDate()));
+            preparedStatement.setString(7, employee.getPassword());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isThereSuchNEmployee(Employee employee) {
+        String Query = "SELECT * FROM " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_USERNAME + " = '" + employee.getUsername() + "'";
+        ResultSet resultSet = null;
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(Query).executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        int counter = 0;
+        while (true) {
+            Employee employee2 = new Employee();
+            try {
+                //going through each row of results
+                if (!resultSet.next()) break;
+                employee2.setLastName(resultSet.getString(3).toUpperCase());
+                employee2.setFirstName(resultSet.getString(2));
+                employee2.setLevel(resultSet.getInt(5));
+                employee2.setTitle(resultSet.getString(6));
+                employee2.setUsername(resultSet.getString(4));
+                employee2.setCertificateDate(resultSet.getDate(7).toLocalDate());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Employee added to list!" + employee.toString() + " counter: " + counter);
+            //adding each employee to the observable list  list
+            // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+            counter++;
+        }
+        return counter != 0;
     }
 
     public static ResultSet getEmployee(Employee employee) {

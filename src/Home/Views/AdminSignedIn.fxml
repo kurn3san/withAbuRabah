@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="Anchorpane" prefHeight="279.0" prefWidth="423.0"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="Home.Controllers.AdminSignedInController">
+    <children>
+        <Label id="EmployeesManagementToAddWorker" alignment="CENTER" contentDisplay="CENTER" layoutX="474.0"
+               layoutY="21.0" prefHeight="42.0" prefWidth="337.0" text="EMPLOYEES' MANAGEMENT" textFill="#17171cc9">
+            <font>
+                <Font name="Georgia" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="CurrentSessionInfoLabel" layoutX="14.0" layoutY="62.0" maxWidth="1.7976931348623157E308"
+               prefHeight="18.0" prefWidth="794.0" text="Current session: Admin:" wrapText="true"/>
+        <AnchorPane id="SignInInputAnchorPane" fx:id="SignInInputAnchorPane" layoutX="761.0" layoutY="62.0"
+                    prefHeight="578.0" prefWidth="630.0">
+            <children>
+                <Pane id="SignInOuterPane" fx:id="SignInOuterPane" layoutX="49.0" layoutY="7.0" prefHeight="535.0"
+                      prefWidth="566.0" style="-fx-background-color: #FAFAFA;">
+                    <children>
+                        <Pane id="SignInInnerPane" fx:id="SignUpInnerPane1" layoutX="229.0" layoutY="77.0"
+                              prefHeight="458.0" prefWidth="337.0" stylesheets="@../StyleSheets/myCSS.css">
+                            <children>
+                                <Label id="SignInPasswordLabel" fx:id="SignInPasswordLabel" alignment="BOTTOM_LEFT"
+                                       layoutX="19.0" layoutY="261.0" prefHeight="26.0" prefWidth="299.0"
+                                       stylesheets="@../StyleSheets/myCSS.css"
+                                       text="Edit or delete an existing profile of an employee"/>
+                                <Button id="EmployeesManagementToAddWorkerButton"
+                                        fx:id="EmployeesManagementToAddWorkerButton" layoutX="132.0" layoutY="158.0"
+                                        mnemonicParsing="false" prefHeight="42.0" prefWidth="192.0"
+                                        stylesheets="@../StyleSheets/myCSS.css" text="ADD WORKER"/>
+                                <Label id="SignInUsernameLabel" fx:id="SignInUsernameLabel" alignment="BOTTOM_LEFT"
+                                       layoutX="15.0" layoutY="56.0" prefHeight="26.0" prefWidth="213.0"
+                                       text="Add a new employee's profile"/>
+                                <Label id="ErrorEmptyFieldsLabel" fx:id="ErrorEmptyFieldsLabel" layoutX="82.0"
+                                       layoutY="240.0" prefHeight="42.0" prefWidth="222.0"
+                                       text="Error, please  insert something, come on!" visible="false"
+                                       wrapText="true"/>
+                                <Button id="EditProfileMenuButton" fx:id="EmployeesManagementToEditWorkerButton"
+                                        layoutX="132.0" layoutY="338.0" mnemonicParsing="false" prefHeight="41.0"
+                                        prefWidth="192.0" stylesheets="@../StyleSheets/myCSS.css"
+                                        text="EDIT OR DELETE PROFILE"/>
+                            </children>
+                        </Pane>
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+        <AnchorPane id="AddWorkerPageAnchorPane" fx:id="AddWorkerPageAnchorPane" layoutX="155.0" layoutY="126.0"
+                    prefHeight="442.0" prefWidth="768.0" style="-fx-background-color: #ECEFF1;" visible="false">
+            <children>
+                <Pane id="SignUpInInputPane" fx:id="SignUpInputOuterPane" layoutX="6.0" prefHeight="442.0"
+                      prefWidth="985.0" style="-fx-background-color: #ECEFF1;" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Button id="AddEmployeeButton" fx:id="AddEmployeeButton" layoutX="48.0" layoutY="386.0"
+                                mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0"
+                                stylesheets="@../StyleSheets/myCSS.css" text="Add Employee"/>
+                        <Label id="SignUpFirstnameLabel" fx:id="SignUpFirstnameLabel" alignment="CENTER"
+                               contentDisplay="CENTER" layoutX="39.0" layoutY="49.0" prefHeight="26.0" prefWidth="72.0"
+                               stylesheets="@../StyleSheets/myCSS.css" text="First name"/>
+                        <Label id="SignUpActivatinoCodeLabel" layoutX="48.0" layoutY="248.0" prefHeight="26.0"
+                               prefWidth="44.0" stylesheets="@../StyleSheets/myCSS.css" text="LEVEL"
+                               textAlignment="CENTER"/>
+                        <Label id="SignUpLastNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="410.0"
+                               layoutY="36.0" prefHeight="26.0" prefWidth="54.0" stylesheets="@../StyleSheets/myCSS.css"
+                               text="Last name"/>
+                        <Label id="SignUpPasswordLabel" alignment="CENTER" layoutX="41.0" layoutY="183.0"
+                               prefHeight="26.0" prefWidth="34.0" stylesheets="@../StyleSheets/myCSS.css" text="Title"/>
+                        <Label id="SignUpUsernameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="48.0"
+                               layoutY="125.0" prefHeight="26.0" prefWidth="54.0" text="Username"/>
+                        <TextField id="AddEmployeeFirstnameTextField" fx:id="AddEmployeeFirstnameTextField"
+                                   layoutX="41.0" layoutY="75.0" prefHeight="25.0" prefWidth="235.0"
+                                   promptText="Enter employee's first name" stylesheets="@../StyleSheets/myCSS.css"/>
+                        <TextField id="AddEmployeeLastNameTextField" fx:id="AddEmployeeLastNameTextField"
+                                   layoutX="410.0" layoutY="75.0" prefHeight="25.0" prefWidth="235.0"
+                                   promptText="Enter employee's last name" stylesheets="@../StyleSheets/myCSS.css"/>
+                        <TextField id="AddEmployeeUsernameTextField" fx:id="AddEmployeeUsernameTextField" layoutX="41.0"
+                                   layoutY="151.0" prefHeight="25.0" prefWidth="235.0"
+                                   promptText="Enter employee's user name" stylesheets="@../StyleSheets/myCSS.css"/>
+                        <TextField id="AddEmployeeTitelField" fx:id="AddEmployeeTitelField" layoutX="41.0"
+                                   layoutY="209.0" prefHeight="25.0" prefWidth="235.0" promptText="enter titel"/>
+                        <DatePicker id="AddEmployeeDatePicker" fx:id="AddEmployeeDatePicker" layoutX="410.0"
+                                    layoutY="270.0" prefHeight="25.0" prefWidth="152.0"
+                                    promptText="Select Certificate date"/>
+                        <Label layoutX="410.0" layoutY="252.0" text="Certificate date"/>
+                        <ChoiceBox id="AddEmployeeLevelChoiceBox" fx:id="AddEmployeeLevelChoiceBox" layoutX="39.0"
+                                   layoutY="270.0" prefHeight="25.0" prefWidth="127.0"/>
+                        <PasswordField id="AddEmployeeFirstPasswordField" fx:id="AddEmployeeFirstPasswordField"
+                                       layoutX="410.0" layoutY="151.0" prefHeight="25.0" prefWidth="235.0"
+                                       promptText="enter a password"/>
+                        <PasswordField id="AddEmployeeSecondPasswordField" fx:id="AddEmployeeSecondPasswordField"
+                                       layoutX="412.0" layoutY="209.0" prefHeight="25.0" prefWidth="235.0"
+                                       promptText="confirm the password"/>
+                        <Label layoutX="412.0" layoutY="130.0" text="Enter password"/>
+                        <Label layoutX="414.0" layoutY="188.0" text="Re-enter password"/>
+                        <Button id="AddWorkerClearAllFieldsButton" fx:id="AddWorkerClearAllFieldsButton" layoutX="557.0"
+                                layoutY="326.0" mnemonicParsing="false" text="clear all fields"/>
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+        <AnchorPane id="EditWorkerPageAnchorPane" fx:id="EditWorkerPageAnchorPane" layoutX="14.0" layoutY="126.0"
+                    prefHeight="442.0" prefWidth="967.0" style="-fx-background-color: #ECEFF1;" visible="false">
+            <children>
+                <Pane id="SignUpInInputPane" fx:id="SignUpInputOuterPane1" prefHeight="442.0" prefWidth="1004.0"
+                      style="-fx-background-color: #ECEFF1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="361.0" layoutY="21.0"
+                               prefHeight="17.0" prefWidth="182.0" text="Search and Edit Empoyees"/>
+                        <Pane id="EditDeleteSelectedPane" fx:id="EditDeleteSelectedPane" layoutX="14.0" layoutY="54.0"
+                              prefHeight="384.0" prefWidth="386.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="51.0" prefHeight="17.0"
+                                       prefWidth="284.0" text="Edit selected employee's information"
+                                       textAlignment="CENTER" wrapText="true"/>
+                                <TabPane layoutY="23.0" prefHeight="354.0" prefWidth="386.0"
+                                         tabClosingPolicy="UNAVAILABLE">
+                                    <tabs>
+                                        <Tab text="General info">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="324.0"
+                                                            prefWidth="386.0">
+                                                    <children>
+                                                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="46.0"
+                                                               layoutY="24.0" text="Edit first name"/>
+                                                        <TextField id="EditInformationsFirstNameTextField"
+                                                                   fx:id="EditFirstNameTextField" layoutX="193.0"
+                                                                   layoutY="20.0" promptText="Enter new first name"/>
+                                                        <CheckBox id="EditFirstNameCheckBox"
+                                                                  fx:id="EditFirstNameCheckBox" layoutX="164.0"
+                                                                  layoutY="24.0" mnemonicParsing="false"/>
+                                                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="47.0"
+                                                               layoutY="81.0" text="Edit last name"/>
+                                                        <TextField id="EditLastNameTextField"
+                                                                   fx:id="EditLastNameTextField" layoutX="193.0"
+                                                                   layoutY="77.0" promptText="Enter new last name"/>
+                                                        <CheckBox id="EditLastNameCheckBox" fx:id="EditLastNameCheckBox"
+                                                                  layoutX="164.0" layoutY="81.0"
+                                                                  mnemonicParsing="false"/>
+                                                        <Label layoutX="46.0" layoutY="135.0" text="Edit title"/>
+                                                        <CheckBox id="EditTitlecheckBox" fx:id="EditTitlecheckBox"
+                                                                  layoutX="164.0" layoutY="135.0"
+                                                                  mnemonicParsing="false"/>
+                                                        <TextField id="EditTitleTextField" fx:id="EditTitleTextField"
+                                                                   layoutX="193.0" layoutY="131.0"
+                                                                   promptText="Enter new title"/>
+                                                        <Label layoutX="47.0" layoutY="180.0" text="Edit level"/>
+                                                        <CheckBox fx:id="EditLevelCheckBox" layoutX="164.0"
+                                                                  layoutY="180.0" mnemonicParsing="false"/>
+                                                        <ChoiceBox fx:id="EditLevelChoiceBox" layoutX="222.0"
+                                                                   layoutY="175.0" prefHeight="26.0" prefWidth="90.0"/>
+                                                        <Label layoutX="46.0" layoutY="228.0"
+                                                               text="Edit Certificatino date"/>
+                                                        <CheckBox id="EditCDateCheckBox" fx:id="EditCDateCheckBox"
+                                                                  layoutX="164.0" layoutY="228.0"
+                                                                  mnemonicParsing="false"/>
+                                                        <DatePicker id="EditCdateDatePicker" fx:id="EditCdateDatePicker"
+                                                                    layoutX="186.0" layoutY="224.0"/>
+                                                        <Button id="EditSelectedEmployeesSaveButton"
+                                                                fx:id="EditSelectedEmployeesSaveButton"
+                                                                alignment="CENTER" contentDisplay="CENTER"
+                                                                layoutX="193.0" layoutY="281.0" mnemonicParsing="false"
+                                                                style="-fx-background-color: #00C853;"
+                                                                text="Save checkd elements!" textAlignment="CENTER"
+                                                                visible="false">
+                                                            <font>
+                                                                <Font size="13.0"/>
+                                                            </font>
+                                                        </Button>
+                                                        <Button id="DeleteProfileButton" fx:id="DeleteProfileButton"
+                                                                alignment="CENTER" contentDisplay="CENTER"
+                                                                layoutX="21.0" layoutY="284.0" mnemonicParsing="false"
+                                                                style="-fx-background-color: #E53935;"
+                                                                text="DELETE PROFILE" visible="false">
+                                                            <font>
+                                                                <Font size="10.0"/>
+                                                            </font>
+                                                        </Button>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                        <Tab text="Passowrd">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                            prefWidth="200.0">
+                                                    <children>
+                                                        <PasswordField id="EnterNewPasswordFirstPasswordField"
+                                                                       fx:id="EnterNewPasswordFirstPasswordField"
+                                                                       layoutX="210.0" layoutY="49.0"
+                                                                       promptText="Enter new Password"/>
+                                                        <PasswordField id="EnterNewPasswordSecondPasswordField"
+                                                                       fx:id="EnterNewPasswordSecondPasswordField"
+                                                                       layoutX="210.0" layoutY="93.0"
+                                                                       promptText="Enter new Password again"/>
+                                                        <PasswordField id="EnterOldPasswordPasswordField"
+                                                                       fx:id="EnterOldPasswordPasswordField"
+                                                                       layoutX="210.0" layoutY="190.0"
+                                                                       promptText="Enter old password"/>
+                                                        <Label layoutX="86.0" layoutY="194.0" text="Old password"/>
+                                                        <Label layoutX="53.0" layoutY="53.0"
+                                                               text="Entern new password"/>
+                                                        <Label layoutX="53.0" layoutY="97.0"
+                                                               text="Enter new password again"/>
+                                                        <Button id="SaveNewPasswordButton" fx:id="SaveNewPasswordButton"
+                                                                layoutX="164.0" layoutY="244.0" mnemonicParsing="false"
+                                                                text="Save new password!" visible="false"/>
+                                                        <Label layoutX="14.0" layoutY="14.0" text="Change password"/>
+                                                        <CheckBox id="ChangePasswordCheckBox"
+                                                                  fx:id="ChangePasswordCheckBox" layoutX="150.0"
+                                                                  layoutY="14.0" mnemonicParsing="false"/>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
+                                    </tabs>
+                                </TabPane>
+                            </children>
+                        </Pane>
+                        <Pane id="SignUpInnerPane" fx:id="SignUpInnerPane2" layoutX="444.0" layoutY="51.0"
+                              maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="124.0"
+                              prefWidth="533.0">
+                            <children>
+                                <Button id="EditWorkerSearchButton" fx:id="EditWorkerSearchButton" layoutX="293.0"
+                                        layoutY="64.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="192.0"
+                                        stylesheets="@../StyleSheets/myCSS.css" text="find"/>
+                                <TextField id="SearchWorkerFirstNameTextField" fx:id="SearchWorkerFirstNameTextField"
+                                           layoutX="103.0" layoutY="41.0" promptText="serach with first name"/>
+                                <TextField id="SearchWorkerFirstNameTextField" fx:id="SearchWorkerLastNameTextField"
+                                           layoutX="103.0" layoutY="77.0" promptText="search with last name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="40.0"
+                                       prefHeight="26.0" prefWidth="72.0" stylesheets="@../StyleSheets/myCSS.css"
+                                       text="First name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="76.0"
+                                       prefHeight="26.0" prefWidth="72.0" stylesheets="@../StyleSheets/myCSS.css"
+                                       text="Last name"/>
+                                <Label alignment="CENTER" contentDisplay="CENTER" layoutY="6.0" prefHeight="17.0"
+                                       prefWidth="533.0" text="Search criteria"/>
+                            </children>
+                        </Pane>
+                        <TableView id="EditWorkerTableView" fx:id="EditWorkerTableView" layoutX="400.0" layoutY="175.0"
+                                   prefHeight="232.0" prefWidth="533.0">
+                            <columns>
+                                <TableColumn id="FirstnameColumn" fx:id="FirstNameColumn" prefWidth="104.80001831054688"
+                                             text="First name"/>
+                                <TableColumn id="LastNameColumn" fx:id="LastNameColumn" prefWidth="97.60000610351562"
+                                             text="LAST NAME"/>
+                                <TableColumn id="titleColumn" fx:id="titleColumn" prefWidth="54.39996337890625"
+                                             text="Title"/>
+                                <TableColumn id="UsernameColumn" fx:id="UsernameColumn" prefWidth="89.60003662109375"
+                                             text="username"/>
+                                <TableColumn id="LevelColumn" fx:id="LevelColumn" prefWidth="35.20001220703125"
+                                             text="Level"/>
+                                <TableColumn id="CertificateDateColumn" fx:id="CertificateDateColumn" prefWidth="140.0"
+                                             text="Certification date"/>
+                            </columns>
+                        </TableView>
+                    </children>
+                </Pane>
+            </children>
+        </AnchorPane>
+    </children>
+
+</AnchorPane>
