@@ -139,7 +139,7 @@ public class DatabaseHandler extends Configs {
         return counter != 0;
     }
 
-    public static ResultSet getEmployee(Employee employee) {
+    public static ResultSet getEmployeeResultSet(Employee employee) {
         ResultSet resultSet = null;
 
         if (!employee.getLastName().equals("") && !employee.getFirstName().equals("")) {
@@ -198,7 +198,7 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public static void updateEmployee(Employee employee) {
+    public static boolean updateEmployee(Employee employee) {
         String query = " UPDATE " + Consts.EMPLOYEE_TABLE +
                 " Set " +
                 Consts.EMPLOYEE_FIRSTNAME + " =? ," +
@@ -217,36 +217,64 @@ public class DatabaseHandler extends Configs {
             preparedStatement.setDate(5, java.sql.Date.valueOf(employee.getCertificateDate()));
             preparedStatement.setString(6, employee.getUsername());
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         } catch (NullPointerException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public static void deleteEmployee(Employee employee) {
-        String query = " Delete FROM " + Consts.EMPLOYEE_TABLE +
-                " WHERE " +
-                Consts.EMPLOYEE_FIRSTNAME + " =? ," +
-                Consts.EMPLOYEE_LASTNAME + " =? ," +
-                Consts.EMPLOYEE_USERNAME + " =? " +
-                Consts.EMPLOYEE_TITEL + " =? ,"
-                + Consts.EMPLOYEE_LEVEL + " =? ," +
-                Consts.EMPLOYEE_CERTIFICATE_DATE + " =?";
+    public static boolean changeEmployeePassword(Employee employee) {
+        String query = " UPDATE " + Consts.EMPLOYEE_TABLE +
+                " Set " +
+                Consts.EMPLOYEE_PASSWORD + " = " + employee.getPassword() +
+                " WHERE " + Consts.EMPLOYEE_USERNAME + " = '" + employee.getUsername() + "'";
         try {
+            System.out.println(query);
             PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
-            preparedStatement.setString(1, employee.getFirstName());
-            preparedStatement.setString(2, employee.getLastName());
-            preparedStatement.setString(3, employee.getUsername());
-            preparedStatement.setString(4, employee.getTitle());
-            preparedStatement.setInt(5, employee.getLevel());
-            preparedStatement.setDate(6, java.sql.Date.valueOf(employee.getCertificateDate()));
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         } catch (NullPointerException e) {
             //e.printStackTrace();
+            return false;
         }
+    }
+
+    public static boolean deleteEmployee(Employee employee) {
+        String query = " Delete FROM " + Consts.EMPLOYEE_TABLE +
+                " where username = ?";
+        try {
+            System.out.println("deleting process with query: " + query);
+            PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+            preparedStatement.setString(1, employee.getUsername());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static ResultSet freshListOfEmployees() {
+        ResultSet resultSet = null;
+        String query = "SELECT * FROM  " + Consts.EMPLOYEE_TABLE;
+        System.out.println("query is: " + query);
+        try {
+            PreparedStatement preparedStatement = DatabaseHandler.getDbConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultSet;
     }
 
 

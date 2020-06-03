@@ -89,4 +89,9 @@ public class Employee {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /////add equals method....
+    public boolean equals(Employee employee) {
+        return this.getUsername().equals(employee.getUsername());
+    }
 }

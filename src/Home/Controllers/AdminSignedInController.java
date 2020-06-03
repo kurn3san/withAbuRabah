@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 
 public class AdminSignedInController implements Initializable {
     private static Employee selectedEmployee = new Employee();
+    private static ResultSet onhandResultset = null;
     //edit general info stuff...
     @FXML
     public TextField EditFirstNameTextField;
@@ -52,7 +54,7 @@ public class AdminSignedInController implements Initializable {
     @FXML
     public Button SaveNewPasswordButton;
     @FXML
-    public CheckBox ChangePasswordCheckBox;
+    public CheckBox EditEmployeeChangePasswordCheckBox;
 
     //Table view stuff
     @FXML
@@ -160,12 +162,25 @@ public class AdminSignedInController implements Initializable {
             else System.out.println("this username is taken man... sorry...");
             System.out.println("added maan!");
         });
-        EmployeesManagementToEditWorkerButton.setOnAction((actionEvent -> {
+        AddWorkerClearAllFieldsButton.setOnAction(event -> {
+            AddEmployeeFirstnameTextField.clear();
+            AddEmployeeLastNameTextField.clear();
+            AddEmployeeTitelField.clear();
+            AddEmployeeFirstPasswordField.clear();
+            AddEmployeeSecondPasswordField.clear();
+            AddEmployeeUsernameTextField.clear();
 
+        });
+        EmployeesManagementToEditWorkerButton.setOnAction((actionEvent -> {
             System.out.println("on action Edit profile menu");
+            AddEmployeeFirstnameTextField.clear();
+            AddEmployeeLastNameTextField.clear();
+            AddEmployeeTitelField.clear();
+            AddEmployeeFirstPasswordField.clear();
+            AddEmployeeSecondPasswordField.clear();
+            AddEmployeeUsernameTextField.clear();
             AddWorkerPageAnchorPane.setVisible(false);
             EditWorkerPageAnchorPane.setVisible(true);
-
         }));
         EditWorkerSearchButton.setOnAction((actionEvent -> {
 
@@ -175,10 +190,11 @@ public class AdminSignedInController implements Initializable {
             if (!SearchWorkerLastNameTextField.getText().equals(null))
                 employee1.setLastName(SearchWorkerLastNameTextField.getText().toLowerCase());
             //getting a result set from the DB
-            ResultSet rsRow = DatabaseHandler.getEmployee(employee1);
-            //ObservableList<Employee> list = FXCollections.observableArrayList();
-            EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
+            onhandResultset = DatabaseHandler.getEmployeeResultSet(employee1);
+            EditWorkerTableView.setItems(getObservableListOfEmployees(onhandResultset));
+            clearEditFields();
         }));
+
         EditWorkerTableView.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -198,6 +214,38 @@ public class AdminSignedInController implements Initializable {
                     EditSelectedEmployeesSaveButton.setVisible(true);
                     DeleteProfileButton.setVisible(true);
                     SaveNewPasswordButton.setVisible(true);
+                    try {
+                        onhandResultset.first();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    Employee employee = new Employee();
+                    int counter = 0;
+                    while (true) {
+                        try {
+                            //going through each row of results
+                            employee.setLastName(onhandResultset.getString(3).toUpperCase());
+                            employee.setFirstName(onhandResultset.getString(2));
+                            employee.setLevel(onhandResultset.getInt(5));
+                            employee.setTitle(onhandResultset.getString(6));
+                            employee.setUsername(onhandResultset.getString(4));
+                            employee.setCertificateDate(onhandResultset.getDate(7).toLocalDate());
+                            employee.setPassword(onhandResultset.getString(8));
+                            if (employee.equals(selectedEmployee)) {
+                                selectedEmployee = employee;
+                                break;
+                            }
+                            if (!onhandResultset.next()) break;
+
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("Employee added to list!" + employee.toString() + " counter: " + counter);
+                        //adding each employee to the observable list  list
+                        // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+                        counter++;
+                    }
                 }
             });
             return row;
@@ -215,10 +263,11 @@ public class AdminSignedInController implements Initializable {
             //sending to database Handler update function
 
             ///////////
-            DatabaseHandler.updateEmployee(selectedEmployee);
-            Employee employee1 = new Employee();
+            if (DatabaseHandler.updateEmployee(selectedEmployee)) System.out.println("done!");
+            else
+                System.out.println("the soviet union is refusing to cooperate, time to bring em some taste of freedom!");
             try {
-                ResultSet rsRow = DatabaseHandler.getEmployee(selectedEmployee);
+                ResultSet rsRow = DatabaseHandler.getEmployeeResultSet(selectedEmployee);
                 EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
             } catch (NullPointerException e) {
                 System.out.println("nothing is selected nigga!");
@@ -227,12 +276,49 @@ public class AdminSignedInController implements Initializable {
             EditSelectedEmployeesSaveButton.setVisible(false);
             DeleteProfileButton.setVisible(false);
             SaveNewPasswordButton.setVisible(false);
+            refreshEditTable();
+        });
+        SaveNewPasswordButton.setOnAction((event -> {
+            ////what to do to save new password...
+            ///first you read the passwords
+            ///then you save it!
+            ///bravoo!!
+            if (EditEmployeeChangePasswordCheckBox.isSelected()) {
 
-            //////////
+                System.out.println("selected emp pass: " + selectedEmployee.getPassword() + " first password field was: " + EnterNewPasswordFirstPasswordField.getText() +
+                        " second password field was: " + EnterNewPasswordSecondPasswordField.getText() + " entered old pass was: " + EnterOldPasswordPasswordField.getText());
+                if ((EnterNewPasswordFirstPasswordField.getText().equals(EnterNewPasswordSecondPasswordField.getText())) && (EnterOldPasswordPasswordField.getText().equals(selectedEmployee.getPassword()))) {
+                    Employee tempemp = new Employee();
+                    tempemp = selectedEmployee;
+                    tempemp.setPassword(EnterNewPasswordSecondPasswordField.getText());
+                    selectedEmployee.setPassword(EnterNewPasswordSecondPasswordField.getText());//not important...
+                    System.out.println("Tempemp pass was: " + tempemp.getPassword() + "SelectedEmployee's new pass was:" + selectedEmployee.getPassword());//not important...
+                    ////////
+                    if (DatabaseHandler.changeEmployeePassword(tempemp)) {
+                        System.out.println("you got it!");
+                        refreshEditTable();//success!
+                    } else System.out.println("check the stuff...");
+                } else if (!EnterNewPasswordFirstPasswordField.getText().equals(EnterNewPasswordSecondPasswordField.getText())) {
+                    System.out.println("the stuff you entered won't match.. you better get more focused or you'll have much much problems man/mam... honestly get your shit together... all of it!");
+                } else if (!EnterNewPasswordFirstPasswordField.getText().equals(selectedEmployee.getPassword())) {
+                    System.out.println("old password was wrong...");
+
+                }
+
+            } else System.out.println("oooopssss... checkbox!");
+            EnterNewPasswordFirstPasswordField.clear();
+            EnterOldPasswordPasswordField.clear();
+            EnterNewPasswordSecondPasswordField.clear();
+            EditEmployeeChangePasswordCheckBox.setSelected(false);
+        }));
+        DeleteProfileButton.setOnAction(event -> {
+            if (DatabaseHandler.deleteEmployee(selectedEmployee)) System.out.println("it happened!");
+            else System.out.println("didn't happen!");
+            refreshEditTable();
         });
     }
 
-    public ObservableList getObservableListOfEmployees(ResultSet rsRow) {
+    public ObservableList getObservableListOfEmployees(@NotNull ResultSet rsRow) {
         ObservableList<Employee> list = FXCollections.observableArrayList();
         int counter = 0;
         list.clear();
@@ -258,6 +344,29 @@ public class AdminSignedInController implements Initializable {
             counter++;
         }
         return list;
+    }
+
+    public void clearEditFields() {
+        EditFirstNameCheckBox.setSelected(false);
+        EditFirstNameTextField.clear();
+        EditLastNameCheckBox.setSelected(false);
+        EditLastNameTextField.clear();
+        EditTitlecheckBox.setSelected(false);
+        EditTitleTextField.clear();
+        EditLevelCheckBox.setSelected(false);
+        EditLevelChoiceBox.setValue(1);
+        EditCDateCheckBox.setSelected(false);
+        EditCdateDatePicker.setValue(LocalDate.now());
+        DeleteProfileButton.setVisible(false);
+        SaveNewPasswordButton.setVisible(false);
+        EditSelectedEmployeesSaveButton.setVisible(false);
+    }
+
+    public void refreshEditTable() {
+        ResultSet rsRow = DatabaseHandler.freshListOfEmployees();
+        //ObservableList<Employee> list = FXCollections.observableArrayList();
+        EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
+        clearEditFields();
     }
 
 }
