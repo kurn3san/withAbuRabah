@@ -92,6 +92,6 @@ public class Employee {
 
     /////add equals method....
     public boolean equals(Employee employee) {
-        return this.getUsername().equals(employee.getUsername());
+        return this.getUsername() == employee.getUsername();
     }
 }

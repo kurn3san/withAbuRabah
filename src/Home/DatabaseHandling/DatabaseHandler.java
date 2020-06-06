@@ -20,10 +20,10 @@ public class DatabaseHandler extends Configs {
     }
 
     ///write
-    public static void SignUpUser(Admin admin) {
+    public static void signUpAdmin(Admin admin) {
         String insert2 = " INSERT INTO " + "project.users" + "("
                 + Consts.USERS_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.USERS_USERNAME + "," + Consts.USERS_PASSWORD + ","
-                + Consts.USERS_LEVEL+ ")" + "VALUES(?,?,?,?,?)";
+                + Consts.USERS_LEVEL + ")" + "VALUES(?,?,?,?,?)";
         String insert = "INSERT INTO " + Consts.USERS_TABLE + " ("
                 + Consts.USERS_FIRSTNAME + "," + Consts.USERS_LASTNAME + "," + Consts.USERS_USERNAME + "," + Consts.USERS_PASSWORD + ","
                 + Consts.USERS_LEVEL + ")" + "VALUES(?,?,?,?,?)";
@@ -63,7 +63,6 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    //////////// add employyes
     public static ResultSet getAdmin(Admin admin) {
         ResultSet resultSet = null;
         if (!admin.getUserName().equals("") || !admin.getPassword().equals("")) {
@@ -89,6 +88,7 @@ public class DatabaseHandler extends Configs {
     ///////////////
     // Employeee proooblemmms
     ///////////////
+    // ////////// add employyes
     public static void AddEmployee(Employee employee) {
         String insert2 = "INSERT INTO " + " project.employee " + "("
                 + Consts.EMPLOYEE_FIRSTNAME + "," + Consts.EMPLOYEE_LASTNAME + "," + Consts.EMPLOYEE_USERNAME + "," + Consts.EMPLOYEE_TITEL + ","
@@ -116,27 +116,42 @@ public class DatabaseHandler extends Configs {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return resultSet != null;
+    }
+
+    public static Employee getEmployee(Employee employee) {
+        Employee foundEmployee = new Employee();
+        String Query = "SELECT * FROM " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_USERNAME + " = '" + employee.getUsername() + "'" + " AND " +
+                Consts.EMPLOYEE_PASSWORD + " = '" + employee.getPassword() + "'";
+        ResultSet resultSet = null;
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(Query).executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         int counter = 0;
         while (true) {
-            Employee employee2 = new Employee();
             try {
                 //going through each row of results
                 if (!resultSet.next()) break;
-                employee2.setLastName(resultSet.getString(3).toUpperCase());
-                employee2.setFirstName(resultSet.getString(2));
-                employee2.setLevel(resultSet.getInt(5));
-                employee2.setTitle(resultSet.getString(6));
-                employee2.setUsername(resultSet.getString(4));
-                employee2.setCertificateDate(resultSet.getDate(7).toLocalDate());
+                foundEmployee.setLastName(resultSet.getString(3).toUpperCase());
+                foundEmployee.setFirstName(resultSet.getString(2));
+                foundEmployee.setLevel(resultSet.getInt(5));
+                foundEmployee.setTitle(resultSet.getString(6));
+                foundEmployee.setUsername(resultSet.getString(4));
+                foundEmployee.setCertificateDate(resultSet.getDate(7).toLocalDate());
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("Employee added to list!" + employee.toString() + " counter: " + counter);
+
+            System.out.println("Employee found!" + foundEmployee.toString() + " counter: " + counter);
             //adding each employee to the observable list  list
             // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
             counter++;
         }
-        return counter != 0;
+        if (counter == 1) return foundEmployee;
+        else return null;
     }
 
     public static ResultSet getEmployeeResultSet(Employee employee) {

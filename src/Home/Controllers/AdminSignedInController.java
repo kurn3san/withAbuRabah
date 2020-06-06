@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+
 public class AdminSignedInController implements Initializable {
     private static Employee selectedEmployee = new Employee();
     private static ResultSet onhandResultset = null;
@@ -43,7 +44,6 @@ public class AdminSignedInController implements Initializable {
     public DatePicker EditCdateDatePicker;
     @FXML
     public Button EditSelectedEmployeesSaveButton;
-
     //password tab stuff
     @FXML
     public PasswordField EnterNewPasswordFirstPasswordField;
@@ -55,7 +55,6 @@ public class AdminSignedInController implements Initializable {
     public Button SaveNewPasswordButton;
     @FXML
     public CheckBox EditEmployeeChangePasswordCheckBox;
-
     //Table view stuff
     @FXML
     public TableColumn<Employee, String> FirstNameColumn;
@@ -104,7 +103,6 @@ public class AdminSignedInController implements Initializable {
     public PasswordField AddEmployeeSecondPasswordField;
     public PasswordField AddEmployeeFirstPasswordField;
     public Label CurrentSessionInfoLabel;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Current session: Admin:
@@ -128,17 +126,18 @@ public class AdminSignedInController implements Initializable {
         UsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         LevelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
         CertificateDateColumn.setCellValueFactory(new PropertyValueFactory<>("certificateDate"));
-
         EmployeesManagementToAddWorkerButton.setOnAction((event) -> {
             System.out.println("Employees Management To Add Workerpage Button click!");
             AddWorkerPageAnchorPane.setVisible(true);
             EditWorkerPageAnchorPane.setVisible(false);
+            EnterNewPasswordFirstPasswordField.clear();
+            EnterOldPasswordPasswordField.clear();
+            EnterNewPasswordSecondPasswordField.clear();
+            EditEmployeeChangePasswordCheckBox.setSelected(false);
+            clearEditFields();
         });
-
         AddEmployeeButton.setOnAction((event) -> {
-
             System.out.println("Add Employee Button click!");
-
             String firstName = AddEmployeeFirstnameTextField.getText();
             String lastName = AddEmployeeLastNameTextField.getText();
             String userName = AddEmployeeUsernameTextField.getText();
@@ -169,7 +168,6 @@ public class AdminSignedInController implements Initializable {
             AddEmployeeFirstPasswordField.clear();
             AddEmployeeSecondPasswordField.clear();
             AddEmployeeUsernameTextField.clear();
-
         });
         EmployeesManagementToEditWorkerButton.setOnAction((actionEvent -> {
             System.out.println("on action Edit profile menu");
@@ -183,7 +181,6 @@ public class AdminSignedInController implements Initializable {
             EditWorkerPageAnchorPane.setVisible(true);
         }));
         EditWorkerSearchButton.setOnAction((actionEvent -> {
-
             Employee employee1 = new Employee();
             if (!SearchWorkerFirstNameTextField.getText().equals(null))
                 employee1.setFirstName(SearchWorkerFirstNameTextField.getText().toLowerCase());
@@ -194,7 +191,6 @@ public class AdminSignedInController implements Initializable {
             EditWorkerTableView.setItems(getObservableListOfEmployees(onhandResultset));
             clearEditFields();
         }));
-
         EditWorkerTableView.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -236,8 +232,6 @@ public class AdminSignedInController implements Initializable {
                                 break;
                             }
                             if (!onhandResultset.next()) break;
-
-
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -261,7 +255,6 @@ public class AdminSignedInController implements Initializable {
             if (EditLevelCheckBox.isSelected()) selectedEmployee.setLevel((Integer) EditLevelChoiceBox.getValue());
             if (EditCDateCheckBox.isSelected()) selectedEmployee.setCertificateDate(EditCdateDatePicker.getValue());
             //sending to database Handler update function
-
             ///////////
             if (DatabaseHandler.updateEmployee(selectedEmployee)) System.out.println("done!");
             else
@@ -284,7 +277,6 @@ public class AdminSignedInController implements Initializable {
             ///then you save it!
             ///bravoo!!
             if (EditEmployeeChangePasswordCheckBox.isSelected()) {
-
                 System.out.println("selected emp pass: " + selectedEmployee.getPassword() + " first password field was: " + EnterNewPasswordFirstPasswordField.getText() +
                         " second password field was: " + EnterNewPasswordSecondPasswordField.getText() + " entered old pass was: " + EnterOldPasswordPasswordField.getText());
                 if ((EnterNewPasswordFirstPasswordField.getText().equals(EnterNewPasswordSecondPasswordField.getText())) && (EnterOldPasswordPasswordField.getText().equals(selectedEmployee.getPassword()))) {
@@ -302,9 +294,7 @@ public class AdminSignedInController implements Initializable {
                     System.out.println("the stuff you entered won't match.. you better get more focused or you'll have much much problems man/mam... honestly get your shit together... all of it!");
                 } else if (!EnterNewPasswordFirstPasswordField.getText().equals(selectedEmployee.getPassword())) {
                     System.out.println("old password was wrong...");
-
                 }
-
             } else System.out.println("oooopssss... checkbox!");
             EnterNewPasswordFirstPasswordField.clear();
             EnterOldPasswordPasswordField.clear();
@@ -317,12 +307,10 @@ public class AdminSignedInController implements Initializable {
             refreshEditTable();
         });
     }
-
     public ObservableList getObservableListOfEmployees(@NotNull ResultSet rsRow) {
         ObservableList<Employee> list = FXCollections.observableArrayList();
         int counter = 0;
         list.clear();
-
         while (true) {
             Employee employee = new Employee();
             try {
@@ -345,7 +333,6 @@ public class AdminSignedInController implements Initializable {
         }
         return list;
     }
-
     public void clearEditFields() {
         EditFirstNameCheckBox.setSelected(false);
         EditFirstNameTextField.clear();
@@ -361,12 +348,10 @@ public class AdminSignedInController implements Initializable {
         SaveNewPasswordButton.setVisible(false);
         EditSelectedEmployeesSaveButton.setVisible(false);
     }
-
     public void refreshEditTable() {
         ResultSet rsRow = DatabaseHandler.freshListOfEmployees();
         //ObservableList<Employee> list = FXCollections.observableArrayList();
         EditWorkerTableView.setItems(getObservableListOfEmployees(rsRow));
         clearEditFields();
     }
-
 }

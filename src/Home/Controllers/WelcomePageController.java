@@ -3,6 +3,7 @@ package Home.Controllers;
 import Home.Animations.Shaker;
 import Home.DatabaseHandling.DatabaseHandler;
 import Home.model.Admin;
+import Home.model.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -80,6 +81,7 @@ public class WelcomePageController implements Initializable{
     DatabaseHandler dbh = new DatabaseHandler();
     //private static Connection connection =;
     protected static Admin signedInAdmin;
+    protected static Employee signedInEmployee;
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -121,17 +123,17 @@ public class WelcomePageController implements Initializable{
             ErrorEmptyFieldsLabel.setVisible(false);
         });
         SignInButton.setOnAction((event) -> {
-                    if (SignInChoiceBox.getValue().equals("Admin")) {
-                        String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
-                        String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();
-                        // checking validity of fields' informatinos
-                        if (signInUsername.equals("")) System.out.println("please enter a username man");
+                    String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
+                    String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();
+                    // checking validity of fields' informatinos
+                    if (SignInPassword.equals("")) System.out.println("please enter a pasword man.. come on!");
+                    else if (SignInPassword.equals("") && signInUsername.equals("")) ErrorEmptyFieldsLabel.setVisible(true);
+                    else if (signInUsername.equals("")) {
+                        System.out.println("please enter a username man");
                         Shaker shaker = new Shaker(SignInUsernameTextField); // not working apparently...
                         shaker.shake();
-                        if (SignInPassword.equals("")) System.out.println("please enter a pasword man.. come on!");
-                        if (SignInPassword.equals("") && signInUsername.equals("")) ErrorEmptyFieldsLabel.setVisible(true);
-                        if (!signInUsername.equals("") || !SignInPassword.equals("")) {
-
+                    } else if (!SignInPassword.equals("") && !signInUsername.equals("")) {
+                        if (SignInChoiceBox.getValue().equals("Admin")) {
                             Admin admin = new Admin();
                             admin.setUserName(signInUsername);
                             admin.setPassword(SignInPassword);
@@ -152,9 +154,9 @@ public class WelcomePageController implements Initializable{
                                 if (counter == 1) {
                                     //checking for that one match...
                                     System.out.println("successful...");
-                                    goToSignedIn();
-                                    ErrorEmptyFieldsLabel.getScene().getWindow().hide();    //gotta move from hrereereererere
-                                }else{
+                                    goToAdminSignedIn();
+                                    //gotta move from hrereereererere
+                                } else {
                                     userRow = DatabaseHandler.getUserByUserName(admin);
                                     while (userRow.next()) {
                                         //System.out.println(userRow.getInt(1)+" "+userRow.getString(2));
@@ -175,30 +177,42 @@ public class WelcomePageController implements Initializable{
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
-                        }
-                    } else {
-                        ////Employee Sign in
-                    }
+                        } else {
+                            ////Employee Sign in
+                            Admin admin = new Admin();
+                            Employee employee = new Employee();
+                            employee.setUsername(signInUsername);
+                            employee.setPassword(SignInPassword);
+                            System.out.println("SignInButton click!");
+                            ErrorEmptyFieldsLabel.setVisible(false);
+                            signedInEmployee = DatabaseHandler.getEmployee(employee);
+                            if (signedInEmployee != null) {
+                                ///here the sign in is complete!
+                                goToEmployeeSignedIn();
 
+                            } else {
+                                if (DatabaseHandler.isThereSuchNEmployee(employee)) {
+                                    System.out.println("username exists... password wrong");
+                                } else System.out.println("no such username...");
+                            }
+                        }
+                    }
                 }
         );
         SignUpButton.setOnAction((event) -> {
-
             System.out.println("Sign up Button click!");
             createUser();
-
         });
 
     }
 
-    private void goToSignedIn() {
-
+    private void goToAdminSignedIn() {
         Stage primaryStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Home/Views/AdminSignedIn.fxml"));
-        try{
+        try {
             loader.load();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("exception");
             e.printStackTrace();
         }
@@ -207,10 +221,30 @@ public class WelcomePageController implements Initializable{
         primaryStage.setTitle("Welcome!");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        ErrorEmptyFieldsLabel.getScene().getWindow().hide();
         primaryStage.show();
-
     }
-    private void createUser(){
+
+    private void goToEmployeeSignedIn() {
+        Stage primaryStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Home/Views/EmployeeSignedIn.fxml"));
+        try {
+            loader.load();
+        } catch (Exception e) {
+            System.out.println("exception");
+            e.printStackTrace();
+        }
+        //button.getScene().getWindow().hide();
+        Parent root = loader.getRoot();
+        primaryStage.setTitle("Welcome!");
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+        ErrorEmptyFieldsLabel.getScene().getWindow().hide();
+        primaryStage.show();
+    }
+
+    private void createUser() {
 
         System.out.println("CREATING USER...");
         DatabaseHandler databaseHandler = new DatabaseHandler();
@@ -228,7 +262,7 @@ public class WelcomePageController implements Initializable{
 
         Admin admin = new Admin(firstName, lastName, userName, Password, level);
         System.out.println(firstName + lastName+ userName+Password+ level );
-        if (DatabaseHandler.getDbConnection() != null) DatabaseHandler.SignUpUser(admin);
+        if (DatabaseHandler.getDbConnection() != null) DatabaseHandler.signUpAdmin(admin);
         System.out.println("admin created and signed up!");
 
     }
