@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="Home.Controllers.EmployeeSignedIn"
-            prefHeight="400.0" prefWidth="600.0">
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="640.4" prefWidth="1391.4"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="Home.Controllers.EmployeeSignedIn">
+    <children>
+        <AnchorPane id="EmployeeSignedInMenuAnchorPane" layoutX="40.0" layoutY="42.0" prefHeight="574.0"
+                    prefWidth="818.0" style="-fx-background-color: #FAFAFA;"/>
+        <AnchorPane id="CreateReportAnchorPane" fx:id="CreateReportAnchorPane" layoutX="379.0" layoutY="84.0"
+                    prefHeight="485.0" prefWidth="908.0" style="-fx-background-color: #ECEFF1;"/>
+        <Label id="CurrentEmployeeSessionLabel" fx:id="CurrentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
+               prefHeight="18.0" prefWidth="873.0" text="Current session: Employee:"/>
+    </children>
 </AnchorPane>
