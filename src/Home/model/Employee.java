@@ -67,11 +67,11 @@ public class Employee {
     }
 
     public String toString() {
-        return "Username: " + this.getUsername() +
-                " First name: " + this.getFirstName() +
-                " Last name: " + this.getLastName() +
-                " Level: " + this.getLevel() +
-                "Certificate date: " + this.getCertificateDate();
+        return ", username: " + this.getUsername() +
+                ", first name: " + this.getFirstName() +
+                ", last name: " + this.getLastName() +
+                ", Level: " + this.getLevel() +
+                ", Certificate date: " + this.getCertificateDate() + " .";
     }
 
     public LocalDate getCertificateDate() {

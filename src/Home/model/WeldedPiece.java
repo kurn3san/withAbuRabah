@@ -33,6 +33,34 @@ public class WeldedPiece {
     public WeldedPiece() {
     }
 
+    @Override
+    public String toString() {
+        return "WeldedPiece{" +
+                "weldPieceNo='" + weldPieceNo + '\'' +
+                ", testLength=" + testLength +
+                ", weldingProcess='" + weldingProcess + '\'' +
+                ", thickness=" + thickness +
+                ", diameter=" + diameter +
+                ", defectType='" + defectType + '\'' +
+                ", defectLoc='" + defectLoc + '\'' +
+                ", result='" + result + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WeldedPiece)) return false;
+        WeldedPiece that = (WeldedPiece) o;
+        return getTestLength() == that.getTestLength() &&
+                getThickness() == that.getThickness() &&
+                getDiameter() == that.getDiameter() &&
+                getWeldPieceNo().equals(that.getWeldPieceNo()) &&
+                getWeldingProcess().equals(that.getWeldingProcess()) &&
+                getDefectType().equals(that.getDefectType()) &&
+                getDefectLoc().equals(that.getDefectLoc()) &&
+                getResult().equals(that.getResult());
+    }
 
     public String getWeldPieceNo() {
         return weldPieceNo;

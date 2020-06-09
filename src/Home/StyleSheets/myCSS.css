@@ -54,12 +54,19 @@
     -fx-background-color: #F4F5E0 ;
 }
 
-#KorogementLabel{
+#KorogementLabel {
     line-height: 1.15;
-    font-family: fa5-proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: fa5-proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-box-direction: normal;
     cursor: pointer;
     color: inherit;
     font-size: 2em;
     box-sizing: inherit;
+}
+
+#addCompanySaveButton {
+    -fx-border-style: solid inside;
++ -fx-border-radius: 20 px + -fx-border-width: 2;
++ -fx-border-insets: 5;
++ -fx-border-radius: 5;
 }

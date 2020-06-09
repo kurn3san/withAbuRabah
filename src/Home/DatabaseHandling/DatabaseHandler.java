@@ -1,6 +1,7 @@
 package Home.DatabaseHandling;
 
 import Home.model.Admin;
+import Home.model.Company;
 import Home.model.Employee;
 
 import java.sql.*;
@@ -103,6 +104,7 @@ public class DatabaseHandler extends Configs {
             preparedStatement.setDate(6, java.sql.Date.valueOf(employee.getCertificateDate()));
             preparedStatement.setString(7, employee.getPassword());
             preparedStatement.executeUpdate();
+            System.out.println("added!!!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,7 +118,28 @@ public class DatabaseHandler extends Configs {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return resultSet != null;
+        Employee foundEmployee = new Employee();
+        int counter = 0;
+        while (true) {
+            try {
+                //going through each row of results
+                if (!resultSet.next()) break;
+                foundEmployee.setLastName(resultSet.getString(3).toUpperCase());
+                foundEmployee.setFirstName(resultSet.getString(2));
+                foundEmployee.setLevel(resultSet.getInt(5));
+                foundEmployee.setTitle(resultSet.getString(6));
+                foundEmployee.setUsername(resultSet.getString(4));
+                foundEmployee.setCertificateDate(resultSet.getDate(7).toLocalDate());
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            counter++;
+            System.out.println("Employee found!" + foundEmployee.toString() + " counter: " + counter);
+            //adding each employee to the observable list  list
+            // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+        }
+        return counter != 0;
     }
 
     public static Employee getEmployee(Employee employee) {
@@ -290,6 +313,104 @@ public class DatabaseHandler extends Configs {
             e.printStackTrace();
         }
         return resultSet;
+    }
+
+    public static boolean addCompany(Company company) {
+        String query = " INSERT INTO " + Consts.COMPANIES_TABLE + " ( " + Consts.COMPANY_NAME + ", " + Consts.COMPANY_ADDRESS + ", " + Consts.COMPANY_REGISTER_DATE + ")" +
+                " VALUES(?,?,?) ";
+        try {
+            PreparedStatement ps = DatabaseHandler.getDbConnection().prepareStatement(query);
+            ps.setString(1, company.getName());
+            ps.setString(2, company.getAddress());
+            ps.setDate(3, company.getRegisterDate());
+            ps.executeUpdate();
+            System.out.println("added!");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean isThereSuchACompany(Company company) {
+        String query = "SELECT * FROM " + Consts.COMPANIES_TABLE + " WHERE " + Consts.COMPANY_NAME + " =? AND " + Consts.COMPANY_ADDRESS + " =?";
+        ResultSet rs = null;
+        try {
+            PreparedStatement ps = DatabaseHandler.getDbConnection().prepareStatement(query);
+            ps.setString(1, company.getName());
+            ps.setString(2, company.getAddress());
+            rs = ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Company foundCompany = new Company();
+        int counter = 0;
+        while (true) {
+
+            try {
+                //going through each row of results
+                if (!rs.next()) break;
+                foundCompany.setName(rs.getString(2));
+                foundCompany.setRegisterDate(rs.getDate(4));
+                foundCompany.setAddress(rs.getString(3));
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Company found!" + foundCompany.toString() + " counter: " + counter);
+            //adding each employee to the observable list  list
+            // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+            counter++;
+        }
+        return counter != 0;
+    }
+
+    public static Company getCompany(Company company) {
+        return company;
+        ////////////////////////
+        ////////must work ooon!!!
+    }
+
+    public static ResultSet getCompanies(Company company) {
+        ResultSet rs = null;
+        if (company.getName() != null && company.getAddress() != null) {
+            String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_NAME + " = '" +
+                    company.getName() + "' AND " + Consts.COMPANY_ADDRESS + " = '" + company.getName() + ";";
+            System.out.println("query was: " + query);
+            try {
+                rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } else if (company.getName() != null) {
+            String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_NAME + " = '" + company.getName() + " '";
+            System.out.println("query was: " + query);
+            try {
+                rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (company.getAddress() != null) {
+            String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_ADDRESS + " = '" + company.getAddress() + " '";
+            System.out.println("query was: " + query);
+            try {
+                rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            String query = " SELECT * FROM " + Consts.COMPANIES_TABLE;
+            System.out.println("query was: " + query);
+            try {
+                rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return rs;
     }
 
 

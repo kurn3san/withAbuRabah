@@ -159,7 +159,6 @@ public class AdminSignedInController implements Initializable {
             if (!DatabaseHandler.isThereSuchNEmployee(new Employee(firstName, lastName, userName, level, jobinfo, localDate, password)))
                 DatabaseHandler.AddEmployee(new Employee(firstName, lastName, userName, level, jobinfo, localDate, password));
             else System.out.println("this username is taken man... sorry...");
-            System.out.println("added maan!");
         });
         AddWorkerClearAllFieldsButton.setOnAction(event -> {
             AddEmployeeFirstnameTextField.clear();
