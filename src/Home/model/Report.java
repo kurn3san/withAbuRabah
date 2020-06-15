@@ -7,6 +7,8 @@ public class Report {
     ///company informations
     ///first section, first column on the left...
     private Company company;
+    private boolean testType = false;
+
     private String place = this.company.getAddress();
     private String projectName;
     private String inspectionStandard;
@@ -17,6 +19,67 @@ public class Report {
     private int inspectionScope = 100;
     private String stageOfExamination;
     private String inspectionProcedure;
+
+    public Report(Company company, String place,
+                  String projectName, String inspectionStandard,
+                  String evaluationStandard, int drawingNO,
+                  String surfaceCondition, int inspectionScope,
+                  String stageOfExamination, String inspectionProcedure,
+                  int pageNumber, int reportNo,
+                  int jobOrderNo, int jobOfferNo,
+                  LocalDate reportDate, Equipment equipment,
+                  int poleDistance, String equipmentName,
+                  String mpCarrierMedium, String magTech,
+                  int distanceOfLight, String examinationArea,
+                  String currentType, int luxmeter,
+                  String testMedium, String demagnatization,
+                  boolean testType,
+                  String heatTreatment, int surfaceTemprature,
+                  double gaussFieldStrength, String equipmentSurfaceCondition,
+                  String identificationOfLightEquipment, String liftingTestDateAndNumber,
+                  String standardDeviations, LocalDate inspectionDate,
+                  String descriptionAndAttachments, List<WeldedPiece> weldedPieceList,
+                  Personel personel) {
+        this.company = company;
+        this.place = place;
+        this.projectName = projectName;
+        this.inspectionStandard = inspectionStandard;
+        this.evaluationStandard = evaluationStandard;
+        this.drawingNO = drawingNO;
+        this.surfaceCondition = surfaceCondition;
+        this.inspectionScope = inspectionScope;
+        this.stageOfExamination = stageOfExamination;
+        this.inspectionProcedure = inspectionProcedure;
+        this.pageNumber = pageNumber;
+        this.reportNo = reportNo;
+        this.jobOrderNo = jobOrderNo;
+        this.jobOfferNo = jobOfferNo;
+        this.reportDate = reportDate;
+        this.equipment = equipment;
+        this.poleDistance = poleDistance;
+        this.equipmentName = equipmentName;
+        this.mpCarrierMedium = mpCarrierMedium;
+        this.magTech = magTech;
+        this.distanceOfLight = distanceOfLight;
+        this.examinationArea = examinationArea;
+        this.currentType = currentType;
+        this.luxmeter = luxmeter;
+        this.testMedium = testMedium;
+        this.demagnatization = demagnatization;
+        this.testType = testType;
+        this.heatTreatment = heatTreatment;
+        this.surfaceTemprature = surfaceTemprature;
+        this.gaussFieldStrength = gaussFieldStrength;
+        this.equipmentSurfaceCondition = equipmentSurfaceCondition;
+        this.identificationOfLightEquipment = identificationOfLightEquipment;
+        LiftingTestDateAndNumber = liftingTestDateAndNumber;
+        this.standardDeviations = standardDeviations;
+        this.inspectionDate = inspectionDate;
+        this.descriptionAndAttachments = descriptionAndAttachments;
+        this.weldedPieceList = weldedPieceList;
+        this.personel = personel;
+    }
+
     ////last column of first section
     private int pageNumber = 1;
     private int reportNo;
@@ -366,4 +429,57 @@ public class Report {
     public void setPersonel(Personel personel) {
         this.personel = personel;
     }
+
+    public boolean isTestType() {
+        return testType;
+    }
+
+    public void setTestType(boolean testType) {
+        this.testType = testType;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "company=" + company +
+                ", place='" + place + '\'' +
+                ", projectName='" + projectName + '\'' +
+                ", inspectionStandard='" + inspectionStandard + '\'' +
+                ", evaluationStandard='" + evaluationStandard + '\'' +
+                ", drawingNO=" + drawingNO +
+                ", surfaceCondition='" + surfaceCondition + '\'' +
+                ", inspectionScope=" + inspectionScope +
+                ", stageOfExamination='" + stageOfExamination + '\'' +
+                ", inspectionProcedure='" + inspectionProcedure + '\'' +
+                ", testType=" + testType +
+                ", pageNumber=" + pageNumber +
+                ", reportNo=" + reportNo +
+                ", jobOrderNo=" + jobOrderNo +
+                ", jobOfferNo=" + jobOfferNo +
+                ", reportDate=" + reportDate +
+                ", equipment=" + equipment +
+                ", poleDistance=" + poleDistance +
+                ", equipmentName='" + equipmentName + '\'' +
+                ", mpCarrierMedium='" + mpCarrierMedium + '\'' +
+                ", magTech='" + magTech + '\'' +
+                ", distanceOfLight=" + distanceOfLight +
+                ", examinationArea='" + examinationArea + '\'' +
+                ", currentType='" + currentType + '\'' +
+                ", luxmeter=" + luxmeter +
+                ", testMedium='" + testMedium + '\'' +
+                ", demagnatization='" + demagnatization + '\'' +
+                ", heatTreatment='" + heatTreatment + '\'' +
+                ", surfaceTemprature=" + surfaceTemprature +
+                ", gaussFieldStrength=" + gaussFieldStrength +
+                ", equipmentSurfaceCondition='" + equipmentSurfaceCondition + '\'' +
+                ", identificationOfLightEquipment='" + identificationOfLightEquipment + '\'' +
+                ", LiftingTestDateAndNumber='" + LiftingTestDateAndNumber + '\'' +
+                ", standardDeviations='" + standardDeviations + '\'' +
+                ", inspectionDate=" + inspectionDate +
+                ", descriptionAndAttachments='" + descriptionAndAttachments + '\'' +
+                ", weldedPieceList=" + weldedPieceList +
+                ", personel=" + personel +
+                '}';
+    }
+
 }

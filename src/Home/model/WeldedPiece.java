@@ -1,17 +1,17 @@
 package Home.model;
 
 public class WeldedPiece {
-
-    private String weldPieceNo;
-    private int testLength;
-    private String weldingProcess;
-    private int thickness;
+    private int serialNo = 0;
+    private String weldPieceNo = "";
+    private int testLength = 0;
+    private String weldingProcess = "";
+    private int thickness = 0;
     private int diameter = 0;
     private String defectType = "";
     private String defectLoc = "";
-    private String result = "OK";
+    private String result = "RED";
 
-    public WeldedPiece(String weldPieceNo, int testLength, String weldingProcess, int thickness, String result) {
+    public WeldedPiece(String weldPieceNo, int testLength, String weldingProcess, int thickness, String result, int serialNo) {
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
         this.weldingProcess = weldingProcess;
@@ -19,7 +19,10 @@ public class WeldedPiece {
         this.result = result;
     }
 
-    public WeldedPiece(String weldPieceNo, int testLength, String weldingProcess, int thickness, int diameter, String defectType, String defectLoc, String result) {
+    public WeldedPiece(int serialNo, String weldPieceNo, int testLength,
+                       String weldingProcess, int thickness,
+                       int diameter, String defectType,
+                       String defectLoc, String result) {
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
         this.weldingProcess = weldingProcess;
@@ -35,16 +38,16 @@ public class WeldedPiece {
 
     @Override
     public String toString() {
-        return "WeldedPiece{" +
-                "weldPieceNo='" + weldPieceNo + '\'' +
-                ", testLength=" + testLength +
-                ", weldingProcess='" + weldingProcess + '\'' +
-                ", thickness=" + thickness +
-                ", diameter=" + diameter +
-                ", defectType='" + defectType + '\'' +
-                ", defectLoc='" + defectLoc + '\'' +
-                ", result='" + result + '\'' +
-                '}';
+        return "WeldedPiece: " +
+                "Serial no: " + this.serialNo +
+                " weldPieceNo= " + weldPieceNo +
+                ", testLength= " + testLength +
+                ", weldingProcess= " + weldingProcess +
+                ", thickness= " + thickness +
+                ", diameter= " + diameter +
+                ", defectType= " + defectType +
+                ", defectLoc=" + defectLoc +
+                ", result= " + result + " .";
     }
 
     @Override
@@ -52,7 +55,8 @@ public class WeldedPiece {
         if (this == o) return true;
         if (!(o instanceof WeldedPiece)) return false;
         WeldedPiece that = (WeldedPiece) o;
-        return getTestLength() == that.getTestLength() &&
+        return getSerialNo() == that.getSerialNo() &&
+                getTestLength() == that.getTestLength() &&
                 getThickness() == that.getThickness() &&
                 getDiameter() == that.getDiameter() &&
                 getWeldPieceNo().equals(that.getWeldPieceNo()) &&
@@ -60,6 +64,14 @@ public class WeldedPiece {
                 getDefectType().equals(that.getDefectType()) &&
                 getDefectLoc().equals(that.getDefectLoc()) &&
                 getResult().equals(that.getResult());
+    }
+
+    public int getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(int serialNo) {
+        this.serialNo = serialNo;
     }
 
     public String getWeldPieceNo() {

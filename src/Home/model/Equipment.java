@@ -1,24 +1,31 @@
 package Home.model;
 
 public class Equipment {
-    private String equipmentName;
-    private int poleDistance;
-    private String mpCarrierMedium;
-    private String uVLightDensity;
-    private int distanceOfLight;
-    private String magTech;
 
-    public Equipment(String equipmentName, int poleDistance, String mpCarrierMedium, String uVLightDensity, int distanceOfLight, String magTech) {
+    private int equipmentid = 0;
+    private String equipmentName = "";
+    private int poleDistance = 0;
+    private String mpCarrierMedium = "";
+    private String uVLightDensity = "";
+    private int distanceOfLight = 0;
+    private String magTech = "";
+
+
+    public Equipment(int equipmentid, String equipmentName,
+                     int poleDistance, String mpCarrierMedium,
+                     String uVLightDensity, int distanceOfLight,
+                     String magTech, boolean testType) {
         this.equipmentName = equipmentName;
         this.poleDistance = poleDistance;
         this.mpCarrierMedium = mpCarrierMedium;
         this.uVLightDensity = uVLightDensity;
         this.distanceOfLight = distanceOfLight;
         this.magTech = magTech;
+        this.equipmentid = equipmentid;
+
     }
 
     public Equipment() {
-
     }
 
     public String getEquipmentName() {
@@ -68,4 +75,42 @@ public class Equipment {
     public void setMagTech(String magTech) {
         this.magTech = magTech;
     }
+
+    public int getId() {
+        return equipmentid;
+    }
+
+    public void setId(int equipmentid) {
+        this.equipmentid = equipmentid;
+    }
+
+    public int getEquipmentid() {
+        return equipmentid;
+    }
+
+    public void setEquipmentid(int equipmentid) {
+        this.equipmentid = equipmentid;
+    }
+
+    @Override
+    public String toString() {
+        return "Equipment: " +
+                " equipmentid= " + equipmentid +
+                ", equipmentName= " + equipmentName +
+                ", poleDistance= " + poleDistance +
+                ", mpCarrierMedium= " + mpCarrierMedium +
+                ", uVLightDensity= " + uVLightDensity +
+                ", distanceOfLight= " + distanceOfLight +
+                ", magTech= " + magTech + "."
+                ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Equipment)) return false;
+        Equipment equipment = (Equipment) o;
+        return getId() == equipment.getId();
+    }
+
 }

@@ -3,6 +3,7 @@ package Home.DatabaseHandling;
 import Home.model.Admin;
 import Home.model.Company;
 import Home.model.Employee;
+import Home.model.Equipment;
 
 import java.sql.*;
 
@@ -16,10 +17,8 @@ public class DatabaseHandler extends Configs {
     }
 
     public static Connection getDbConnection() {
-
         return dbConnection;
     }
-
     ///write
     public static void signUpAdmin(Admin admin) {
         String insert2 = " INSERT INTO " + "project.users" + "("
@@ -85,7 +84,6 @@ public class DatabaseHandler extends Configs {
             //returns null...
         }
     }
-
     ///////////////
     // Employeee proooblemmms
     ///////////////
@@ -333,13 +331,10 @@ public class DatabaseHandler extends Configs {
     }
 
     public static boolean isThereSuchACompany(Company company) {
-        String query = "SELECT * FROM " + Consts.COMPANIES_TABLE + " WHERE " + Consts.COMPANY_NAME + " =? AND " + Consts.COMPANY_ADDRESS + " =?";
+        String query = "SELECT * FROM " + Consts.COMPANIES_TABLE + " WHERE " + Consts.COMPANY_NAME + " = '" + company.getName() + "';";
         ResultSet rs = null;
         try {
-            PreparedStatement ps = DatabaseHandler.getDbConnection().prepareStatement(query);
-            ps.setString(1, company.getName());
-            ps.setString(2, company.getAddress());
-            rs = ps.executeQuery();
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -374,7 +369,7 @@ public class DatabaseHandler extends Configs {
 
     public static ResultSet getCompanies(Company company) {
         ResultSet rs = null;
-        if (company.getName() != null && company.getAddress() != null) {
+        if (!company.getName().equals("") && !company.getAddress().equals("")) {
             String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_NAME + " = '" +
                     company.getName() + "' AND " + Consts.COMPANY_ADDRESS + " = '" + company.getName() + ";";
             System.out.println("query was: " + query);
@@ -384,7 +379,7 @@ public class DatabaseHandler extends Configs {
                 e.printStackTrace();
             }
 
-        } else if (company.getName() != null) {
+        } else if (!company.getName().equals("") && company.getAddress().equals("")) {
             String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_NAME + " = '" + company.getName() + " '";
             System.out.println("query was: " + query);
             try {
@@ -392,7 +387,7 @@ public class DatabaseHandler extends Configs {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } else if (company.getAddress() != null) {
+        } else if (!company.getAddress().equals("") && company.getName().equals("")) {
             String query = " SELECT * FROM " + Consts.COMPANIES_TABLE + " Where " + Consts.COMPANY_ADDRESS + " = '" + company.getAddress() + " '";
             System.out.println("query was: " + query);
             try {
@@ -411,6 +406,63 @@ public class DatabaseHandler extends Configs {
             }
         }
         return rs;
+    }
+
+    public static boolean addEquipment(Equipment equipment) {
+        String query = " INSERT INTO " + Consts.EQUIPMENT_TABLE + " ( " +
+                Consts.EQUIPMENT_ID + " ,"
+                + Consts.EQUIPMENT_NAME + ", " +
+                Consts.EQUIPMENT_POLE_DISTANCE + ", " +
+                Consts.EQUIPMENT_M_P_CARRIER_MEDIUM + ", " +
+                Consts.EQUIPMENT_UV_DENSITY + ", " +
+                Consts.EQUIPMENT_DISTANCE_OF_LIGHT + ", " +
+                Consts.EQUIPMENT_M_G_TEC + ")" +
+                " VALUES( " + equipment.getId() + " ," + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
+                "," + equipment.getuVLightDensity() + "," + equipment.getDistanceOfLight() + "," + equipment.getMagTech() + ") ";
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
+            System.out.println("added!");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public static boolean isThereSuchEquipment(Equipment equipment) {
+        ResultSet rs = null;
+        String query = " SELECT " + Consts.EQUIPMENT_ID + " FROM " + Consts.EQUIPMENT_TABLE + " WHERE " + Consts.EQUIPMENT_ID + "= '" + equipment.getId() + "' ;";
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int counter = 0;
+        while (true) {
+
+            try {
+                //going through each row of results
+                if (!rs.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("equipment found! #" + counter);
+            counter++;
+        }
+        return counter != 0;
+    }
+
+    public ResultSet getEquipmentResultSet(Equipment equipment) {
+        String query = " SELECT * " + " FROM " + Consts.EQUIPMENT_TABLE + ";";
+        try {
+            return DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return null;
     }
 
 

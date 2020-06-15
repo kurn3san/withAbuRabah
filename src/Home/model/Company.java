@@ -3,13 +3,12 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Company {
-    private String name;
-    private String address;
+    private String name = "";
+    private String address = "";
     private Date registerDate;
 
     //private int companyID;
     public Company() {
-
     }
 
     public Company(String name, String address, Date registerDate) {
@@ -68,4 +67,5 @@ public class Company {
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
+
 }
