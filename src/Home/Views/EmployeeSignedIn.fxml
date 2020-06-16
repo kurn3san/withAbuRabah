@@ -21,8 +21,39 @@
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
             </children>
         </AnchorPane>
-        <AnchorPane id="equipSettingsPane" fx:id="equipSettingsPane" layoutX="377.0" layoutY="84.0" prefHeight="486.0"
-                    prefWidth="910.0" style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;"/>
+        <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.5" layoutX="377.0"
+                   layoutY="84.0" visible="false">
+            <items>
+                <AnchorPane prefHeight="486.0" prefWidth="910.0"
+                            style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
+                    <children>
+                        <TableView fx:id="EquipmentTable" layoutX="14.0" layoutY="77.0" prefHeight="367.0"
+                                   prefWidth="842.0">
+                            <columns>
+                                <TableColumn id="equipPDistanceColumn" fx:id="equipPDistanceColumn"
+                                             prefWidth="78.4000244140625" text="Pole distance"/>
+                                <TableColumn id="equipNameColumn" fx:id="equipNameColumn" prefWidth="154.4000244140625"
+                                             text="Name"/>
+                                <TableColumn id="equipMPCMediumColumn" fx:id="equipMPCMediumColumn"
+                                             prefWidth="256.7999267578125" text="MP Carrier Medium"/>
+                                <TableColumn id="equipUVLightDensityColumn" fx:id="equipUVLightDensityColumn"
+                                             prefWidth="108.0" text="UV Light Density"/>
+                                <TableColumn id="equipDistanceOfLightColumn" fx:id="equipDistanceOfLightColumn"
+                                             prefWidth="100.0" text="Distance of Light"/>
+                                <TableColumn id="equipMagTechColumn" fx:id="equipMagTechColumn"
+                                             prefWidth="143.199951171875" text="Mag. Tech"/>
+                            </columns>
+                        </TableView>
+                        <TextField id="EquipmentSearchBox" fx:id="searchEquipmentTextField" layoutX="176.0"
+                                   layoutY="36.0" prefHeight="26.0" prefWidth="268.0" promptText="Search..."/>
+                        <Label layoutX="53.0" layoutY="41.0" text="Look for a Keyword: "/>
+                        <Label id="SelectedEquipmentLable" fx:id="SelectedEquipmentLable" layoutX="14.0" layoutY="455.0"
+                               prefHeight="18.0" prefWidth="822.0"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane prefHeight="200.0" prefWidth="0.0"/>
+            </items>
+        </SplitPane>
         <AnchorPane id="companySettingsPane" fx:id="companySettingsPane" layoutX="375.0" layoutY="81.0" visible="false">
             <children>
 

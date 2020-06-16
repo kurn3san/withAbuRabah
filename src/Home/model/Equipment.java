@@ -1,8 +1,9 @@
 package Home.model;
 
+import java.util.Objects;
+
 public class Equipment {
 
-    private int equipmentid = 0;
     private String equipmentName = "";
     private int poleDistance = 0;
     private String mpCarrierMedium = "";
@@ -11,7 +12,7 @@ public class Equipment {
     private String magTech = "";
 
 
-    public Equipment(int equipmentid, String equipmentName,
+    public Equipment(String equipmentName,
                      int poleDistance, String mpCarrierMedium,
                      String uVLightDensity, int distanceOfLight,
                      String magTech, boolean testType) {
@@ -21,7 +22,6 @@ public class Equipment {
         this.uVLightDensity = uVLightDensity;
         this.distanceOfLight = distanceOfLight;
         this.magTech = magTech;
-        this.equipmentid = equipmentid;
 
     }
 
@@ -76,26 +76,13 @@ public class Equipment {
         this.magTech = magTech;
     }
 
-    public int getId() {
-        return equipmentid;
-    }
 
     public void setId(int equipmentid) {
-        this.equipmentid = equipmentid;
-    }
-
-    public int getEquipmentid() {
-        return equipmentid;
-    }
-
-    public void setEquipmentid(int equipmentid) {
-        this.equipmentid = equipmentid;
     }
 
     @Override
     public String toString() {
         return "Equipment: " +
-                " equipmentid= " + equipmentid +
                 ", equipmentName= " + equipmentName +
                 ", poleDistance= " + poleDistance +
                 ", mpCarrierMedium= " + mpCarrierMedium +
@@ -110,7 +97,16 @@ public class Equipment {
         if (this == o) return true;
         if (!(o instanceof Equipment)) return false;
         Equipment equipment = (Equipment) o;
-        return getId() == equipment.getId();
+        return getPoleDistance() == equipment.getPoleDistance() &&
+                getDistanceOfLight() == equipment.getDistanceOfLight() &&
+                getEquipmentName().equals(equipment.getEquipmentName()) &&
+                getMpCarrierMedium().equals(equipment.getMpCarrierMedium()) &&
+                getuVLightDensity().equals(equipment.getuVLightDensity()) &&
+                getMagTech().equals(equipment.getMagTech());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEquipmentName(), getPoleDistance(), getMpCarrierMedium(), getuVLightDensity(), getDistanceOfLight(), getMagTech());
+    }
 }

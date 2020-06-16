@@ -27,6 +27,7 @@ public class EmployeeSignedIn implements Initializable {
     private static Company selectedCompany = new Company();
     private static final Equipment onHandEquipment = new Equipment();
     private static final Equipment selectedEquipment = new Equipment();
+    private static ResultSet onHandEquipmentResultSet = null;
 
     public AnchorPane createReportAnchorPane;
     public Label currentEmployeeSessionLabel;
@@ -51,9 +52,18 @@ public class EmployeeSignedIn implements Initializable {
     public Label CompanySettingsStatusLabel;
 
 
-    public AnchorPane equipSettingsPane;
+    public SplitPane equipSettingsPane;
+
+    public TableView<Equipment> EquipmentTable;
+    public TableColumn<Equipment, String> equipMPCMediumColumn;
+    public TableColumn<Equipment, Integer> equipPDistanceColumn;
+    public TableColumn<Equipment, String> equipNameColumn;
+    public TableColumn<Equipment, String> equipUVLightDensityColumn;
+    public TableColumn<Equipment, Integer> equipDistanceOfLightColumn;
+    public TableColumn<Equipment, String> equipMagTechColumn;
+    public TextField searchEquipmentTextField;
+    public Label SelectedEquipmentLable;
     //
-    ObservableList<Company> companies = FXCollections.observableArrayList();
     boolean companySettingsClicks = false;
 
     @Override
@@ -144,9 +154,9 @@ public class EmployeeSignedIn implements Initializable {
             companySettingsPane.setVisible(false);
             if (b) {
                 //true
+                refreshEquipTable();
 
             }
-
 
         });
 
@@ -183,7 +193,7 @@ public class EmployeeSignedIn implements Initializable {
         return list;
     }
 
-    private void refreshCompaniesTable(Company company) {
+  /*  private void refreshCompaniesTable(Company company) {
         CompanyNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         CompanyAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         RgistrationDateCllumn.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
@@ -192,33 +202,12 @@ public class EmployeeSignedIn implements Initializable {
             company.setName(SearchCompaniesNameTextField.getText().toLowerCase());
         CompaniesTableView.setItems(getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(company)));
 
-    }
+    }*/
 
     private void frefreshCmpnyTable() {
-        companySettingsPane.setVisible(true);
-        //Company company = new Company();
-        //if (!SearchCompaniesNameTextField.getText().equals("")) company.setName(SearchCompaniesNameTextField.getText().toLowerCase());
-        ObservableList oblist = FXCollections.observableArrayList();
-        onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company());
+        ObservableList eOblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
         int counter = 0;
-        while (true) {
-            Company company = new Company();
-            try {
-                //going through each row of results
-                if (!onhandCompaniesResultset.next()) break;
-                company.setName(onhandCompaniesResultset.getString(2));
-                company.setAddress(onhandCompaniesResultset.getString(3));
-                company.setRegisterDate(onhandCompaniesResultset.getDate(4));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            System.out.println(" company added to list! " + company.toString());
-            //adding each company to the observable list  list
-            oblist.add(counter, company);
-            counter++;
-        }
-        //ObservableList<Company> oList = oblist;
-        FilteredList<Company> flist = new FilteredList<Company>(oblist);
+        FilteredList<Company> flist = new FilteredList<Company>(eOblist);
         SearchCompaniesNameTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 flist.setPredicate((Predicate<? super Company>) (Company company1) -> {
                     if (newValue == null || newValue.isEmpty()) {
@@ -236,4 +225,65 @@ public class EmployeeSignedIn implements Initializable {
         RgistrationDateCllumn.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
 
     }
+
+    public ObservableList getObservableListOfEquipment(ResultSet resultSet) {
+        ObservableList<Equipment> list = FXCollections.observableArrayList();
+        int counter = 0;
+        list.clear();
+        while (true) {
+            Equipment equipment = new Equipment();
+            try {
+                //going through each row of results
+                if (!resultSet.next()) break;
+                equipment.setEquipmentName(resultSet.getString(2));
+                equipment.setPoleDistance(resultSet.getInt(3));
+                equipment.setMpCarrierMedium(resultSet.getString(4));
+                equipment.setuVLightDensity(resultSet.getString(5));
+                equipment.setDistanceOfLight(resultSet.getInt(6));
+                equipment.setMagTech(resultSet.getString(7));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println(" company added to list! " + equipment.toString());
+            //adding each company to the observable list  list
+            list.add(counter, equipment);
+            counter++;
+        }
+        counter = 0;
+        return list;
+    }
+
+    private void refreshEquipTable() {
+        ObservableList oblist = getObservableListOfEquipment(onHandEquipmentResultSet = DatabaseHandler.getEquipmentResultSet(new Equipment()));
+        FilteredList<Equipment> flist = new FilteredList<Equipment>(oblist);
+        searchEquipmentTextField.textProperty().addListener((observable, oldValue, newValue) ->
+                flist.setPredicate((Predicate<? super Equipment>) (Equipment equipment1) -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    } else {
+                        try {
+                            return equipment1.getDistanceOfLight() == Integer.parseInt(newValue) || equipment1.getPoleDistance() == Integer.parseInt(newValue);
+                        } catch (Exception e) {
+                            return equipment1.getEquipmentName().toLowerCase().contains(newValue.toLowerCase()) ||
+                                    equipment1.getMpCarrierMedium().toLowerCase().contains(newValue.toLowerCase()) ||
+                                    equipment1.getuVLightDensity().toLowerCase().contains(newValue.toLowerCase()) ||
+                                    equipment1.getMagTech().contains(newValue.toLowerCase());
+                        }
+
+
+                    }
+                }));
+        SortedList<Equipment> sortedList = new SortedList<>(flist);
+        sortedList.comparatorProperty().bind(EquipmentTable.comparatorProperty());
+        EquipmentTable.setItems(sortedList);
+        EquipmentTable.setItems(flist);
+        equipMPCMediumColumn.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
+        equipPDistanceColumn.setCellValueFactory(new PropertyValueFactory<>("poleDistance"));
+        equipMPCMediumColumn.setCellValueFactory(new PropertyValueFactory<>("mpCarrierMedium"));
+        equipUVLightDensityColumn.setCellValueFactory(new PropertyValueFactory<>("uVLightDensity"));
+        equipDistanceOfLightColumn.setCellValueFactory(new PropertyValueFactory<>("distanceOfLight"));
+        equipMagTechColumn.setCellValueFactory(new PropertyValueFactory<>("magTech"));
+    }
+
+
 }

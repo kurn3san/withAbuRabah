@@ -410,14 +410,13 @@ public class DatabaseHandler extends Configs {
 
     public static boolean addEquipment(Equipment equipment) {
         String query = " INSERT INTO " + Consts.EQUIPMENT_TABLE + " ( " +
-                Consts.EQUIPMENT_ID + " ,"
-                + Consts.EQUIPMENT_NAME + ", " +
+                Consts.EQUIPMENT_NAME + ", " +
                 Consts.EQUIPMENT_POLE_DISTANCE + ", " +
                 Consts.EQUIPMENT_M_P_CARRIER_MEDIUM + ", " +
                 Consts.EQUIPMENT_UV_DENSITY + ", " +
                 Consts.EQUIPMENT_DISTANCE_OF_LIGHT + ", " +
                 Consts.EQUIPMENT_M_G_TEC + ")" +
-                " VALUES( " + equipment.getId() + " ," + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
+                " VALUES( " + " ," + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
                 "," + equipment.getuVLightDensity() + "," + equipment.getDistanceOfLight() + "," + equipment.getMagTech() + ") ";
         try {
             DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
@@ -432,7 +431,12 @@ public class DatabaseHandler extends Configs {
 
     public static boolean isThereSuchEquipment(Equipment equipment) {
         ResultSet rs = null;
-        String query = " SELECT " + Consts.EQUIPMENT_ID + " FROM " + Consts.EQUIPMENT_TABLE + " WHERE " + Consts.EQUIPMENT_ID + "= '" + equipment.getId() + "' ;";
+        String query = " SELECT * FROM " + Consts.EQUIPMENT_TABLE + " WHERE " + Consts.EQUIPMENT_NAME + "= '" + equipment.getEquipmentName() + "' AND " +
+                Consts.EQUIPMENT_POLE_DISTANCE + "= '" + equipment.getPoleDistance() + "' AND " +
+                Consts.EQUIPMENT_M_P_CARRIER_MEDIUM + "= '" + equipment.getMpCarrierMedium() + "' AND " +
+                Consts.EQUIPMENT_UV_DENSITY + "= '" + equipment.getuVLightDensity() + "' AND " +
+                Consts.EQUIPMENT_DISTANCE_OF_LIGHT + "= '" + equipment.getDistanceOfLight() + "' AND " +
+                Consts.EQUIPMENT_M_G_TEC + "= '" + equipment.getMagTech() + "' ;";
         try {
             rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
         } catch (SQLException e) {
@@ -447,14 +451,13 @@ public class DatabaseHandler extends Configs {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
             System.out.println("equipment found! #" + counter);
             counter++;
         }
         return counter != 0;
     }
 
-    public ResultSet getEquipmentResultSet(Equipment equipment) {
+    public static ResultSet getEquipmentResultSet(Equipment equipment) {
         String query = " SELECT * " + " FROM " + Consts.EQUIPMENT_TABLE + ";";
         try {
             return DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
@@ -464,6 +467,8 @@ public class DatabaseHandler extends Configs {
         }
         return null;
     }
+
+
 
 
 }

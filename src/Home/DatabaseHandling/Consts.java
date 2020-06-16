@@ -27,7 +27,6 @@ public class Consts {
     public static final String COMPANY_REGISTER_DATE = " registerdate "; //addvised to change to registerDate....
     /////Equipment Table
     public static final String EQUIPMENT_TABLE = " project.equipment ";
-    public static final String EQUIPMENT_ID = " equipmentid ";
     public static final String EQUIPMENT_NAME = " equipmentName ";
     public static final String EQUIPMENT_POLE_DISTANCE = " poleDistance ";
     public static final String EQUIPMENT_M_P_CARRIER_MEDIUM = " mpCarrierMedium ";
