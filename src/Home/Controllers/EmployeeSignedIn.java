@@ -25,7 +25,7 @@ public class EmployeeSignedIn implements Initializable {
     private static ResultSet onhandCompaniesResultset = null;
     private static Company onHandCompany = new Company();
     private static Company selectedCompany = new Company();
-    private static final Equipment onHandEquipment = new Equipment();
+    private static Equipment onHandEquipment = new Equipment();
     private static final Equipment selectedEquipment = new Equipment();
     private static ResultSet onHandEquipmentResultSet = null;
 
@@ -79,6 +79,7 @@ public class EmployeeSignedIn implements Initializable {
             companySettingsPane.setVisible(b = !companySettingsPane.isVisible());
             System.out.println(companySettingsClicks);
             if (b) {
+                equipSettingsPane.setVisible(false);
                 //refreshCompaniesTable(new Company());
                 frefreshCmpnyTable();
                 if (selectedCompany.getName() != null) {
@@ -151,13 +152,27 @@ public class EmployeeSignedIn implements Initializable {
         MenuToEquipmentSettings.setOnAction(event -> {
             boolean b;
             equipSettingsPane.setVisible(b = !equipSettingsPane.isVisible());
-            companySettingsPane.setVisible(false);
+
+            System.out.println(companySettingsClicks);
             if (b) {
                 //true
+                companySettingsPane.setVisible(false);
                 refreshEquipTable();
+                if (selectedCompany.getName() != null) {
+                    selectedCompnyLabel.setText("Selected company: " + selectedCompany.toString());
+                } else {
+                    selectedCompnyLabel.setText("No company selected!");
+                }
+            } else System.out.println("closed...");
 
-            }
-
+        });
+        EquipmentTable.setRowFactory(tv -> {
+            TableRow<Equipment> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getClickCount() == 2) onHandEquipment = row.getItem();
+                SelectedEquipmentLable.setText(onHandEquipment.toString() + " will be selected, don't forget to save!");
+            });
+            return row;
         });
 
         ////end of initialise...

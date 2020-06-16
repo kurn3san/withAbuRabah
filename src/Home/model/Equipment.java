@@ -82,13 +82,14 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "Equipment: " +
-                ", equipmentName= " + equipmentName +
-                ", poleDistance= " + poleDistance +
-                ", mpCarrierMedium= " + mpCarrierMedium +
-                ", uVLightDensity= " + uVLightDensity +
-                ", distanceOfLight= " + distanceOfLight +
-                ", magTech= " + magTech + "."
+        return "Equipment: "
+                + equipmentName +
+                ". Specifications: " +
+                poleDistance +
+                ", " + mpCarrierMedium +
+                ", " + uVLightDensity +
+                ", " + distanceOfLight +
+                ", " + magTech + "."
                 ;
     }
 
