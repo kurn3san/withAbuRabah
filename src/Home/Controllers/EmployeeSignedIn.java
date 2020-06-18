@@ -215,7 +215,6 @@ public class EmployeeSignedIn implements Initializable {
         });
         selectEquipSaveNewSettingsButton.setOnAction(event -> {
             if (!onHandEquipment.equals(new Equipment())) selectedEquipment = onHandEquipment;
-            else System.out.println("thanks for nothing...");
             equipSettingsPane.setDividerPosition(0, deviderV);
             equipSettingsPane.setVisible(false);
         });
