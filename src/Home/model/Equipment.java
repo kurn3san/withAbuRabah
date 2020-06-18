@@ -7,14 +7,14 @@ public class Equipment {
     private String equipmentName = "";
     private int poleDistance = 0;
     private String mpCarrierMedium = "";
-    private String uVLightDensity = "";
+    private int uVLightDensity = 0;
     private int distanceOfLight = 0;
     private String magTech = "";
 
 
     public Equipment(String equipmentName,
                      int poleDistance, String mpCarrierMedium,
-                     String uVLightDensity, int distanceOfLight,
+                     Integer uVLightDensity, int distanceOfLight,
                      String magTech, boolean testType) {
         this.equipmentName = equipmentName;
         this.poleDistance = poleDistance;
@@ -52,11 +52,11 @@ public class Equipment {
         this.mpCarrierMedium = mpCarrierMedium;
     }
 
-    public String getuVLightDensity() {
+    public int getuVLightDensity() {
         return uVLightDensity;
     }
 
-    public void setuVLightDensity(String uVLightDensity) {
+    public void setuVLightDensity(Integer uVLightDensity) {
         this.uVLightDensity = uVLightDensity;
     }
 
@@ -76,9 +76,6 @@ public class Equipment {
         this.magTech = magTech;
     }
 
-
-    public void setId(int equipmentid) {
-    }
 
     @Override
     public String toString() {
@@ -102,7 +99,7 @@ public class Equipment {
                 getDistanceOfLight() == equipment.getDistanceOfLight() &&
                 getEquipmentName().equals(equipment.getEquipmentName()) &&
                 getMpCarrierMedium().equals(equipment.getMpCarrierMedium()) &&
-                getuVLightDensity().equals(equipment.getuVLightDensity()) &&
+                getuVLightDensity() == equipment.getuVLightDensity() &&
                 getMagTech().equals(equipment.getMagTech());
     }
 
@@ -110,4 +107,5 @@ public class Equipment {
     public int hashCode() {
         return Objects.hash(getEquipmentName(), getPoleDistance(), getMpCarrierMedium(), getuVLightDensity(), getDistanceOfLight(), getMagTech());
     }
+
 }

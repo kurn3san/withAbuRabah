@@ -3,10 +3,13 @@ package Home.Controllers;
 import Home.DatabaseHandling.DatabaseHandler;
 import Home.model.Company;
 import Home.model.Equipment;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,9 +29,8 @@ public class EmployeeSignedIn implements Initializable {
     private static Company onHandCompany = new Company();
     private static Company selectedCompany = new Company();
     private static Equipment onHandEquipment = new Equipment();
-    private static final Equipment selectedEquipment = new Equipment();
+    private static Equipment selectedEquipment = new Equipment();
     private static ResultSet onHandEquipmentResultSet = null;
-
     public AnchorPane createReportAnchorPane;
     public Label currentEmployeeSessionLabel;
 
@@ -58,26 +60,44 @@ public class EmployeeSignedIn implements Initializable {
     public TableColumn<Equipment, String> equipMPCMediumColumn;
     public TableColumn<Equipment, Integer> equipPDistanceColumn;
     public TableColumn<Equipment, String> equipNameColumn;
-    public TableColumn<Equipment, String> equipUVLightDensityColumn;
+    public TableColumn<Equipment, Integer> equipUVLightDensityColumn;
     public TableColumn<Equipment, Integer> equipDistanceOfLightColumn;
     public TableColumn<Equipment, String> equipMagTechColumn;
     public TextField searchEquipmentTextField;
     public Label SelectedEquipmentLable;
-    //
+
+    //add new Equipment
+    public Button selectEquipCancelButton;
+    public Button selectEquipSaveNewSettingsButton;
+    public TextField addEquipmentNameTxtField;
+    public TextField addequipPoleDistanceTxtFeild;
+    public TextField addequipMpCarMediumTxtField;
+    public TextField addequipDistnceTxtField;
+    public TextField addequipUvLghtIntTxtField;
+    public TextField addequipMagTechTxtField;
+    public Button addEquipSaveButton;
+    public Button addequipClearAllButton;
+    public Label addequipLghtIntErrorLabel;
+    public Label addequipEquipNameErrorLabel;
+    public Label addequipPoleDistanceErrirLabel;
+    public Label addequipCarrierMediumErrorLabel;
+    public Label addequipDistanceErrorLabel;
+    public Label addequipSavingResultLabel;
+    @FXML
+    private Button addEquipCancelButton;
     boolean companySettingsClicks = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        double deviderV = 0.8704;
 
         companySettingsPane.setVisible(false);
         currentEmployeeSessionLabel.setText("Current session employee: " + WelcomePageController.signedInEmployee.toString());
-
 
         MenuToCompanySettings.setOnAction(event -> {
             //boolean b = companySettingsPane.isVisible())? false:true
             boolean b;
             companySettingsPane.setVisible(b = !companySettingsPane.isVisible());
-            System.out.println(companySettingsClicks);
             if (b) {
                 equipSettingsPane.setVisible(false);
                 //refreshCompaniesTable(new Company());
@@ -89,11 +109,9 @@ public class EmployeeSignedIn implements Initializable {
                 }
             } else System.out.println("closed...");
         });
-
         addCompanyClearAllButton.setOnAction(event -> {
             addCompanyClearAll();
         });
-
         addCompanySaveButton.setOnAction(event -> {
             if (!addCompanyNameTextField.equals("") && !addCompanyCityTextField.equals("")) {
                 Company company = new Company(addCompanyNameTextField.getText().toLowerCase(),
@@ -110,7 +128,6 @@ public class EmployeeSignedIn implements Initializable {
                 } else System.out.println("company already exists with the same name and same address");
             } else System.out.println("not enough infos");
         });
-
         CompaniesTableView.setRowFactory(tv -> {
             TableRow<Company> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -119,7 +136,6 @@ public class EmployeeSignedIn implements Initializable {
             });
             return row;
         });
-
         companySettingsCancelButton.setOnAction(event -> {
             addCompanyClearAll();
             companySettingsPane.setVisible(false);
@@ -132,7 +148,6 @@ public class EmployeeSignedIn implements Initializable {
             //refreshCompaniesTable(company);
             frefreshCmpnyTable();
         });
-
         companiesSaveNewSettingsButton.setOnAction(event -> {
             if (onHandCompany != null) selectedCompany = onHandCompany;
             else System.out.println("no selected companies");
@@ -140,43 +155,73 @@ public class EmployeeSignedIn implements Initializable {
             SearchCompaniesNameTextField.clear();
             companySettingsPane.setVisible(!companySettingsPane.isVisible());
         });
-
         companySettingsCancelButton.setOnAction(event -> {
             addCompanyClearAll();
             SearchCompaniesNameTextField.clear();
             companySettingsPane.setVisible(false);
             companySettingsClicks = !companySettingsClicks;
         });
-
         ///////equipment menu stuff
+        searchEquipmentTextField.setOnMouseClicked(event -> {
+            equipSettingsPane.setDividerPosition(0, deviderV);
+        });
         MenuToEquipmentSettings.setOnAction(event -> {
             boolean b;
             equipSettingsPane.setVisible(b = !equipSettingsPane.isVisible());
-
             System.out.println(companySettingsClicks);
             if (b) {
                 //true
                 companySettingsPane.setVisible(false);
+                equipSettingsPane.setDividerPosition(0, deviderV);
                 refreshEquipTable();
+                addEquipClearAll();
                 if (selectedCompany.getName() != null) {
                     selectedCompnyLabel.setText("Selected company: " + selectedCompany.toString());
                 } else {
                     selectedCompnyLabel.setText("No company selected!");
                 }
             } else System.out.println("closed...");
-
         });
+        addequipDistnceTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                    addequipDistnceTxtField.setText(oldValue);
+                }
+            }
+        });
+
+
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getClickCount() == 2) onHandEquipment = row.getItem();
                 SelectedEquipmentLable.setText(onHandEquipment.toString() + " will be selected, don't forget to save!");
             });
+            equipSettingsPane.setDividerPosition(0, deviderV);
             return row;
         });
+        selectEquipCancelButton.setOnAction(event -> {
+            addEquipClearAll();
+            equipSettingsPane.setVisible(false);
+        });
+        addequipClearAllButton.setOnAction(event -> {
+            addEquipClearAll();
+
+        });
+        addEquipCancelButton.setOnAction(event -> {
+            equipSettingsPane.setDividerPosition(0, deviderV);
+            addEquipClearAll();
+        });
+        selectEquipSaveNewSettingsButton.setOnAction(event -> {
+            if (!onHandEquipment.equals(new Equipment())) selectedEquipment = onHandEquipment;
+            else System.out.println("thanks for nothing...");
+            equipSettingsPane.setDividerPosition(0, deviderV);
+            equipSettingsPane.setVisible(false);
+        });
+
 
         ////end of initialise...
-
     }
 
     private void addCompanyClearAll() {
@@ -204,7 +249,6 @@ public class EmployeeSignedIn implements Initializable {
             list.add(counter, company);
             counter++;
         }
-        counter = 0;
         return list;
     }
 
@@ -221,7 +265,6 @@ public class EmployeeSignedIn implements Initializable {
 
     private void frefreshCmpnyTable() {
         ObservableList eOblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
-        int counter = 0;
         FilteredList<Company> flist = new FilteredList<Company>(eOblist);
         SearchCompaniesNameTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 flist.setPredicate((Predicate<? super Company>) (Company company1) -> {
@@ -253,7 +296,7 @@ public class EmployeeSignedIn implements Initializable {
                 equipment.setEquipmentName(resultSet.getString(2));
                 equipment.setPoleDistance(resultSet.getInt(3));
                 equipment.setMpCarrierMedium(resultSet.getString(4));
-                equipment.setuVLightDensity(resultSet.getString(5));
+                equipment.setuVLightDensity(resultSet.getInt(5));
                 equipment.setDistanceOfLight(resultSet.getInt(6));
                 equipment.setMagTech(resultSet.getString(7));
             } catch (SQLException e) {
@@ -264,35 +307,40 @@ public class EmployeeSignedIn implements Initializable {
             list.add(counter, equipment);
             counter++;
         }
-        counter = 0;
         return list;
     }
 
     private void refreshEquipTable() {
-        ObservableList oblist = getObservableListOfEquipment(onHandEquipmentResultSet = DatabaseHandler.getEquipmentResultSet(new Equipment()));
-        FilteredList<Equipment> flist = new FilteredList<Equipment>(oblist);
+        FilteredList<Equipment> flist = new FilteredList<Equipment>(getObservableListOfEquipment(onHandEquipmentResultSet = DatabaseHandler.getEquipmentResultSet(new Equipment())));
         searchEquipmentTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 flist.setPredicate((Predicate<? super Equipment>) (Equipment equipment1) -> {
                     if (newValue == null || newValue.isEmpty()) {
                         return true;
                     } else {
+                        boolean b = false;
                         try {
-                            return equipment1.getDistanceOfLight() == Integer.parseInt(newValue) || equipment1.getPoleDistance() == Integer.parseInt(newValue);
+                            b = Integer.parseInt(newValue) == equipment1.getPoleDistance();
                         } catch (Exception e) {
-                            return equipment1.getEquipmentName().toLowerCase().contains(newValue.toLowerCase()) ||
-                                    equipment1.getMpCarrierMedium().toLowerCase().contains(newValue.toLowerCase()) ||
-                                    equipment1.getuVLightDensity().toLowerCase().contains(newValue.toLowerCase()) ||
-                                    equipment1.getMagTech().contains(newValue.toLowerCase());
                         }
-
-
+                        try {
+                            b = Integer.parseInt(newValue) == equipment1.getDistanceOfLight();
+                        } catch (Exception e) {
+                        }
+                        try {
+                            b = Integer.parseInt(newValue) == equipment1.getuVLightDensity();
+                        } catch (Exception e) {
+                        }
+                        return equipment1.getEquipmentName().toLowerCase().contains(newValue.toLowerCase()) || equipment1.getEquipmentName().equals(newValue.toLowerCase()) ||
+                                equipment1.getMpCarrierMedium().toLowerCase().contains(newValue.toLowerCase()) || equipment1.getMpCarrierMedium().toLowerCase().equals(newValue.toLowerCase()) ||
+                                equipment1.getMagTech().contains(newValue.toLowerCase()) || equipment1.getMagTech().equals(newValue.toLowerCase())
+                                || b;
                     }
                 }));
         SortedList<Equipment> sortedList = new SortedList<>(flist);
         sortedList.comparatorProperty().bind(EquipmentTable.comparatorProperty());
         EquipmentTable.setItems(sortedList);
         EquipmentTable.setItems(flist);
-        equipMPCMediumColumn.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
+        equipNameColumn.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
         equipPDistanceColumn.setCellValueFactory(new PropertyValueFactory<>("poleDistance"));
         equipMPCMediumColumn.setCellValueFactory(new PropertyValueFactory<>("mpCarrierMedium"));
         equipUVLightDensityColumn.setCellValueFactory(new PropertyValueFactory<>("uVLightDensity"));
@@ -300,5 +348,21 @@ public class EmployeeSignedIn implements Initializable {
         equipMagTechColumn.setCellValueFactory(new PropertyValueFactory<>("magTech"));
     }
 
+    private void addEquipClearAll() {
+        addequipDistnceTxtField.clear();
+        addequipPoleDistanceTxtFeild.clear();
+        addEquipmentNameTxtField.clear();
+        addequipPoleDistanceTxtFeild.clear();
+        addequipMpCarMediumTxtField.clear();
+        addequipDistnceTxtField.clear();
+        addequipUvLghtIntTxtField.clear();
+        addequipMagTechTxtField.clear();
+        addequipLghtIntErrorLabel.setVisible(false);
+        addequipEquipNameErrorLabel.setVisible(false);
+        addequipPoleDistanceErrirLabel.setVisible(false);
+        addequipCarrierMediumErrorLabel.setVisible(false);
+        addequipDistanceErrorLabel.setVisible(false);
+        addequipSavingResultLabel.setVisible(false);
+    }
 
 }
