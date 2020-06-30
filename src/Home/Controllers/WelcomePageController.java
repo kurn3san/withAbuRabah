@@ -92,19 +92,13 @@ public class WelcomePageController implements Initializable{
         SignInChoiceBox.setValue("Admin");
         try {
             DatabaseHandler.connect();
-            //dbh.connect();
-            //connection = dbh.getDbConnection();
             System.out.println("connected to database!!");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.out.println("connection failed!");
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("connection failed!");
         }
         System.out.println("First View initialized!");
         //Main Screen
-
         //changes to Sign in menu
         SignUpGoToLogInSVGButton.setOnMouseClicked((event) -> {
             System.out.println("click!33");
@@ -122,6 +116,7 @@ public class WelcomePageController implements Initializable{
             SignInToSignUpAnchorPane.setVisible(false);
             ErrorEmptyFieldsLabel.setVisible(false);
         });
+        //signing in
         SignInButton.setOnAction((event) -> {
                     String signInUsername = SignInUsernameTextField.getText().trim().toLowerCase();
                     String SignInPassword = SignInPasswordField.getText().trim().toLowerCase();

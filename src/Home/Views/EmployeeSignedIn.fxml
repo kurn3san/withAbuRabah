@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="640.4" prefWidth="1391.4"
@@ -11,13 +10,13 @@
         <AnchorPane id="EmployeeSignedInMenuAnchorPane" layoutX="35.0" layoutY="39.0" prefHeight="572.0"
                     prefWidth="761.0" style="-fx-background-color: #FAFAFA; -fx-border-color: #CFD8DC;">
             <children>
-                <Button id="MenuToCompanySettings" fx:id="MenuToCompanySettings" layoutX="211.0" layoutY="43.0"
-                        mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                <Button id="MenuToCompanySettings" fx:id="MenuToCompanySettings" layoutX="217.0" layoutY="43.0"
+                        mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="company settings"/>
                 <Label id="CompanySettingsStatusLabel" fx:id="CompanySettingsStatusLabel" layoutX="25.0" layoutY="43.0"
                        prefHeight="35.0" prefWidth="174.0"/>
-                <Button id="MenuToEquipmentSettings" fx:id="MenuToEquipmentSettings" layoutX="211.0" layoutY="78.0"
-                        mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0"
+                <Button id="MenuToEquipmentSettings" fx:id="MenuToEquipmentSettings" layoutX="217.0" layoutY="78.0"
+                        mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
             </children>
         </AnchorPane>
@@ -26,7 +25,7 @@
             <items>
                 <Pane prefWidth="742.0">
                     <children>
-                        <TableView fx:id="EquipmentTable" layoutX="14.0" layoutY="77.0" prefHeight="203.0"
+                        <TableView fx:id="EquipmentTable" layoutX="14.0" layoutY="77.0" prefHeight="186.0"
                                    prefWidth="842.0">
                             <columns>
                                 <TableColumn id="equipPDistanceColumn" fx:id="equipPDistanceColumn"
@@ -48,18 +47,53 @@
                         <Label layoutX="312.0" layoutY="47.0" text="Look for a Keyword: "/>
                         <Label id="SelectedEquipmentLable" fx:id="SelectedEquipmentLable" layoutX="14.0" layoutY="455.0"
                                prefHeight="18.0" prefWidth="822.0"/>
-                        <Button id="equipCancelButton" fx:id="selectEquipCancelButton" layoutX="14.0" layoutY="423.0"
+                        <Button id="equipCancelButton" fx:id="selectEquipCancelButton" layoutX="16.0" layoutY="19.0"
                                 mnemonicParsing="false" text="Cancel"/>
-                        <Button id="equipSaveNewSettingsButton" fx:id="selectEquipSaveNewSettingsButton" layoutX="106.0"
-                                layoutY="423.0" mnemonicParsing="false" text="Save new settings"/>
+                        <Button id="equipSaveNewSettingsButton" fx:id="selectEquipSaveNewSettingsButton" layoutX="117.0"
+                                layoutY="19.0" mnemonicParsing="false" text="Save new settings"/>
                         <Label layoutX="14.0" layoutY="55.0" text="Select Equipment"/>
-                        <Label layoutX="312.0" layoutY="290.0" text="Selected Equipment information"/>
+                        <Label layoutX="17.0" layoutY="275.0" text="Selected Equipment information"/>
                         <Label layoutX="383.0" layoutY="14.0" text="Equipment Menu"/>
-                        <ComboBox id="eqiupPDistanceComBox" fx:id="eqiupPDistanceComBox" layoutX="117.0" layoutY="324.0"
-                                  prefHeight="25.0" prefWidth="68.0"/>
-                        <Label layoutX="26.0" layoutY="324.0" prefHeight="25.0" prefWidth="91.0" text="Pole distance"/>
-                        <Label layoutX="26.0" layoutY="373.0" text="Name"/>
-                        <ComboBox id="equipNameComBox" layoutX="93.0" layoutY="369.0" prefWidth="150.0"/>
+                        <Label fx:id="equipPDistanceLabel" layoutX="28.0" layoutY="299.0" prefHeight="25.0"
+                               prefWidth="91.0" text="Pole distance"/>
+                        <Label fx:id="equipNameLabel" layoutX="28.0" layoutY="337.0" text="Name"/>
+                        <Label fx:id="equipMPCarMediumLabel" layoutX="306.0" layoutY="341.0" text="Mp Carrier Medium"/>
+                        <Label layoutX="227.0" layoutY="303.0" prefHeight="17.0" prefWidth="21.0" text="mm"/>
+                        <Label fx:id="equipUVLghtDenLabel" layoutX="306.0" layoutY="303.0" text="UV Light Density"/>
+                        <Label layoutX="610.0" layoutY="303.0" text="Distance of light"/>
+                        <Label layoutX="546.0" layoutY="303.0" text="W/m2"/>
+                        <TextField fx:id="equipPDistanceTxtField" layoutX="126.0" layoutY="299.0" prefHeight="25.0"
+                                   prefWidth="86.0"/>
+                        <TextField fx:id="equipUVlghtDenTxtField" layoutX="429.0" layoutY="299.0" prefHeight="25.0"
+                                   prefWidth="110.0"/>
+                        <TextField fx:id="equipNameTxtField" layoutX="125.0" layoutY="337.0" prefHeight="25.0"
+                                   prefWidth="126.0"/>
+                        <TextField fx:id="equipMpCarMedTxtField" layoutX="430.0" layoutY="337.0"/>
+                        <TextField fx:id="equipDisOfLightTxtField" layoutX="724.0" layoutY="299.0" prefHeight="25.0"
+                                   prefWidth="93.0"/>
+                        <Label layoutX="610.0" layoutY="341.0" prefHeight="17.0" prefWidth="92.0" text="Mag. Tech."/>
+                        <TextField fx:id="equipMagTechTxtField" layoutX="724.0" layoutY="337.0" prefHeight="25.0"
+                                   prefWidth="126.0"/>
+                        <Label layoutX="820.0" layoutY="303.0" prefHeight="17.0" prefWidth="32.0" text="mm"/>
+                        <Label fx:id="equipExaminAreaLabel" layoutX="28.0" layoutY="373.0" text="Examination Area"/>
+                        <TextField fx:id="equipExaminAreaTxtField" layoutX="126.0" layoutY="369.0" prefHeight="25.0"
+                                   prefWidth="126.0"/>
+                        <Label fx:id="SequipurfaceTempLabel" layoutX="304.0" layoutY="373.0" prefHeight="17.0"
+                               prefWidth="93.0" text="Surface Temp"/>
+                        <Label fx:id="equipGausFelStrenLabel" layoutX="610.0" layoutY="374.0"
+                               text="Gauss Field Strenght"/>
+                        <TextField fx:id="equipTempTxtField" layoutX="429.0" layoutY="370.0" prefHeight="25.0"
+                                   prefWidth="88.0"/>
+                        <Label layoutX="822.0" layoutY="373.0" text="kA/m"/>
+                        <Label layoutX="539.0" layoutY="374.0" text="Celcius"/>
+                        <TextField fx:id="equipGausFldStrnthTxtField" layoutX="724.0" layoutY="369.0" prefHeight="25.0"
+                                   prefWidth="93.0"/>
+                        <Label fx:id="equipCurntTypLabel" layoutX="30.0" layoutY="407.0" text="Current Type"/>
+                        <ChoiceBox fx:id="equipCurntTypCBox" layoutX="129.0" layoutY="403.0" prefHeight="25.0"
+                                   prefWidth="68.0"/>
+                        <Label fx:id="equipLuxMtrLabel" layoutX="304.0" layoutY="407.0" text="Luxmeter"/>
+                        <TextField fx:id="equipLuxMtrTxtField" layoutX="430.0" layoutY="403.0" prefHeight="25.0"
+                                   prefWidth="88.0"/>
                     </children>
                 </Pane>
                 <Pane>

@@ -31,10 +31,9 @@ public class EmployeeSignedIn implements Initializable {
     private static Equipment onHandEquipment = new Equipment();
     private static Equipment selectedEquipment = new Equipment();
     private static ResultSet onHandEquipmentResultSet = null;
+    //////////////////////////
     public AnchorPane createReportAnchorPane;
     public Label currentEmployeeSessionLabel;
-
-
     public Button MenuToCompanySettings;
     public Button addCompanySaveButton;
     public Button companySettingsCancelButton;
@@ -52,10 +51,8 @@ public class EmployeeSignedIn implements Initializable {
     public Label selectedCompnyLabel;
     public Button MenuToEquipmentSettings;
     public Label CompanySettingsStatusLabel;
-
-
     public SplitPane equipSettingsPane;
-
+    /////////////
     public TableView<Equipment> EquipmentTable;
     public TableColumn<Equipment, String> equipMPCMediumColumn;
     public TableColumn<Equipment, Integer> equipPDistanceColumn;
@@ -65,7 +62,6 @@ public class EmployeeSignedIn implements Initializable {
     public TableColumn<Equipment, String> equipMagTechColumn;
     public TextField searchEquipmentTextField;
     public Label SelectedEquipmentLable;
-
     //add new Equipment
     public Button selectEquipCancelButton;
     public Button selectEquipSaveNewSettingsButton;
@@ -83,6 +79,21 @@ public class EmployeeSignedIn implements Initializable {
     public Label addequipCarrierMediumErrorLabel;
     public Label addequipDistanceErrorLabel;
     public Label addequipSavingResultLabel;
+    public Button equipDividerButton;
+    public TextField equipPDistanceTxtField;
+    public TextField equipUVlghtDenTxtField;
+    public TextField equipNameTxtField;
+    public TextField equipMpCarMedTxtField;
+    public TextField equipDisOfLightTxtField;
+    public TextField equipMagTechTxtField;
+    public Label equipExaminAreaLabel;
+    public TextField equipExaminAreaTxtField;
+    public TextField equipTempTxtField;
+    public TextField equipGausFldStrnthTxtField;
+    public ChoiceBox<String> equipCurntTypCBox;
+    public TextField equipLuxMtrTxtField;
+    public Label SequipurfaceTempLabel;
+    public Label equipGausFelStrenLabel;
     @FXML
     private Button addEquipCancelButton;
     boolean companySettingsClicks = false;
@@ -90,10 +101,8 @@ public class EmployeeSignedIn implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double deviderV = 0.8704;
-
         companySettingsPane.setVisible(false);
         currentEmployeeSessionLabel.setText("Current session employee: " + WelcomePageController.signedInEmployee.toString());
-
         MenuToCompanySettings.setOnAction(event -> {
             //boolean b = companySettingsPane.isVisible())? false:true
             boolean b;
@@ -190,8 +199,6 @@ public class EmployeeSignedIn implements Initializable {
                 }
             }
         });
-
-
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -207,7 +214,6 @@ public class EmployeeSignedIn implements Initializable {
         });
         addequipClearAllButton.setOnAction(event -> {
             addEquipClearAll();
-
         });
         addEquipCancelButton.setOnAction(event -> {
             equipSettingsPane.setDividerPosition(0, deviderV);
@@ -218,16 +224,24 @@ public class EmployeeSignedIn implements Initializable {
             equipSettingsPane.setDividerPosition(0, deviderV);
             equipSettingsPane.setVisible(false);
         });
-
-
+        //Standard info
+        equipPDistanceTxtField.setText("100");
+        equipUVlghtDenTxtField.setText("");
+        equipNameTxtField.setText("");
+        equipMpCarMedTxtField.setText("");
+        equipDisOfLightTxtField.setText("");
+        equipMagTechTxtField.setText("f");
+        equipExaminAreaTxtField.setText("KAYNAK+HAZ");
+        equipTempTxtField.setText("");
+        equipGausFldStrnthTxtField.setText("3.2");
+        equipCurntTypCBox.setItems(FXCollections.observableArrayList("AC", "DC"));
+        equipLuxMtrTxtField.setText("1200");
         ////end of initialise...
     }
-
     private void addCompanyClearAll() {
         addCompanyCityTextField.clear();
         addCompanyNameTextField.clear();
     }
-
     public ObservableList getObservableListOfCompanies(@NotNull ResultSet rsRow) {
         ObservableList<Company> list = FXCollections.observableArrayList();
         int counter = 0;
@@ -250,7 +264,6 @@ public class EmployeeSignedIn implements Initializable {
         }
         return list;
     }
-
   /*  private void refreshCompaniesTable(Company company) {
         CompanyNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         CompanyAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -259,9 +272,7 @@ public class EmployeeSignedIn implements Initializable {
         if (!SearchCompaniesNameTextField.getText().equals(""))
             company.setName(SearchCompaniesNameTextField.getText().toLowerCase());
         CompaniesTableView.setItems(getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(company)));
-
     }*/
-
     private void frefreshCmpnyTable() {
         ObservableList eOblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
         FilteredList<Company> flist = new FilteredList<Company>(eOblist);
@@ -276,13 +287,10 @@ public class EmployeeSignedIn implements Initializable {
         sortedList.comparatorProperty().bind(CompaniesTableView.comparatorProperty());
         CompaniesTableView.setItems(sortedList);
         CompaniesTableView.setItems(flist);
-
         CompanyNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         CompanyAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         RgistrationDateCllumn.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
-
     }
-
     public ObservableList getObservableListOfEquipment(ResultSet resultSet) {
         ObservableList<Equipment> list = FXCollections.observableArrayList();
         int counter = 0;
@@ -308,7 +316,6 @@ public class EmployeeSignedIn implements Initializable {
         }
         return list;
     }
-
     private void refreshEquipTable() {
         FilteredList<Equipment> flist = new FilteredList<Equipment>(getObservableListOfEquipment(onHandEquipmentResultSet = DatabaseHandler.getEquipmentResultSet(new Equipment())));
         searchEquipmentTextField.textProperty().addListener((observable, oldValue, newValue) ->
@@ -346,7 +353,6 @@ public class EmployeeSignedIn implements Initializable {
         equipDistanceOfLightColumn.setCellValueFactory(new PropertyValueFactory<>("distanceOfLight"));
         equipMagTechColumn.setCellValueFactory(new PropertyValueFactory<>("magTech"));
     }
-
     private void addEquipClearAll() {
         addequipDistnceTxtField.clear();
         addequipPoleDistanceTxtFeild.clear();
@@ -363,5 +369,4 @@ public class EmployeeSignedIn implements Initializable {
         addequipDistanceErrorLabel.setVisible(false);
         addequipSavingResultLabel.setVisible(false);
     }
-
 }
