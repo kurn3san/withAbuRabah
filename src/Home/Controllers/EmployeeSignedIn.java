@@ -195,11 +195,26 @@ public class EmployeeSignedIn implements Initializable {
 
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("((\\d{0,2}))([\\.]\\d{0,4})?|(100)")) {
+                if (!newValue.matches("((\\d))([\\.]\\d{0,4})?")) {
                     addequipDistnceTxtField.setText(oldValue);
                 }
             }
         });
+        addequipUvLghtIntTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d)")) addequipUvLghtIntTxtField.setText(oldValue);
+            }
+        });
+
+        equipLuxMtrTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) equipLuxMtrTxtField.setText(oldValue);
+            }
+        });
+
+
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -266,15 +281,7 @@ public class EmployeeSignedIn implements Initializable {
         }
         return list;
     }
-  /*  private void refreshCompaniesTable(Company company) {
-        CompanyNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        CompanyAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        RgistrationDateCllumn.setCellValueFactory(new PropertyValueFactory<>("registerDate"));
-        companySettingsPane.setVisible(true);
-        if (!SearchCompaniesNameTextField.getText().equals(""))
-            company.setName(SearchCompaniesNameTextField.getText().toLowerCase());
-        CompaniesTableView.setItems(getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(company)));
-    }*/
+
     private void frefreshCmpnyTable() {
         ObservableList eOblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
         FilteredList<Company> flist = new FilteredList<Company>(eOblist);
@@ -371,4 +378,12 @@ public class EmployeeSignedIn implements Initializable {
         addequipDistanceErrorLabel.setVisible(false);
         addequipSavingResultLabel.setVisible(false);
     }
+
+    /*
+    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("((\\d{0,2}))([\\.]\\d{0,4})?|(100)")) {
+                    addequipDistnceTxtField.setText(oldValue);
+                }
+            }
+    */
 }
