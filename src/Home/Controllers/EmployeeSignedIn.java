@@ -194,7 +194,7 @@ public class EmployeeSignedIn implements Initializable {
         addequipDistnceTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d{0,3}([\\.]\\d{0,4})?")) {
                     addequipDistnceTxtField.setText(oldValue);
                 }
             }
@@ -236,6 +236,7 @@ public class EmployeeSignedIn implements Initializable {
         equipGausFldStrnthTxtField.setText("3.2");
         equipCurntTypCBox.setItems(FXCollections.observableArrayList("AC", "DC"));
         equipLuxMtrTxtField.setText("1200");
+
         ////end of initialise...
     }
     private void addCompanyClearAll() {

@@ -240,7 +240,6 @@ public class WelcomePageController implements Initializable{
     }
 
     private void createUser() {
-
         System.out.println("CREATING USER...");
         DatabaseHandler databaseHandler = new DatabaseHandler();
         String firstName = SignUpFirstnameTextField.getText().toLowerCase();
@@ -254,7 +253,6 @@ public class WelcomePageController implements Initializable{
         } catch (Exception e){
             e.printStackTrace();
         }
-
         Admin admin = new Admin(firstName, lastName, userName, Password, level);
         System.out.println(firstName + lastName+ userName+Password+ level );
         if (DatabaseHandler.getDbConnection() != null) DatabaseHandler.signUpAdmin(admin);
@@ -263,4 +261,3 @@ public class WelcomePageController implements Initializable{
     }
 
 }
-
