@@ -192,9 +192,10 @@ public class EmployeeSignedIn implements Initializable {
             } else System.out.println("closed...");
         });
         addequipDistnceTxtField.textProperty().addListener(new ChangeListener<String>() {
+
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d{0,3}([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("((\\d{0,2}))([\\.]\\d{0,4})?|(100)")) {
                     addequipDistnceTxtField.setText(oldValue);
                 }
             }

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="640.4" prefWidth="1391.4"
-            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
         <Label id="CurrentEmployeeSessionLabel" fx:id="currentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
@@ -21,7 +21,7 @@
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
             </children>
         </AnchorPane>
-        <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8704372242278379"
+        <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8714400320898515"
                    layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 ">
             <items>
                 <Pane prefHeight="474.0" prefWidth="692.0">
