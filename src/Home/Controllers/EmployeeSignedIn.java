@@ -276,7 +276,7 @@ public class EmployeeSignedIn implements Initializable {
             TableRow<Equipment> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty() && event.getClickCount() == 2) onHandEquipment = row.getItem();
-                SelectedEquipmentLable.setText(onHandEquipment.toString() + " will be selected, don't forget to save!");
+                SelectedEquipmentLable.setText("Don't forget to save!");
             });
             equipSettingsPane.setDividerPosition(0, deviderV);
             return row;
