@@ -32,6 +32,7 @@ public class EmployeeSignedIn implements Initializable {
     private static Equipment onHandEquipment = new Equipment();
     private static Equipment selectedEquipment = new Equipment();
     private static ResultSet onHandEquipmentResultSet = null;
+    private static final ObservableList onHandEquipmentsList = FXCollections.observableArrayList();
     public TableColumn<Equipment, Double> equipUVLightIntensityColumn;
     //////////////////////////
     public AnchorPane createReportAnchorPane;
@@ -201,7 +202,6 @@ public class EmployeeSignedIn implements Initializable {
         MenuToEquipmentSettings.setOnAction(event -> {
             boolean b;
             equipSettingsPane.setVisible(b = !equipSettingsPane.isVisible());
-            System.out.println(companySettingsClicks);
             if (b) {
                 //true
                 companySettingsPane.setVisible(false);
@@ -226,6 +226,10 @@ public class EmployeeSignedIn implements Initializable {
                 equipment.setMagTech(addequipMagTechTxtField.getText());
                 equipment.setPoleDistance(Integer.parseInt(addequipPoleDistanceTxtFeild.getText()));
                 equipment.setEquipmentName(addEquipmentNameTxtField.getText());
+                //
+                if (!isThereSuchEquipment(equipment)) {
+                    if (DatabaseHandler.addEquipment(equipment)) addEquipClearAll();
+                }
             }
         });
 
@@ -339,7 +343,6 @@ public class EmployeeSignedIn implements Initializable {
             }
         });
 
-
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -401,9 +404,32 @@ public class EmployeeSignedIn implements Initializable {
         return list;
     }
 
+    private boolean isThereSuchEquipment(Equipment equipment) {
+        ResultSet RS = onHandEquipmentResultSet;
+        while (true) {
+            Equipment equipment1 = new Equipment();
+            try {
+                //going through each row of results
+                if (!RS.next()) break;
+                equipment1.setEquipmentName(RS.getString(2));
+                equipment1.setPoleDistance(RS.getInt(3));
+                equipment1.setMpCarrierMedium(RS.getString(4));
+                equipment1.setDoubleuVLightIntensity(RS.getDouble(5));
+                equipment1.setDistanceOfLight(RS.getInt(6));
+                equipment1.setMagTech(RS.getString(7));
+                if (equipment.equals(equipment1)) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
     private void frefreshCmpnyTable() {
-        ObservableList eOblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
-        FilteredList<Company> flist = new FilteredList<Company>(eOblist);
+        ObservableList<Company> Oblist = getObservableListOfCompanies(onhandCompaniesResultset = DatabaseHandler.getCompanies(new Company()));
+        FilteredList<Company> flist = new FilteredList<Company>(Oblist);
         SearchCompaniesNameTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 flist.setPredicate((Predicate<? super Company>) (Company company1) -> {
                     if (newValue == null || newValue.isEmpty()) {
@@ -433,7 +459,7 @@ public class EmployeeSignedIn implements Initializable {
                 equipment.setMpCarrierMedium(resultSet.getString(4));
                 equipment.setDoubleuVLightIntensity(resultSet.getDouble(5));
                 equipment.setuVLightIntensity(resultSet.getDouble(5));
-                System.out.println("showing equipment.setuVLightIntensity(resultSet.getDouble(5)):::" + equipment.getuVLightIntensity());
+                System.out.println("showing equipment.setuVLightIntensity(resultSet.getDouble(5)):" + equipment.getuVLightIntensity());
                 System.out.println(equipment.getuVLightIntensity());
                 equipment.setDistanceOfLight(resultSet.getInt(6));
                 equipment.setMagTech(resultSet.getString(7));
@@ -448,6 +474,7 @@ public class EmployeeSignedIn implements Initializable {
         return list;
     }
     private void refreshEquipTable() {
+
         FilteredList<Equipment> flist = new FilteredList<Equipment>(getObservableListOfEquipment(onHandEquipmentResultSet = DatabaseHandler.getEquipmentResultSet(new Equipment())));
         searchEquipmentTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 flist.setPredicate((Predicate<? super Equipment>) (Equipment equipment1) -> {

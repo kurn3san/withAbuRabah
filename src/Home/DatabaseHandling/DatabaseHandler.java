@@ -416,7 +416,7 @@ public class DatabaseHandler extends Configs {
                 Consts.EQUIPMENT_UV_DENSITY + ", " +
                 Consts.EQUIPMENT_DISTANCE_OF_LIGHT + ", " +
                 Consts.EQUIPMENT_M_G_TEC + ")" +
-                " VALUES( " + " ," + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
+                " VALUES( " + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
                 "," + equipment.getDoubleuVLightIntensity() + "," + equipment.getDistanceOfLight() + "," + equipment.getMagTech() + ") ";
         try {
             DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
