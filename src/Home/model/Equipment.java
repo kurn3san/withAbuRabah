@@ -18,7 +18,7 @@ public class Equipment {
     public Equipment(String equipmentName,
                      int poleDistance, String mpCarrierMedium,
                      double uVLightIntensity, int distanceOfLight,
-                     String magTech, boolean testType) {
+                     String magTech) {
         this.equipmentName = equipmentName;
         this.poleDistance = poleDistance;
         this.mpCarrierMedium = mpCarrierMedium;

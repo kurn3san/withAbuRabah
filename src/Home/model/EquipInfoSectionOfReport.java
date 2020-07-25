@@ -2,8 +2,7 @@ package Home.model;
 
 import java.util.Objects;
 
-public class EquipInfoSectionOfReport {
-    Equipment equipment;
+public class EquipInfoSectionOfReport extends Equipment {
     private String examinArea = "";
     private String currentType = "AC";
     private int Luxumeter = 1200;
@@ -16,17 +15,16 @@ public class EquipInfoSectionOfReport {
     private String idOfLightEquip = "";
     private String liftTestDateAndNumber = "";
 
-    public EquipInfoSectionOfReport(Equipment equipment,
-                                    String examinArea,
-                                    String currentType,
-                                    int luxumeter,
-                                    String testMedium,
-                                    String demag,
-                                    String heatTreat,
-                                    int temp, double gaussFieldStrnth,
-                                    String surfaceCon, String idOfLightEquip,
-                                    String liftTestDateAndNumber) {
-        this.equipment = equipment;
+    public EquipInfoSectionOfReport() {
+    }
+
+    public EquipInfoSectionOfReport(String equipmentName, int poleDistance, String mpCarrierMedium,
+                                    double uVLightIntensity, int distanceOfLight, String magTech,
+                                    boolean testType, String examinArea, String currentType,
+                                    int luxumeter, String testMedium, String demag,
+                                    String heatTreat, double temp, double gaussFieldStrnth,
+                                    String surfaceCon, String idOfLightEquip, String liftTestDateAndNumber) {
+        super(equipmentName, poleDistance, mpCarrierMedium, uVLightIntensity, distanceOfLight, magTech);
         this.examinArea = examinArea;
         this.currentType = currentType;
         Luxumeter = luxumeter;
@@ -40,54 +38,27 @@ public class EquipInfoSectionOfReport {
         this.liftTestDateAndNumber = liftTestDateAndNumber;
     }
 
-    @Override
-    public String toString() {
-        return "EquipInfoSectionOfReport{" +
-                "equipment=" + equipment +
-                ", examinArea='" + examinArea + '\'' +
-                ", currentType='" + currentType + '\'' +
-                ", Luxumeter=" + Luxumeter +
-                ", testMedium='" + testMedium + '\'' +
-                ", demag='" + demag + '\'' +
-                ", heatTreat='" + heatTreat + '\'' +
-                ", temp=" + temp +
-                ", gaussFieldStrnth=" + gaussFieldStrnth +
-                ", surfaceCon='" + surfaceCon + '\'' +
-                ", idOfLightEquip='" + idOfLightEquip + '\'' +
-                ", liftTestDateAndNumber='" + liftTestDateAndNumber + '\'' +
-                '}';
+    public EquipInfoSectionOfReport(String examinArea, String currentType, int luxumeter,
+                                    String testMedium, String demag, String heatTreat,
+                                    double temp, double gaussFieldStrnth, String surfaceCon,
+                                    String idOfLightEquip, String liftTestDateAndNumber) {
+        this.examinArea = examinArea;
+        this.currentType = currentType;
+        Luxumeter = luxumeter;
+        this.testMedium = testMedium;
+        this.demag = demag;
+        this.heatTreat = heatTreat;
+        this.temp = temp;
+        this.gaussFieldStrnth = gaussFieldStrnth;
+        this.surfaceCon = surfaceCon;
+        this.idOfLightEquip = idOfLightEquip;
+        this.liftTestDateAndNumber = liftTestDateAndNumber;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof EquipInfoSectionOfReport)) return false;
-        EquipInfoSectionOfReport that = (EquipInfoSectionOfReport) o;
-        return getLuxumeter() == that.getLuxumeter() &&
-                getTemp() == that.getTemp() &&
-                getGaussFieldStrnth() == that.getGaussFieldStrnth() &&
-                getEquipment().equals(that.getEquipment()) &&
-                getExaminArea().equals(that.getExaminArea()) &&
-                getCurrentType().equals(that.getCurrentType()) &&
-                getTestMedium().equals(that.getTestMedium()) &&
-                getDemag().equals(that.getDemag()) &&
-                getHeatTreat().equals(that.getHeatTreat()) &&
-                getSurfaceCon().equals(that.getSurfaceCon()) &&
-                getIdOfLightEquip().equals(that.getIdOfLightEquip()) &&
-                getLiftTestDateAndNumber().equals(that.getLiftTestDateAndNumber());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getEquipment(), getExaminArea(), getCurrentType(), getLuxumeter(), getTestMedium(), getDemag(), getHeatTreat(), getTemp(), getGaussFieldStrnth(), getSurfaceCon(), getIdOfLightEquip(), getLiftTestDateAndNumber());
-    }
-
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
+    public EquipInfoSectionOfReport(Equipment equipment) {
+        super(equipment.getEquipmentName(), equipment.getPoleDistance(),
+                equipment.getMpCarrierMedium(), equipment.getDoubleuVLightIntensity(),
+                equipment.getDistanceOfLight(), equipment.getMagTech());
     }
 
     public String getExaminArea() {
@@ -178,4 +149,43 @@ public class EquipInfoSectionOfReport {
         this.liftTestDateAndNumber = liftTestDateAndNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EquipInfoSectionOfReport)) return false;
+        if (!super.equals(o)) return false;
+        EquipInfoSectionOfReport that = (EquipInfoSectionOfReport) o;
+        return getLuxumeter() == that.getLuxumeter() &&
+                Double.compare(that.getTemp(), getTemp()) == 0 &&
+                Double.compare(that.getGaussFieldStrnth(), getGaussFieldStrnth()) == 0 &&
+                getExaminArea().equals(that.getExaminArea()) &&
+                getCurrentType().equals(that.getCurrentType()) &&
+                Objects.equals(getTestMedium(), that.getTestMedium()) &&
+                Objects.equals(getDemag(), that.getDemag()) &&
+                Objects.equals(getHeatTreat(), that.getHeatTreat()) &&
+                getSurfaceCon().equals(that.getSurfaceCon()) &&
+                getIdOfLightEquip().equals(that.getIdOfLightEquip()) &&
+                getLiftTestDateAndNumber().equals(that.getLiftTestDateAndNumber());
+    }
+
+    @Override
+    public String toString() {
+        return "EquipInfoSectionOfReport{" +
+                "examinArea='" + examinArea + '\'' +
+                ", currentType='" + currentType + '\'' +
+                ", Luxumeter=" + Luxumeter +
+                ", gaussFieldStrnth=" + gaussFieldStrnth +
+                ", surfaceCon='" + surfaceCon + '\'' +
+                ", idOfLightEquip='" + idOfLightEquip + '\'' +
+                ", liftTestDateAndNumber='" + liftTestDateAndNumber + '\'' +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getExaminArea(),
+                getCurrentType(), getLuxumeter(), getTestMedium(),
+                getDemag(), getHeatTreat(), getTemp(), getGaussFieldStrnth(),
+                getSurfaceCon(), getIdOfLightEquip(), getLiftTestDateAndNumber());
+    }
 }

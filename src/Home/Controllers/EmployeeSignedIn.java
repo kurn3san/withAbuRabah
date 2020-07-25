@@ -3,6 +3,7 @@ package Home.Controllers;
 import Home.DatabaseHandling.DatabaseHandler;
 import Home.Main;
 import Home.model.Company;
+import Home.model.EquipInfoSectionOfReport;
 import Home.model.Equipment;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -252,6 +253,10 @@ public class EmployeeSignedIn implements Initializable {
         });
         equipSelectMenuPane.setOnMouseClicked(event -> {
             equipSettingsPane.setDividerPosition(0, deviderV);
+        });
+        addEquipSaveButton.setOnAction(event -> {
+            EquipInfoSectionOfReport equipSec = new EquipInfoSectionOfReport();
+
         });
 
         // only numbers in Numeric fields... adding equipment
