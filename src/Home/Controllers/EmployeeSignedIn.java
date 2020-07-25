@@ -227,40 +227,48 @@ public class EmployeeSignedIn implements Initializable {
         addequipPoleDistanceTxtFeild.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) addequipPoleDistanceTxtFeild.setText(oldValue);
+                if (!newValue.matches("(\\d)"))
+                    addequipPoleDistanceTxtFeild.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
             }
         });
         // only numbers in Numeric fields...  choosing equipment
         equipLuxMtrTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d")) equipLuxMtrTxtField.setText(oldValue);
+                if (!newValue.matches("\\d"))
+                    equipLuxMtrTxtField.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
             }
         });
         equipGausFldStrnthTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d")) equipGausFldStrnthTxtField.setText(oldValue);
+                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
+                    equipGausFldStrnthTxtField.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
+                    //equipGausFldStrnthTxtField.setText(oldValue);
+                }
             }
         });
         equipDisOfLightTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) equipDisOfLightTxtField.setText(oldValue);
+                if (!newValue.matches("(\\d)((\\.)(\\d)?)"))
+                    equipDisOfLightTxtField.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
             }
         });
 
         equipPoleDistanceTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) equipPoleDistanceTxtField.setText(oldValue);
+                if (!newValue.matches("(\\d)((\\.)(\\d)?)"))
+                    equipPoleDistanceTxtField.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
             }
         });
 
         equipTempTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) equipTempTxtField.setText(oldValue);
+                if (!newValue.matches("(\\d)"))
+                    equipTempTxtField.setText(newValue.replaceAll("([^\\d])((\\.)(\\d)?)", ""));
             }
         });
 
@@ -292,7 +300,7 @@ public class EmployeeSignedIn implements Initializable {
         //Standard info
         equipExaminAreaTxtField.setText("KAYNAK+HAZ");
         equipTempTxtField.setText("");
-        equipGausFldStrnthTxtField.setText("3.2");
+        //equipGausFldStrnthTxtField.setText("3.2");
         equipCurntTypCBox.setItems(FXCollections.observableArrayList("AC", "DC"));
         equipLuxMtrTxtField.setText("1200");
 
