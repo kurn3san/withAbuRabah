@@ -26,7 +26,7 @@ public class WelcomePageController implements Initializable{
 
     //Main Anchorpane
     @FXML
-    public Label KorogementLabel;
+    public static Label KorogementLabel;
     //SignUp Input Anchorpane
     @FXML
     public AnchorPane SignUpInputAnchorPane;    //on the Left side
@@ -250,13 +250,20 @@ public class WelcomePageController implements Initializable{
         try{
              level = Integer.parseInt(SignUpActivatinoCodeTextField.getText());
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         Admin admin = new Admin(firstName, lastName, userName, Password, level);
-        System.out.println(firstName + lastName+ userName+Password+ level );
+        System.out.println(firstName + lastName + userName + Password + level);
         if (DatabaseHandler.getDbConnection() != null) DatabaseHandler.signUpAdmin(admin);
         System.out.println("admin created and signed up!");
+
+    }
+
+    protected static void showWlcPageWindow() {
+        Stage st = new Stage();
+        st.setScene(KorogementLabel.getScene());
+        st.show();
 
     }
 

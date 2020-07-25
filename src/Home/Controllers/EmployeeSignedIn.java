@@ -1,6 +1,7 @@
 package Home.Controllers;
 
 import Home.DatabaseHandling.DatabaseHandler;
+import Home.Main;
 import Home.model.Company;
 import Home.model.Equipment;
 import javafx.beans.value.ChangeListener;
@@ -31,6 +32,7 @@ public class EmployeeSignedIn implements Initializable {
     private static Equipment onHandEquipment = new Equipment();
     private static Equipment selectedEquipment = new Equipment();
     private static ResultSet onHandEquipmentResultSet = null;
+    public TableColumn<Equipment, Double> equipUVLightIntensityColumn;
     //////////////////////////
     public AnchorPane createReportAnchorPane;
     public Label currentEmployeeSessionLabel;
@@ -57,7 +59,7 @@ public class EmployeeSignedIn implements Initializable {
     public TableColumn<Equipment, String> equipMPCMediumColumn;
     public TableColumn<Equipment, Integer> equipPDistanceColumn;
     public TableColumn<Equipment, String> equipNameColumn;
-    public TableColumn<Equipment, Integer> equipUVLightDensityColumn;
+    public TextField addequipDistnceOfLightTxtField;
     public TableColumn<Equipment, Integer> equipDistanceOfLightColumn;
     public TableColumn<Equipment, String> equipMagTechColumn;
     public TextField searchEquipmentTextField;
@@ -68,7 +70,8 @@ public class EmployeeSignedIn implements Initializable {
     public TextField addEquipmentNameTxtField;
     public TextField addequipPoleDistanceTxtFeild;
     public TextField addequipMpCarMediumTxtField;
-    public TextField addequipDistnceTxtField;
+    @FXML
+    private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
     public TextField addequipMagTechTxtField;
     public Button addEquipSaveButton;
@@ -132,6 +135,13 @@ public class EmployeeSignedIn implements Initializable {
                 }
             } else System.out.println("closed...");
         });
+        EmployeeLogOutButton.setOnAction(event -> {
+            EmployeeLogOutButton.getScene().getRoot().getScene().getWindow().hide();
+            WelcomePageController.signedInEmployee = null;
+            Main.WelcomePageStage.show();
+        });
+        //
+
         addCompanyClearAllButton.setOnAction(event -> {
             addCompanyClearAll();
         });
@@ -206,18 +216,34 @@ public class EmployeeSignedIn implements Initializable {
             } else System.out.println("closed...");
         });
         // Buttons, adding equipment side...
+        addEquipSaveButton.setOnAction(event -> {
+            if (!addEquipmentNameTxtField.getText().equals("") && !addequipPoleDistanceTxtFeild.getText().equals("") && !addequipMpCarMediumTxtField.getText().equals("")
+                    && !addequipUvLghtIntTxtField.getText().equals("") && !addequipDistnceOfLightTxtField.getText().equals("") && !addequipMagTechTxtField.getText().equals("")) {
+                Equipment equipment = new Equipment();
+                try {
+                    equipment.setuVLightIntensity(Double.parseDouble(addequipUvLghtIntTxtField.getText()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    equipment.setDistanceOfLight(Integer.parseInt(addequipDistnceOfLightTxtField.getText()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+        });
 
         // only numbers in Numeric fields... adding equipment
-        addequipDistnceTxtField.textProperty().addListener(new ChangeListener<String>() {
+        addequipDistnceOfLightTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("((\\d))([\\.]\\d{0,4})?")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) addequipDistnceTxtField.setText("");
-                        else addequipDistnceTxtField.setText(oldValue);
+                        if (newValue.length() == 0) addequipDistnceOfLightTxtField.setText("");
+                        else addequipDistnceOfLightTxtField.setText(oldValue);
                     }
                 }
             }
@@ -278,7 +304,7 @@ public class EmployeeSignedIn implements Initializable {
         equipDisOfLightTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
+                if (!newValue.matches("(\\d)")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
@@ -306,7 +332,7 @@ public class EmployeeSignedIn implements Initializable {
         equipTempTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                String re = "((\\d){0,4}((\\.)(\\d)))?";
+                String re = "((\\d){0,4})?";
                 if (!newValue.matches(re) && newValue.length() != 0) {
                     try {
                         System.out.println(Double.parseDouble(newValue));
@@ -410,7 +436,10 @@ public class EmployeeSignedIn implements Initializable {
                 equipment.setEquipmentName(resultSet.getString(2));
                 equipment.setPoleDistance(resultSet.getInt(3));
                 equipment.setMpCarrierMedium(resultSet.getString(4));
-                equipment.setuVLightDensity(resultSet.getInt(5));
+                equipment.setDoubleuVLightIntensity(resultSet.getDouble(5));
+                equipment.setuVLightIntensity(resultSet.getDouble(5));
+                System.out.println("showing equipment.setuVLightIntensity(resultSet.getDouble(5)):::" + equipment.getuVLightIntensity());
+                System.out.println(equipment.getuVLightIntensity());
                 equipment.setDistanceOfLight(resultSet.getInt(6));
                 equipment.setMagTech(resultSet.getString(7));
             } catch (SQLException e) {
@@ -440,7 +469,11 @@ public class EmployeeSignedIn implements Initializable {
                         } catch (Exception e) {
                         }
                         try {
-                            b = Integer.parseInt(newValue) == equipment1.getuVLightDensity();
+                            b = Double.parseDouble(newValue) == equipment1.getDoubleuVLightIntensity();
+                        } catch (Exception e) {
+                        }
+                        try {
+                            b = Double.parseDouble(newValue) == equipment1.getuVLightIntensity();
                         } catch (Exception e) {
                         }
                         return equipment1.getEquipmentName().toLowerCase().contains(newValue.toLowerCase()) || equipment1.getEquipmentName().equals(newValue.toLowerCase()) ||
@@ -456,17 +489,17 @@ public class EmployeeSignedIn implements Initializable {
         equipNameColumn.setCellValueFactory(new PropertyValueFactory<>("equipmentName"));
         equipPDistanceColumn.setCellValueFactory(new PropertyValueFactory<>("poleDistance"));
         equipMPCMediumColumn.setCellValueFactory(new PropertyValueFactory<>("mpCarrierMedium"));
-        equipUVLightDensityColumn.setCellValueFactory(new PropertyValueFactory<>("uVLightDensity"));
+        equipUVLightIntensityColumn.setCellValueFactory(new PropertyValueFactory<>("uVLightIntensity"));
         equipDistanceOfLightColumn.setCellValueFactory(new PropertyValueFactory<>("distanceOfLight"));
         equipMagTechColumn.setCellValueFactory(new PropertyValueFactory<>("magTech"));
     }
     private void addEquipClearAll() {
-        addequipDistnceTxtField.clear();
+        addequipDistnceOfLightTxtField.clear();
         addequipPoleDistanceTxtFeild.clear();
         addEquipmentNameTxtField.clear();
         addequipPoleDistanceTxtFeild.clear();
         addequipMpCarMediumTxtField.clear();
-        addequipDistnceTxtField.clear();
+        addequipDistnceOfLightTxtField.clear();
         addequipUvLghtIntTxtField.clear();
         addequipMagTechTxtField.clear();
         addequipLghtIntErrorLabel.setVisible(false);

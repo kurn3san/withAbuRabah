@@ -10,8 +10,8 @@ public class EquipInfoSectionOfReport {
     private String testMedium = "";
     private String demag = "";
     private String heatTreat = "";
-    private int temp = 0;
-    private int gaussFieldStrnth = 0;//     kA/m
+    private double temp = 0;
+    private double gaussFieldStrnth = 0;//     kA/m
     private String surfaceCon = "";
     private String idOfLightEquip = "";
     private String liftTestDateAndNumber = "";
@@ -138,19 +138,19 @@ public class EquipInfoSectionOfReport {
         this.heatTreat = heatTreat;
     }
 
-    public int getTemp() {
+    public double getTemp() {
         return temp;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(double temp) {
         this.temp = temp;
     }
 
-    public int getGaussFieldStrnth() {
+    public double getGaussFieldStrnth() {
         return gaussFieldStrnth;
     }
 
-    public void setGaussFieldStrnth(int gaussFieldStrnth) {
+    public void setGaussFieldStrnth(double gaussFieldStrnth) {
         this.gaussFieldStrnth = gaussFieldStrnth;
     }
 

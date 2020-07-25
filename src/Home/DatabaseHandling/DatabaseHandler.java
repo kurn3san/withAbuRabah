@@ -417,7 +417,7 @@ public class DatabaseHandler extends Configs {
                 Consts.EQUIPMENT_DISTANCE_OF_LIGHT + ", " +
                 Consts.EQUIPMENT_M_G_TEC + ")" +
                 " VALUES( " + " ," + equipment.getEquipmentName() + " ," + equipment.getPoleDistance() + "," + equipment.getMpCarrierMedium() +
-                "," + equipment.getuVLightDensity() + "," + equipment.getDistanceOfLight() + "," + equipment.getMagTech() + ") ";
+                "," + equipment.getDoubleuVLightIntensity() + "," + equipment.getDistanceOfLight() + "," + equipment.getMagTech() + ") ";
         try {
             DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
             System.out.println("added!");
@@ -434,7 +434,7 @@ public class DatabaseHandler extends Configs {
         String query = " SELECT * FROM " + Consts.EQUIPMENT_TABLE + " WHERE " + Consts.EQUIPMENT_NAME + "= '" + equipment.getEquipmentName() + "' AND " +
                 Consts.EQUIPMENT_POLE_DISTANCE + "= '" + equipment.getPoleDistance() + "' AND " +
                 Consts.EQUIPMENT_M_P_CARRIER_MEDIUM + "= '" + equipment.getMpCarrierMedium() + "' AND " +
-                Consts.EQUIPMENT_UV_DENSITY + "= '" + equipment.getuVLightDensity() + "' AND " +
+                Consts.EQUIPMENT_UV_DENSITY + "= '" + equipment.getDoubleuVLightIntensity() + "' AND " +
                 Consts.EQUIPMENT_DISTANCE_OF_LIGHT + "= '" + equipment.getDistanceOfLight() + "' AND " +
                 Consts.EQUIPMENT_M_G_TEC + "= '" + equipment.getMagTech() + "' ;";
         try {
