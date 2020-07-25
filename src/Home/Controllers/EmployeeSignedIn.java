@@ -267,10 +267,18 @@ public class EmployeeSignedIn implements Initializable {
         equipTempTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)"))
-                    equipTempTxtField.setText(newValue.replaceAll("[^(\\d)((\\.)(\\d)?)]", ""));
+                String re = "((\\d){0,4}((\\.)(\\d)))?";
+                if (!newValue.matches(re)) {
+                    equipTempTxtField.setText(newValue.replaceAll("([^\\" + re + "])", ""));
+                    System.out.println(newValue);
+                    equipTempTxtField.setText(newValue.replaceAll("[\\D]", ""));
+                    System.out.println(newValue);
+                    //equipTempTxtField.setText(newValue.replaceAll("([^\\d])([^.])", ""));
+                }
+                //equipTempTxtField.setText(newValue.replaceAll("([^\\d])([^.])", ""));
             }
         });
+
 
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
