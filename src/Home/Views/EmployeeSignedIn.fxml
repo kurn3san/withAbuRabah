@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="640.4" prefWidth="1391.4"
-            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="EmployeeSignedInAPane" prefHeight="640.4" prefWidth="1391.4"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
         <Label id="CurrentEmployeeSessionLabel" fx:id="currentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
@@ -22,9 +22,9 @@
             </children>
         </AnchorPane>
         <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8704372242278379"
-                   layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 ">
+                   layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 " visible="false">
             <items>
-                <Pane prefHeight="474.0" prefWidth="692.0">
+                <Pane fx:id="equipSelectMenuPane" prefHeight="474.0" prefWidth="692.0">
                     <children>
                         <TableView fx:id="EquipmentTable" layoutX="14.0" layoutY="77.0" prefHeight="186.0"
                                    prefWidth="842.0">

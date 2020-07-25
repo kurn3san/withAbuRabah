@@ -30,9 +30,9 @@ public class Consts {
     public static final String EQUIPMENT_NAME = " equipmentName ";
     public static final String EQUIPMENT_POLE_DISTANCE = " poleDistance ";
     public static final String EQUIPMENT_M_P_CARRIER_MEDIUM = " mpCarrierMedium ";
-    public static final String EQUIPMENT_UV_DENSITY = " uVLightDensity ";
+    public static final String EQUIPMENT_UV_DENSITY = " uVLightIntensity ";
     public static final String EQUIPMENT_DISTANCE_OF_LIGHT = " distanceOfLight ";
-    public static final String EQUIPMENT_M_G_TEC = " magTec ";
+    public static final String EQUIPMENT_M_G_TEC = " magTech ";
     /////Wielded pieces Table
     public static final String wPiece_Table = " project.wpieces ";
     public static final String wPiece_SERIAL_NO = " serailNo ";

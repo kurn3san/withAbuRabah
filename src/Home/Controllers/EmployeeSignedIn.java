@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -71,6 +72,8 @@ public class EmployeeSignedIn implements Initializable {
     public TextField addEquipmentNameTxtField;
     public TextField addequipPoleDistanceTxtFeild;
     public TextField addequipMpCarMediumTxtField;
+    public Pane equipSelectMenuPane;
+    public AnchorPane EmployeeSignedInAPane;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -118,11 +121,15 @@ public class EmployeeSignedIn implements Initializable {
         */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        EmployeeSignedInAPane.setOnMouseClicked(event -> {
+            companySettingsPane.setVisible(false);
+            companySettingsPane.setVisible(false);
+
+        });
         double deviderV = 0.8704;
         companySettingsPane.setVisible(false);
         currentEmployeeSessionLabel.setText("Current session employee: " + WelcomePageController.signedInEmployee.toString());
         MenuToCompanySettings.setOnAction(event -> {
-            //boolean b = companySettingsPane.isVisible())? false:true
             boolean b;
             companySettingsPane.setVisible(b = !companySettingsPane.isVisible());
             if (b) {
@@ -142,6 +149,7 @@ public class EmployeeSignedIn implements Initializable {
             Main.WelcomePageStage.show();
         });
         //
+        //refreshEquipTable();
 
         addCompanyClearAllButton.setOnAction(event -> {
             addCompanyClearAll();
@@ -199,6 +207,12 @@ public class EmployeeSignedIn implements Initializable {
         searchEquipmentTextField.setOnMouseClicked(event -> {
             equipSettingsPane.setDividerPosition(0, deviderV);
         });
+        equipOpenDivideButton.setOnAction(event -> {
+            equipSettingsPane.setDividerPosition(0, deviderV - 0.3);
+        });
+        equipCloseDvdButton.setOnAction(event -> {
+            equipSettingsPane.setDividerPosition(0, deviderV);
+        });
         MenuToEquipmentSettings.setOnAction(event -> {
             boolean b;
             equipSettingsPane.setVisible(b = !equipSettingsPane.isVisible());
@@ -226,11 +240,18 @@ public class EmployeeSignedIn implements Initializable {
                 equipment.setMagTech(addequipMagTechTxtField.getText());
                 equipment.setPoleDistance(Integer.parseInt(addequipPoleDistanceTxtFeild.getText()));
                 equipment.setEquipmentName(addEquipmentNameTxtField.getText());
+                equipment.setMpCarrierMedium(addequipMpCarMediumTxtField.getText());
                 //
                 if (!isThereSuchEquipment(equipment)) {
-                    if (DatabaseHandler.addEquipment(equipment)) addEquipClearAll();
+                    if (DatabaseHandler.addEquipment(equipment)) {
+                        addEquipClearAll();
+                        refreshEquipTable();
+                    }
                 }
             }
+        });
+        equipSelectMenuPane.setOnMouseClicked(event -> {
+            equipSettingsPane.setDividerPosition(0, deviderV);
         });
 
         // only numbers in Numeric fields... adding equipment
@@ -239,7 +260,7 @@ public class EmployeeSignedIn implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d")) {
                     try {
-                        Double.parseDouble(newValue);
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
                         if (newValue.length() == 0) addequipDistnceOfLightTxtField.setText("");
                         else addequipDistnceOfLightTxtField.setText(oldValue);
@@ -250,11 +271,11 @@ public class EmployeeSignedIn implements Initializable {
         addequipUvLghtIntTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) {
+                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) addequipUvLghtIntTxtField.setText("");
+                        if (newValue.length() == 0) addequipUvLghtIntTxtField.setText("0");
                         else addequipUvLghtIntTxtField.setText(oldValue);
                     }
                 }
@@ -265,7 +286,7 @@ public class EmployeeSignedIn implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d")) {
                     try {
-                        Double.parseDouble(newValue);
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
                         if (newValue.length() == 0) addequipPoleDistanceTxtFeild.setText("");
                         else addequipPoleDistanceTxtFeild.setText(oldValue);
@@ -279,9 +300,9 @@ public class EmployeeSignedIn implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d")) {
                     try {
-                        Double.parseDouble(newValue);
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) equipLuxMtrTxtField.setText("0");
+                        if (newValue.length() == 0) equipLuxMtrTxtField.setText("");
                         else equipLuxMtrTxtField.setText(oldValue);
                     }
                 }
@@ -294,7 +315,7 @@ public class EmployeeSignedIn implements Initializable {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) equipGausFldStrnthTxtField.setText("0");
+                        if (newValue.length() == 0) equipGausFldStrnthTxtField.setText("");
                         else equipGausFldStrnthTxtField.setText(oldValue);
                     }
                 }
@@ -305,9 +326,9 @@ public class EmployeeSignedIn implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("(\\d)")) {
                     try {
-                        Double.parseDouble(newValue);
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) equipDisOfLightTxtField.setText("0");
+                        if (newValue.length() == 0) equipDisOfLightTxtField.setText("");
                         else equipDisOfLightTxtField.setText(oldValue);
                     }
                 }
@@ -317,11 +338,11 @@ public class EmployeeSignedIn implements Initializable {
         equipPoleDistanceTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
+                if (!newValue.matches("\\d")) {
                     try {
-                        Double.parseDouble(newValue);
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
-                        if (newValue.length() == 0) equipPoleDistanceTxtField.setText("0");
+                        if (newValue.length() == 0) equipPoleDistanceTxtField.setText("");
                         else equipPoleDistanceTxtField.setText(oldValue);
                     }
                 }
@@ -334,8 +355,7 @@ public class EmployeeSignedIn implements Initializable {
                 String re = "((\\d){0,4})?";
                 if (!newValue.matches(re) && newValue.length() != 0) {
                     try {
-                        System.out.println(Double.parseDouble(newValue));
-                        System.out.println("tried");
+                        Integer.parseInt(newValue);
                     } catch (Exception e) {
                         equipTempTxtField.setText(oldValue);
                     }
@@ -420,7 +440,7 @@ public class EmployeeSignedIn implements Initializable {
                 if (equipment.equals(equipment1)) {
                     return true;
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

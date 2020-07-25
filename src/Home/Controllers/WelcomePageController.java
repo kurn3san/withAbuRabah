@@ -241,7 +241,6 @@ public class WelcomePageController implements Initializable{
 
     private void createUser() {
         System.out.println("CREATING USER...");
-        DatabaseHandler databaseHandler = new DatabaseHandler();
         String firstName = SignUpFirstnameTextField.getText().toLowerCase();
         String lastName = SignUpLastNameTextField.getText().toLowerCase();
         String userName = SignUpUsernameTextField.getText().toLowerCase();
