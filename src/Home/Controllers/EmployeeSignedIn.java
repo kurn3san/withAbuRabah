@@ -94,6 +94,16 @@ public class EmployeeSignedIn implements Initializable {
     public TextField equipLuxMtrTxtField;
     public Label SequipurfaceTempLabel;
     public Label equipGausFelStrenLabel;
+    public Button equipOpenDivideButton;
+    public Button equipCloseDvdButton;
+    public TextField equipSurfCondTxtField;
+    public TextField equipIDOfLightEquipTxtFld;
+    public TextField equipLftngTstDteNumTxtFld;
+    public TextField equipHeatTrtmntTxtfld;
+    public TextField equipDmgntzationTxtFld;
+    public TextField equipTstMediumTxtFld;
+    public Button equipClearAllButton;
+    public Button equipRstPageButton;
     @FXML
     private Button addEquipCancelButton;
     boolean companySettingsClicks = false;
@@ -191,6 +201,10 @@ public class EmployeeSignedIn implements Initializable {
                 }
             } else System.out.println("closed...");
         });
+        // Buttons, adding equipment side...
+
+
+        // only numbers in Numeric fields... adding equipment
         addequipDistnceTxtField.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -206,14 +220,43 @@ public class EmployeeSignedIn implements Initializable {
                 if (!newValue.matches("(\\d)")) addequipUvLghtIntTxtField.setText(oldValue);
             }
         });
-
+        addequipPoleDistanceTxtFeild.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d)")) addequipPoleDistanceTxtFeild.setText(oldValue);
+            }
+        });
+        // only numbers in Numeric fields...  choosing equipment
         equipLuxMtrTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d")) equipLuxMtrTxtField.setText(oldValue);
             }
         });
-
+        equipGausFldStrnthTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) equipGausFldStrnthTxtField.setText(oldValue);
+            }
+        });
+        equipDisOfLightTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d)")) equipDisOfLightTxtField.setText(oldValue);
+            }
+        });
+        equipPDistanceTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d)")) equipPDistanceTxtField.setText(oldValue);
+            }
+        });
+        equipTempTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d)")) equipTempTxtField.setText(oldValue);
+            }
+        });
 
         EquipmentTable.setRowFactory(tv -> {
             TableRow<Equipment> row = new TableRow<>();
