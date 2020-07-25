@@ -23,7 +23,7 @@ public class EquipInfoSectionOfReport {
                                     String testMedium,
                                     String demag,
                                     String heatTreat,
-                                    int temp, int gaussFieldStrnth,
+                                    int temp, double gaussFieldStrnth,
                                     String surfaceCon, String idOfLightEquip,
                                     String liftTestDateAndNumber) {
         this.equipment = equipment;

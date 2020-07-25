@@ -220,25 +220,20 @@ public class EmployeeSignedIn implements Initializable {
             if (!addEquipmentNameTxtField.getText().equals("") && !addequipPoleDistanceTxtFeild.getText().equals("") && !addequipMpCarMediumTxtField.getText().equals("")
                     && !addequipUvLghtIntTxtField.getText().equals("") && !addequipDistnceOfLightTxtField.getText().equals("") && !addequipMagTechTxtField.getText().equals("")) {
                 Equipment equipment = new Equipment();
-                try {
-                    equipment.setuVLightIntensity(Double.parseDouble(addequipUvLghtIntTxtField.getText()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    equipment.setDistanceOfLight(Integer.parseInt(addequipDistnceOfLightTxtField.getText()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                equipment.setuVLightIntensity(Double.parseDouble(addequipUvLghtIntTxtField.getText()));
+                equipment.setDistanceOfLight(Integer.parseInt(addequipDistnceOfLightTxtField.getText()));
+                equipment.setDoubleuVLightIntensity(Double.parseDouble(addequipUvLghtIntTxtField.getText()));
+                equipment.setMagTech(addequipMagTechTxtField.getText());
+                equipment.setPoleDistance(Integer.parseInt(addequipPoleDistanceTxtFeild.getText()));
+                equipment.setEquipmentName(addEquipmentNameTxtField.getText());
             }
-
         });
 
         // only numbers in Numeric fields... adding equipment
         addequipDistnceOfLightTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("((\\d))([\\.]\\d{0,4})?")) {
+                if (!newValue.matches("\\d")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
@@ -264,7 +259,7 @@ public class EmployeeSignedIn implements Initializable {
         addequipPoleDistanceTxtFeild.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
+                if (!newValue.matches("\\d")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
@@ -278,7 +273,7 @@ public class EmployeeSignedIn implements Initializable {
         equipLuxMtrTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)((\\.)(\\d)?)")) {
+                if (!newValue.matches("\\d")) {
                     try {
                         Double.parseDouble(newValue);
                     } catch (Exception e) {
