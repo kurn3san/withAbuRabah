@@ -80,7 +80,7 @@ public class EmployeeSignedIn implements Initializable {
     public Label addequipDistanceErrorLabel;
     public Label addequipSavingResultLabel;
     public Button equipDividerButton;
-    public TextField equipPDistanceTxtField;
+    public TextField equipPoleDistanceTxtField;
     public TextField equipUVlghtDenTxtField;
     public TextField equipNameTxtField;
     public TextField equipMpCarMedTxtField;
@@ -108,6 +108,10 @@ public class EmployeeSignedIn implements Initializable {
     private Button addEquipCancelButton;
     boolean companySettingsClicks = false;
 
+    /*
+    <TextField fx:id="equipTempTxtField" layoutX="780.0" layoutY="359.0" prefHeight="17.0"
+                                       prefWidth="51.0"/>
+        */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         double deviderV = 0.8704;
@@ -245,12 +249,14 @@ public class EmployeeSignedIn implements Initializable {
                 if (!newValue.matches("(\\d)")) equipDisOfLightTxtField.setText(oldValue);
             }
         });
-        equipPDistanceTxtField.textProperty().addListener(new ChangeListener<String>() {
+
+        equipPoleDistanceTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("(\\d)")) equipPDistanceTxtField.setText(oldValue);
+                if (!newValue.matches("(\\d)")) equipPoleDistanceTxtField.setText(oldValue);
             }
         });
+
         equipTempTxtField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -284,12 +290,6 @@ public class EmployeeSignedIn implements Initializable {
             equipSettingsPane.setVisible(false);
         });
         //Standard info
-        equipPDistanceTxtField.setText("100");
-        equipUVlghtDenTxtField.setText("");
-        equipNameTxtField.setText("");
-        equipMpCarMedTxtField.setText("");
-        equipDisOfLightTxtField.setText("");
-        equipMagTechTxtField.setText("f");
         equipExaminAreaTxtField.setText("KAYNAK+HAZ");
         equipTempTxtField.setText("");
         equipGausFldStrnthTxtField.setText("3.2");

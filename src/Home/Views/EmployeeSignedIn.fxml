@@ -64,8 +64,6 @@
                         <Label fx:id="equipUVLghtDenLabel" layoutX="680.0" layoutY="303.0" text="UV Light Density"/>
                         <Label layoutX="480.0" layoutY="363.0" text="Distance of light" textAlignment="CENTER"/>
                         <Label layoutX="830.0" layoutY="303.0" text="W/m2"/>
-                        <TextField fx:id="equipPDistanceTxtField" layoutX="588.0" layoutY="329.0" prefHeight="25.0"
-                                   prefWidth="49.0"/>
                         <TextField fx:id="equipUVlghtDenTxtField" layoutX="780.0" layoutY="299.0" prefHeight="25.0"
                                    prefWidth="51.0"/>
                         <TextField fx:id="equipNameTxtField" layoutX="134.0" layoutY="329.0" prefHeight="25.0"
@@ -86,8 +84,7 @@
                                prefWidth="93.0" text="Surface Tmp."/>
                         <Label fx:id="equipGausFelStrenLabel" layoutX="478.0" layoutY="303.0"
                                text="Gauss Field Strenght"/>
-                        <TextField fx:id="equipTempTxtField" layoutX="780.0" layoutY="359.0" prefHeight="17.0"
-                                   prefWidth="51.0"/>
+
                         <Label layoutX="638.0" layoutY="303.0" text="kA/m"/>
                         <Label layoutX="837.0" layoutY="363.0" text="C"/>
                         <TextField fx:id="equipGausFldStrnthTxtField" layoutX="587.0" layoutY="299.0" prefHeight="25.0"
@@ -122,6 +119,10 @@
                                 prefHeight="25.0" prefWidth="171.0" text="Clear all"/>
                         <Button fx:id="equipRstPageButton" layoutX="16.0" layoutY="443.0" mnemonicParsing="false"
                                 text="Reset Page"/>
+                        <TextField fx:id="equipTempTxtField" layoutX="781.0" layoutY="359.0" prefHeight="25.0"
+                                   prefWidth="49.0"/>
+                        <TextField fx:id="equipPoleDistanceTxtField" layoutX="589.0" layoutY="329.0" prefHeight="25.0"
+                                   prefWidth="49.0"/>
                     </children>
                 </Pane>
                 <Pane prefHeight="474.0" prefWidth="374.0">
