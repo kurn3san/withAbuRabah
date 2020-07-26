@@ -1,44 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="EmployeeSignedInAPane" prefHeight="640.4" prefWidth="1391.4"
             style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
-        <Button fx:id="EmployeeLogOutButton" layoutX="1319.0" layoutY="14.0" mnemonicParsing="false" text="Log out"/>
+        <Button fx:id="EmployeeLogOutButton" layoutX="1286.0" layoutY="39.0" mnemonicParsing="false" text="Log out"/>
         <Label id="CurrentEmployeeSessionLabel" fx:id="currentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
                prefHeight="18.0" prefWidth="873.0"/>
         <AnchorPane id="EmployeeSignedInMenuAnchorPane" layoutX="35.0" layoutY="39.0" prefHeight="572.0"
                     prefWidth="761.0" style="-fx-background-color: #FAFAFA; -fx-border-color: #CFD8DC;">
             <children>
-                <Button id="MenuToCompanySettings" fx:id="MenuToCompanySettings" layoutX="217.0" layoutY="43.0"
-                        mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
-                        style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="company settings"/>
+                <Button id="MenuToCompanySettings" fx:id="MenuToCompanySettings" alignment="CENTER"
+                        contentDisplay="CENTER" layoutX="194.0" layoutY="43.0" mnemonicParsing="false" prefHeight="35.0"
+                        prefWidth="149.0" style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;"
+                        text="company settings"/>
                 <Label id="CompanySettingsStatusLabel" fx:id="CompanySettingsStatusLabel" layoutX="25.0" layoutY="43.0"
                        prefHeight="35.0" prefWidth="174.0"/>
-                <Button id="MenuToEquipmentSettings" fx:id="MenuToEquipmentSettings" layoutX="217.0" layoutY="78.0"
-                        mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
+                <Button id="MenuToEquipmentSettings" fx:id="MenuToEquipmentSettings" contentDisplay="CENTER"
+                        layoutX="194.0" layoutY="78.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
                 <DatePicker fx:id="ReportDateDatePicker" layoutX="578.0" layoutY="10.0" promptText="Select Date"/>
                 <Label layoutX="492.0" layoutY="14.0" text="Report Date"/>
-                <Button fx:id="newSurConOrStOfExam" layoutX="217.0" layoutY="113.0" mnemonicParsing="false"
+                <Button fx:id="newSurConOrStOfExam" layoutX="194.0" layoutY="113.0" mnemonicParsing="false"
                         prefHeight="70.0" prefWidth="26.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="+"/>
-                <ChoiceBox fx:id="surfaceConditionChoiceBox" layoutX="242.0" layoutY="113.0"
-                           onMouseClicked="#refreshSurfaceConditionChoiceBox" prefHeight="35.0" prefWidth="101.0"
+                <ChoiceBox fx:id="surfaceConditionChoiceBox" layoutX="218.0" layoutY="113.0"
+                           onMouseClicked="#refreshSurfaceConditionChoiceBox" prefHeight="35.0" prefWidth="126.0"
                            style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;"/>
-                <ChoiceBox fx:id="stageOfExamChoiceBox" layoutX="241.0" layoutY="148.0"
-                           onMouseClicked="#refreshStageOfExamChoiceBox" prefHeight="35.0" prefWidth="102.0"
+                <ChoiceBox fx:id="stageOfExamChoiceBox" layoutX="217.0" layoutY="148.0"
+                           onMouseClicked="#refreshStageOfExamChoiceBox" prefHeight="35.0" prefWidth="126.0"
                            style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;"/>
-                <Label layoutX="101.0" layoutY="113.0" prefHeight="35.0" prefWidth="118.0" text="Surface Condition"/>
-                <Label layoutX="102.0" layoutY="148.0" prefHeight="35.0" prefWidth="117.0" text="Stage of Examination"/>
-                <Label layoutX="101.0" layoutY="78.0" prefHeight="35.0" prefWidth="118.0" text="Equipment Menu"/>
-                <Label layoutX="101.0" layoutY="43.0" prefHeight="35.0" prefWidth="118.0" text="Company Menu"/>
+                <Label layoutX="71.0" layoutY="113.0" prefHeight="35.0" prefWidth="118.0" text="Surface Condition"/>
+                <Label layoutX="71.0" layoutY="148.0" prefHeight="35.0" prefWidth="117.0" text="Stage of Examination"/>
+                <Label layoutX="71.0" layoutY="78.0" prefHeight="35.0" prefWidth="118.0" text="Equipment Menu"/>
+                <Label layoutX="72.0" layoutY="43.0" prefHeight="35.0" prefWidth="118.0" text="Company Menu"/>
+                <TextField fx:id="inspectionStandardTxtField" alignment="CENTER" layoutX="194.0" layoutY="187.0"
+                           prefHeight="35.0" prefWidth="150.0" text="TS EN ISO 17638"/>
+                <Label layoutX="72.0" layoutY="183.0" prefHeight="35.0" prefWidth="117.0" text="Inspection Standard"/>
+                <TextField fx:id="evaluationStandardTxtField" alignment="CENTER" layoutX="193.0" layoutY="224.0"
+                           prefHeight="35.0" prefWidth="150.0" text="TS EN ISO 23278 Class B"/>
+                <Label layoutX="72.0" layoutY="221.0" prefHeight="35.0" prefWidth="117.0" text="Evaluation Standard"/>
+                <TextField fx:id="drawingNoTxtField" alignment="CENTER" layoutX="194.0" layoutY="260.0"
+                           prefHeight="35.0" prefWidth="150.0" text="-"/>
+                <Label layoutX="71.0" layoutY="260.0" prefHeight="35.0" prefWidth="117.0" text="Drawing no"/>
+                <TextField fx:id="inspectionProcedureTxtField" alignment="CENTER" layoutX="194.0" layoutY="295.0"
+                           prefHeight="35.0" prefWidth="150.0" text="P-101-004"/>
+                <Label layoutX="71.0" layoutY="295.0" prefHeight="35.0" prefWidth="117.0" text="Inspection Procedure"/>
+                <TextField fx:id="inspectionScopeTxtField" alignment="CENTER" layoutX="194.0" layoutY="330.0"
+                           prefHeight="35.0" prefWidth="150.0" text="0"/>
+                <Label layoutX="305.0" layoutY="339.0" text="\%"/>
+                <Label layoutX="72.0" layoutY="330.0" prefHeight="35.0" prefWidth="117.0" text="Inspection Scope"/>
+                <Label layoutX="356.0" layoutY="14.0" text="Page No."/>
+                <TextField fx:id="pageNoTextField" layoutX="419.0" layoutY="11.0" prefHeight="25.0" prefWidth="64.0"
+                           text="1"/>
+                <TextField fx:id="reportNoTxtField" alignment="CENTER" layoutX="204.0" layoutY="12.0" prefHeight="25.0"
+                           prefWidth="128.0"/>
+                <Label layoutX="100.0" layoutY="15.0" text="Report No."/>
+                <ImageView fitHeight="89.0" fitWidth="128.0" layoutX="67.0" layoutY="372.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../Drawable/1.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="89.0" fitWidth="128.0" layoutX="222.0" layoutY="370.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../Drawable/2.png"/>
+                    </image>
+                </ImageView>
+                <CheckBox fx:id="pictureOneCheckBox" layoutX="72.0" layoutY="438.0" mnemonicParsing="false"/>
+                <CheckBox fx:id="pictureTwoCheckBox" layoutX="315.0" layoutY="438.0" mnemonicParsing="false"/>
+                <TextField fx:id="standardDeviationTxtField" alignment="CENTER" layoutX="544.0" layoutY="533.0"
+                           prefHeight="26.0" prefWidth="207.0" promptText="Standard Deviation"
+                           text="Standarttan sapma yoktur."/>
+                <TextField fx:id="inspectionDatesTxtField" alignment="CENTER" editable="false" layoutX="391.0"
+                           layoutY="533.0" prefHeight="26.0" prefWidth="149.0" promptText="Inspection Dates"/>
+                <TextField fx:id="descripAndAttachmTxtField" alignment="CENTER" layoutX="177.0" layoutY="533.0"
+                           prefHeight="26.0" prefWidth="207.0" promptText="Description and Attachments"/>
+                <Button id="MenuToEquipmentSettings" fx:id="MenuToResultsButton" contentDisplay="CENTER" layoutX="193.0"
+                        layoutY="459.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0"
+                        style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Inspection Results"/>
+                <Label layoutX="72.0" layoutY="459.0" prefHeight="35.0" prefWidth="117.0" text="Results"/>
+                <Button id="MenuToEquipmentSettings" fx:id="MenuToSignaturesButton" contentDisplay="CENTER"
+                        layoutX="193.0" layoutY="494.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0"
+                        style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Signatures"/>
             </children>
         </AnchorPane>
-        <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8704372242278379"
-                   layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 " visible="false">
+        <Pane layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="962.0"
+              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
+            <children>
+                <TableView fx:id="resultsTableView" layoutX="18.0" layoutY="213.0" prefHeight="214.0" prefWidth="927.0">
+                    <columns>
+                        <TableColumn fx:id="SNumCol" prefWidth="83.20001220703125" text="Serial number"/>
+                        <TableColumn fx:id="WPNoCol" prefWidth="205.60009765625" text="Weld/ Piece No"/>
+                        <TableColumn fx:id="tstLenthCol" prefWidth="75.0" text="Test Length"/>
+                        <TableColumn fx:id="welProcessCol" prefWidth="110.4000244140625" text="Welding Process"/>
+                        <TableColumn fx:id="ThicknsCol" prefWidth="70.4000244140625" text="Thickness"/>
+                        <TableColumn fx:id="diameterCol" prefWidth="62.39996337890625" text="Diameter"/>
+                        <TableColumn fx:id="defectTypeCol" prefWidth="73.5999755859375" text="Defect Type"/>
+                        <TableColumn fx:id="defectLocCol" prefWidth="115.199951171875" text="Defect Location"/>
+                        <TableColumn fx:id="resultCol" prefWidth="52.0" text="Result"/>
+                        <TableColumn fx:id="updateCol" prefWidth="75.0" text="update"/>
+                    </columns>
+                </TableView>
+                <Button fx:id="resultsReloadButton" layoutX="18.0" layoutY="427.0" mnemonicParsing="false"
+                        text="Reload"/>
+                <TextField fx:id="serialnumber" layoutX="18.0" layoutY="46.0" prefHeight="25.0" prefWidth="85.0"/>
+                <TextField fx:id="resultsWeldingProgressTxtField" layoutX="155.0" layoutY="158.0" prefHeight="25.0"
+                           prefWidth="85.0"/>
+                <TextField fx:id="resultsWeldPieceNoTxtField" layoutX="17.0" layoutY="101.0" prefHeight="25.0"
+                           prefWidth="222.0"/>
+                <TextField fx:id="resultsTestLengthTxtField" layoutX="17.0" layoutY="158.0" prefHeight="25.0"
+                           prefWidth="86.0"/>
+                <TextField fx:id="resultstThicknessTxtField" layoutX="155.0" layoutY="46.0" prefHeight="25.0"
+                           prefWidth="85.0"/>
+                <TextField fx:id="resultsDiameterTxtField" layoutX="284.0" layoutY="46.0" prefHeight="25.0"
+                           prefWidth="85.0"/>
+                <TextField fx:id="resultsDefectTypeTxtField" layoutX="284.0" layoutY="101.0" prefHeight="25.0"
+                           prefWidth="85.0"/>
+                <TextField fx:id="resultsDefectLocTxtField" layoutX="284.0" layoutY="158.0" prefHeight="25.0"
+                           prefWidth="85.0"/>
+                <TextField fx:id="resultsResultTxtField" layoutX="397.0" layoutY="158.0" prefHeight="25.0"
+                           prefWidth="64.0"/>
+                <Label layoutX="24.0" layoutY="14.0" prefHeight="27.0" prefWidth="94.0" text="Serial number"/>
+                <Label layoutX="24.0" layoutY="71.0" prefHeight="27.0" prefWidth="94.0" text="Weld/ Piece No"/>
+                <Label layoutX="24.0" layoutY="126.0" prefHeight="27.0" prefWidth="94.0" text="Test Length"/>
+                <Label layoutX="151.0" layoutY="126.0" prefHeight="27.0" prefWidth="94.0" text="Welding Process"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="151.0" layoutY="14.0" prefHeight="27.0"
+                       prefWidth="94.0" text="Thickness" textAlignment="CENTER"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="14.0" prefHeight="27.0"
+                       prefWidth="94.0" text="Diameter" textAlignment="CENTER"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="71.0" prefHeight="27.0"
+                       prefWidth="94.0" text="Defect Type" textAlignment="CENTER"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="126.0" prefHeight="27.0"
+                       prefWidth="94.0" text="Defect Loc" textAlignment="CENTER"/>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="374.0" layoutY="131.0" prefHeight="27.0"
+                       prefWidth="94.0" text="Result" textAlignment="CENTER"/>
+                <Button fx:id="resultsSaveButton" layoutX="402.0" layoutY="101.0" mnemonicParsing="false" text="Save"/>
+            </children>
+        </Pane>
+        <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8683784876668014"
+                   layoutX="382.0" layoutY="84.0" prefHeight="476.0" prefWidth="994.0" visible="false">
             <items>
                 <Pane fx:id="equipSelectMenuPane" prefHeight="474.0" prefWidth="692.0">
                     <children>
@@ -79,8 +185,8 @@
                         <Label layoutX="642.0" layoutY="363.0" prefHeight="17.0" prefWidth="21.0" text="mm"/>
                         <Label fx:id="equipUVLghtDenLabel" layoutX="680.0" layoutY="303.0" text="UV Light Density"/>
                         <Label layoutX="480.0" layoutY="363.0" text="Distance of light" textAlignment="CENTER"/>
-                        <Label layoutX="830.0" layoutY="303.0" text="W/m2"/>
-                        <TextField fx:id="equipUVlghtIntensityTxtField" layoutX="780.0" layoutY="299.0"
+                        <Label layoutX="821.0" layoutY="303.0" text="W/m2"/>
+                        <TextField fx:id="equipUVlghtIntensityTxtField" layoutX="771.0" layoutY="299.0"
                                    prefHeight="25.0" prefWidth="51.0"/>
                         <TextField fx:id="equipNameTxtField" layoutX="134.0" layoutY="329.0" prefHeight="25.0"
                                    prefWidth="337.0"/>
@@ -102,19 +208,19 @@
                                text="Gauss Field Strenght"/>
 
                         <Label layoutX="638.0" layoutY="303.0" text="kA/m"/>
-                        <Label layoutX="837.0" layoutY="363.0" text="C"/>
+                        <Label layoutX="826.0" layoutY="363.0" text="C"/>
                         <TextField fx:id="equipGausFldStrnthTxtField" layoutX="587.0" layoutY="299.0" prefHeight="25.0"
                                    prefWidth="51.0"/>
                         <Label fx:id="equipCurntTypLabel" layoutX="678.0" layoutY="391.0" text="Current Type"/>
-                        <ChoiceBox fx:id="equipCurntTypCBox" layoutX="780.0" layoutY="387.0" prefHeight="25.0"
+                        <ChoiceBox fx:id="equipCurntTypCBox" layoutX="771.0" layoutY="387.0" prefHeight="25.0"
                                    prefWidth="69.0"/>
                         <Label fx:id="equipLuxMtrLabel" layoutX="678.0" layoutY="333.0" text="Luxmeter"/>
-                        <TextField fx:id="equipLuxMtrTxtField" layoutX="781.0" layoutY="329.0" prefHeight="25.0"
+                        <TextField fx:id="equipLuxMtrTxtField" layoutX="772.0" layoutY="329.0" prefHeight="25.0"
                                    prefWidth="49.0"/>
                         <Label layoutX="16.0" layoutY="391.0" text="Surface con."/>
                         <TextField id="equipSurfCondTxtField" fx:id="equipSurfCondTxtField" layoutX="134.0"
                                    layoutY="387.0" prefHeight="25.0" prefWidth="108.0"/>
-                        <Label layoutX="832.0" layoutY="333.0" text="Lux"/>
+                        <Label layoutX="821.0" layoutY="333.0" text="Lux"/>
                         <Label layoutX="477.0" layoutY="391.0" text="ID. of light Equip."/>
                         <Label layoutX="253.0" layoutY="391.0" text="Lifting test Date/Num."/>
                         <Label layoutX="480.0" layoutY="421.0" text="Test medium"/>
@@ -131,11 +237,11 @@
                                    prefWidth="93.0"/>
                         <TextField fx:id="equipTstMediumTxtFld" layoutX="589.0" layoutY="417.0" prefHeight="25.0"
                                    prefWidth="80.0"/>
-                        <Button fx:id="equipClearAllButton" layoutX="683.0" layoutY="417.0" mnemonicParsing="false"
-                                prefHeight="25.0" prefWidth="171.0" text="Clear all"/>
+                        <Button fx:id="equipClearAllButton" layoutX="674.0" layoutY="417.0" mnemonicParsing="false"
+                                prefHeight="25.0" prefWidth="181.0" text="Clear all"/>
                         <Button fx:id="equipRstPageButton" layoutX="16.0" layoutY="443.0" mnemonicParsing="false"
                                 text="Reset Page"/>
-                        <TextField fx:id="equipTempTxtField" layoutX="781.0" layoutY="359.0" prefHeight="25.0"
+                        <TextField fx:id="equipTempTxtField" layoutX="772.0" layoutY="359.0" prefHeight="25.0"
                                    prefWidth="49.0"/>
                         <TextField fx:id="equipPoleDistanceTxtField" layoutX="589.0" layoutY="329.0" prefHeight="25.0"
                                    prefWidth="49.0"/>
@@ -194,7 +300,7 @@
                 </Pane>
             </items>
         </SplitPane>
-        <AnchorPane id="companySettingsPane" fx:id="companySettingsPane" layoutX="375.0" layoutY="81.0">
+        <AnchorPane id="companySettingsPane" fx:id="companySettingsPane" layoutX="375.0" layoutY="81.0" visible="false">
             <children>
 
                 <HBox style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
@@ -282,5 +388,6 @@
                 </HBox>
             </children>
         </AnchorPane>
+        <Label layoutX="35.0" layoutY="608.0" prefHeight="18.0" prefWidth="116.0" text="by Koro"/>
     </children>
 </AnchorPane>

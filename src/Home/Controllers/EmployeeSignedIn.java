@@ -5,6 +5,7 @@ import Home.Main;
 import Home.model.Company;
 import Home.model.EquipInfoSectionOfReport;
 import Home.model.Equipment;
+import Home.model.WeldedPiece;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -96,6 +98,31 @@ public class EmployeeSignedIn implements Initializable {
     public ChoiceBox ProjectsChoiceBox;
     public CheckBox newProjectCheckBox;
     public TextField newProjectNameTextField;
+    public TextField inspectionStandardTxtField;
+    public TextField evaluationStandardTxtField;
+    public TextField drawingNoTxtField;
+    public TextField inspectionProcedureTxtField;
+    public TextField inspectionScopeTxtField;
+    public TextField pageNoTextField;
+    public TextField reportNoTxtField;
+    public CheckBox pictureTwoCheckBox;
+    public CheckBox pictureOneCheckBox;
+    public TextField descripAndAttachmTxtField;
+    public TextField standardDeviationTxtField;
+    public TextField inspectionDatesTxtField;
+    public Button MenuToResultsButton;
+    public Button MenuToSignaturesButton;
+    public TableColumn<WeldedPiece, String> SNumCol;
+    public TableColumn<WeldedPiece, String> WPNoCol;
+    public TableColumn<WeldedPiece, String> tstLenthCol;
+    public TableColumn<WeldedPiece, String> welProcessCol;
+    public TableColumn<WeldedPiece, String> ThicknsCol;
+    public TableColumn<WeldedPiece, String> diameterCol;
+    public TableColumn<WeldedPiece, String> defectTypeCol;
+    public TableColumn<WeldedPiece, String> defectLocCol;
+    public TableColumn<WeldedPiece, String> resultCol;
+    public TableView<WeldedPiece> resultsTableView;
+    public TableColumn<WeldedPiece, Button> updateCol;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -134,6 +161,7 @@ public class EmployeeSignedIn implements Initializable {
     boolean companySettingsClicks = false;
     int orderno = 0;
     int offerno = 0;
+    int reportno = 0;
     String Project = "";
 
     public static ObservableList<Integer> observableListFromNumbersRs(ResultSet rs) {
@@ -178,7 +206,6 @@ public class EmployeeSignedIn implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         newSurConOrStOfExam.setOnAction(event -> {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -265,7 +292,15 @@ public class EmployeeSignedIn implements Initializable {
                 }
             }
         });
-
+        reportNoTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("(\\d+)")) {
+                    if (reportNoTxtField.getLength() == 0) reportNoTxtField.setText(String.valueOf(0));
+                    else reportNoTxtField.setText(oldValue);
+                }
+            }
+        });
         addCompanyjobofferno.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -276,6 +311,21 @@ public class EmployeeSignedIn implements Initializable {
                         if (newValue.length() == 0) addCompanyjobofferno.setText("");
                         else addCompanyjobofferno.setText(oldValue);
                     }
+                }
+            }
+        });
+        inspectionScopeTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String nValue) {
+                if (!nValue.matches("(\\d{0,2})|(\\'100')")) {
+                    try {
+                        Integer.parseInt(nValue);
+                    } catch (Exception e) {
+                        if (nValue.length() == 0) addCompanyjobofferno.setText("");
+                        else addCompanyjobofferno.setText(oldValue);
+                    }
+                    System.out.println(nValue);
+                    System.out.println(oldValue);
                 }
             }
         });
@@ -626,6 +676,17 @@ public class EmployeeSignedIn implements Initializable {
                 System.out.println(i + "   " + selectedEquipSec);
             }
         });
+
+        MenuToResultsButton.setOnAction(event -> {
+            MenuToResultsButton.setVisible(!MenuToResultsButton.isVisible());
+            if (onHandCompany != (new Company()) && onHandCompany != null && Integer.parseInt(reportNoTxtField.getText()) != 0 && (MenuToResultsButton.isVisible())) {
+                reportno = Integer.parseInt(reportNoTxtField.getText());
+                initResultsTable();
+                loadResultsTable(DatabaseHandler.getWeldPieceOfCompany(onHandCompany, reportno));
+                System.out.println("got here");
+            }
+        });
+
         //Standard info
         ////end of initialise...
     }
@@ -762,5 +823,88 @@ public class EmployeeSignedIn implements Initializable {
         addequipDistanceErrorLabel.setVisible(false);
         addequipSavingResultLabel.setVisible(false);
     }
+
+    private void initResultsTable() {
+
+        initResultsCol();
+
+    }
+
+    private void initResultsCol() {
+        SNumCol.setCellValueFactory(new PropertyValueFactory<>("serialNo"));
+        WPNoCol.setCellValueFactory(new PropertyValueFactory<>("weldPieceNo"));
+        tstLenthCol.setCellValueFactory(new PropertyValueFactory<>("testLength"));
+        welProcessCol.setCellValueFactory(new PropertyValueFactory<>("weldingProcess"));
+        ThicknsCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));
+        diameterCol.setCellValueFactory(new PropertyValueFactory<>("diameter"));
+        defectTypeCol.setCellValueFactory(new PropertyValueFactory<>("defectType"));
+        defectLocCol.setCellValueFactory(new PropertyValueFactory<>("defectLoc"));
+        resultCol.setCellValueFactory(new PropertyValueFactory<>("result"));
+        updateCol.setCellValueFactory(new PropertyValueFactory<>("update"));
+        editableCols();
+    }
+
+    private void editableCols() {
+        resultCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        resultCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        defectLocCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        defectLocCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        defectTypeCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        defectTypeCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        diameterCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        diameterCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        SNumCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        SNumCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        WPNoCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        WPNoCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        tstLenthCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        tstLenthCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        welProcessCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        welProcessCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        ThicknsCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        ThicknsCol.setOnEditCommit(event -> {
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
+        });
+        resultsTableView.setEditable(true);
+    }
+
+    private void loadResultsTable(ResultSet resultSet) {
+        ObservableList<WeldedPiece> list = FXCollections.observableArrayList();
+        int counter = 0;
+        list.clear();
+        while (true) {
+            WeldedPiece weldedPiece = new WeldedPiece();
+            try {
+                //going through each row of results
+                if (!resultSet.next()) break;
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("added to list! " + weldedPiece.toString());
+            //adding each company to the observable list  list
+            list.add(counter, weldedPiece);
+            counter++;
+        }
+        resultsTableView.setItems(list);
+    }
+
 
 }

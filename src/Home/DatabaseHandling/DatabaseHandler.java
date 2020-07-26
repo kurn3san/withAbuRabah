@@ -1,9 +1,6 @@
 package Home.DatabaseHandling;
 
-import Home.model.Admin;
-import Home.model.Company;
-import Home.model.Employee;
-import Home.model.Equipment;
+import Home.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -660,5 +657,79 @@ public class DatabaseHandler extends Configs {
         return null;
     }
 
+    public static boolean addWeldPieceOfCompany(Company company, WeldedPiece weldedPiece, int no) {
+        String query = "SELECT * FROM project.weldedpiece WHERE weldPieceNo = '" + weldedPiece.getWeldPieceNo() + "'AND companyid = '" + company.getCompanyid()
+                + "'AND reportno = '" + no + "';";
+        ResultSet rs;
+        int counter = 0;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                counter++;
+            }
+
+        } catch (Exception e) {
+        }
+        if (counter == 0) {
+            String query2 = "INSERT INTO " +
+                    "project.weldedpiece" +
+                    " (serialNo," +
+                    "weldPieceNo," +
+                    "testLength," +
+                    "weldingProcess," +
+                    "thickness," +
+                    "diameter," +
+                    "defectType," +
+                    "defectLoc," +
+                    "result," +
+                    "reportno," +
+                    " companyid) " +
+                    "VALUES(" +
+                    weldedPiece.getSerialNo() + "', '" +
+                    weldedPiece.getWeldPieceNo() + "', '" +
+                    weldedPiece.getTestLength() + "', '" +
+                    weldedPiece.getWeldingProcess() + "', '" +
+                    weldedPiece.getThickness() + "', '" +
+                    weldedPiece.getDiameter() + "', '" +
+                    weldedPiece.getDefectType() + "', '" +
+                    weldedPiece.getDefectLoc() + "', '" +
+                    weldedPiece.getResult() + "', '" +
+                    no + "', '" +
+                    company.getCompanyid() + "' );";
+            System.out.println(query);
+            try {
+                int i = DatabaseHandler.getDbConnection().prepareStatement(query2).executeUpdate();
+                System.out.println(i);
+                return true;
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    public static ResultSet getWeldPiece(Company company, WeldedPiece weldedPiece, int no) {
+        String query = "SELECT * FROM project.weldedpiece WHERE weldPieceNo = '" + weldedPiece.getWeldPieceNo() + "'AND companyid = '" + company.getCompanyid()
+                + "'AND reportno = '" + no + "';";
+        try {
+            return DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static ResultSet getWeldPieceOfCompany(Company company, int no) {
+        String query = "SELECT * FROM project.weldedpiece WHERE companyid = '" + company.getCompanyid()
+                + "'AND reportno = '" + no + "';";
+        try {
+            return DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
 }

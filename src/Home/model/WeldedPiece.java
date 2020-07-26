@@ -1,28 +1,35 @@
 package Home.model;
 
+import java.awt.*;
+
 public class WeldedPiece {
-    private int serialNo = 0;
+    private String serialNo;
     private String weldPieceNo = "";
-    private int testLength = 0;
+    private String testLength;
     private String weldingProcess = "";
-    private int thickness = 0;
-    private int diameter = 0;
+    private String thickness;
+    private String diameter;
     private String defectType = "";
     private String defectLoc = "";
     private String result = "RED";
+    private Button update;
 
-    public WeldedPiece(String weldPieceNo, int testLength, String weldingProcess, int thickness, String result, int serialNo) {
+
+    public WeldedPiece(String serialNo, String weldPieceNo, String testLength, String weldingProcess, String thickness, String diameter, String result, Button update) {
+        this.serialNo = serialNo;
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
         this.weldingProcess = weldingProcess;
         this.thickness = thickness;
+        this.diameter = diameter;
         this.result = result;
+        this.update = update;
     }
 
-    public WeldedPiece(int serialNo, String weldPieceNo, int testLength,
-                       String weldingProcess, int thickness,
-                       int diameter, String defectType,
-                       String defectLoc, String result) {
+    public WeldedPiece(int serialNo, String weldPieceNo, String testLength,
+                       String weldingProcess, String thickness,
+                       String diameter, String defectType,
+                       String defectLoc, String result, Button update) {
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
         this.weldingProcess = weldingProcess;
@@ -31,6 +38,15 @@ public class WeldedPiece {
         this.diameter = diameter;
         this.defectType = defectType;
         this.defectLoc = defectLoc;
+        this.update = update;
+    }
+
+    public Button getUpdate() {
+        return update;
+    }
+
+    public void setUpdate(Button update) {
+        this.update = update;
     }
 
     public WeldedPiece() {
@@ -58,19 +74,16 @@ public class WeldedPiece {
         return getSerialNo() == that.getSerialNo() &&
                 getTestLength() == that.getTestLength() &&
                 getThickness() == that.getThickness() &&
-                getDiameter() == that.getDiameter() &&
                 getWeldPieceNo().equals(that.getWeldPieceNo()) &&
                 getWeldingProcess().equals(that.getWeldingProcess()) &&
-                getDefectType().equals(that.getDefectType()) &&
-                getDefectLoc().equals(that.getDefectLoc()) &&
                 getResult().equals(that.getResult());
     }
 
-    public int getSerialNo() {
+    public String getSerialNo() {
         return serialNo;
     }
 
-    public void setSerialNo(int serialNo) {
+    public void setSerialNo(String serialNo) {
         this.serialNo = serialNo;
     }
 
@@ -82,11 +95,11 @@ public class WeldedPiece {
         this.weldPieceNo = weldPieceNo;
     }
 
-    public int getTestLength() {
+    public String getTestLength() {
         return testLength;
     }
 
-    public void setTestLength(int testLength) {
+    public void setTestLength(String testLength) {
         this.testLength = testLength;
     }
 
@@ -98,19 +111,19 @@ public class WeldedPiece {
         this.weldingProcess = weldingProcess;
     }
 
-    public int getThickness() {
+    public String getThickness() {
         return thickness;
     }
 
-    public void setThickness(int thickness) {
+    public void setThickness(String thickness) {
         this.thickness = thickness;
     }
 
-    public int getDiameter() {
+    public String getDiameter() {
         return diameter;
     }
 
-    public void setDiameter(int diameter) {
+    public void setDiameter(String diameter) {
         this.diameter = diameter;
     }
 
