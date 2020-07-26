@@ -10,7 +10,7 @@ public class Employee {
     private String title;
     private LocalDate certificateDate;
     private String password;
-
+    private int id;
 
     public Employee(String firstName, String lastName, String username, int level, String title, LocalDate CDate, String password) {
         this.firstName = firstName;
@@ -20,6 +20,7 @@ public class Employee {
         this.title = title;
         this.certificateDate = CDate;
         this.password = password;
+
     }
 
     public Employee() {
@@ -93,5 +94,13 @@ public class Employee {
     /////add equals method....
     public boolean equals(Employee employee) {
         return this.getUsername() == employee.getUsername();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

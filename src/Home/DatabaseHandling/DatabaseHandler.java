@@ -174,6 +174,39 @@ public class DatabaseHandler extends Configs {
         else return null;
     }
 
+    public static Employee getEmployeeByUsername(String string) {
+        Employee foundEmployee = new Employee();
+        String Query = "SELECT * FROM " + Consts.EMPLOYEE_TABLE + " WHERE " + Consts.EMPLOYEE_USERNAME + " = '" + string + "'";
+        ResultSet resultSet = null;
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(Query).executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        int counter = 0;
+        while (true) {
+            try {
+                //going through each row of results
+                if (!resultSet.next()) break;
+                foundEmployee.setLastName(resultSet.getString(3).toUpperCase());
+                foundEmployee.setFirstName(resultSet.getString(2));
+                foundEmployee.setLevel(resultSet.getInt(5));
+                foundEmployee.setTitle(resultSet.getString(6));
+                foundEmployee.setUsername(resultSet.getString(4));
+                foundEmployee.setCertificateDate(resultSet.getDate(7).toLocalDate());
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Employee found!" + foundEmployee.toString() + " counter: " + counter);
+            //adding each employee to the observable list  list
+            // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
+            counter++;
+        }
+        return foundEmployee;
+    }
+
     public static ResultSet getEmployeeResultSet(Employee employee) {
         ResultSet resultSet = null;
 
@@ -742,6 +775,92 @@ public class DatabaseHandler extends Configs {
             DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
         } catch (Exception e) {
         }
+    }
+
+    public static void addOperatorSignature(Employee employee, int no) {
+        String query = "INSERT INTO project.signatures (operator, reportno) VALUES ('" + employee.getUsername() + "' , '" + no + "');";
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public static void addConfirmationMaker(Employee employee, int no) {
+        String query = "UPDATE project.signatures SET confirmationmaker = '" +
+                employee.getUsername() + "'" +
+
+
+                " WHERE reportno = " + no + ";";
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public static String getOperatorSignature(int no) {
+        String query = "SELECT operator FROM project.signatures WHERE repotno = " + no;
+        ResultSet resultSet;
+        String string = "";
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (!resultSet.next()) {
+                string = resultSet.getString(1);
+            }
+        } catch (Exception e) {
+
+        }
+        return string;
+
+    }
+
+    public static String getEvaluatorSignature(int no) {
+        String query = "SELECT evaluator FROM project.signatures WHERE repotno = " + no;
+        ResultSet resultSet;
+        String string = "";
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (!resultSet.next()) {
+                string = resultSet.getString(2);
+            }
+        } catch (Exception e) {
+
+        }
+        return string;
+
+    }
+
+    public static String getConfirmationMakerSignature(int no) {
+        String query = "SELECT confirmationmaker FROM project.signatures WHERE repotno = " + no;
+        ResultSet resultSet;
+        String string = "";
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (!resultSet.next()) {
+                string = resultSet.getString(3);
+            }
+        } catch (Exception e) {
+
+        }
+        return string;
+
+    }
+
+    public void addEvaluatorSignature(Employee employee, int no) {
+        String query = "UPDATE project.signatures SET evaluator = '" +
+                employee.getUsername() + "'" +
+
+
+                " WHERE reportno = " + no + ";";
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+
     }
 
 

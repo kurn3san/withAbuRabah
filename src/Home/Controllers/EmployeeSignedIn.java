@@ -2,10 +2,7 @@ package Home.Controllers;
 
 import Home.DatabaseHandling.DatabaseHandler;
 import Home.Main;
-import Home.model.Company;
-import Home.model.EquipInfoSectionOfReport;
-import Home.model.Equipment;
-import Home.model.WeldedPiece;
+import Home.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -135,6 +132,9 @@ public class EmployeeSignedIn implements Initializable {
     public Pane resultsPane;
     public static WeldedPiece[] onhandWPieceArray = new WeldedPiece[14];
     public Button resultsSaveNewElementButton;
+    public Button signSaveAllButton;
+    public Pane signaturePane;
+    public ChoiceBox reportChoiceBox;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -170,6 +170,52 @@ public class EmployeeSignedIn implements Initializable {
     public TextField equipTstMediumTxtFld;
     public Button equipClearAllButton;
     public Button equipRstPageButton;
+
+    @FXML
+    private TextField signOperatorNameTxtField;
+
+    @FXML
+    private TextField signOperatorLevel;
+
+    @FXML
+    private TextField signOperatorDateTxt;
+
+    @FXML
+    private Button signOperatorSignButton;
+
+    @FXML
+    private TextField signOperatorSignatureTxt;
+
+    @FXML
+    private TextField signEvalNameTxt;
+
+    @FXML
+    private TextField signEvaluLevelTxt;
+
+    @FXML
+    private TextField signEvaluDateTxt;
+
+    @FXML
+    private TextField signEvaluSignTxt1;
+
+    @FXML
+    private Button signEvaluatedByButton;
+
+    @FXML
+    private TextField signConfirmationNameTxt;
+
+    @FXML
+    private TextField signConfirmatinoLvlTxt;
+
+    @FXML
+    private TextField signConfirmationDateTxt;
+
+    @FXML
+    private TextField signConfirmationSignatureTxt;
+
+    @FXML
+    private Button signConfirmationSign;
+
     boolean companySettingsClicks = false;
     public ChoiceBox<String> resultChoiceBox = new ChoiceBox<>();
     int orderno = 0;
@@ -223,6 +269,8 @@ public class EmployeeSignedIn implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<Integer> reportsObList = FXCollections.observableArrayList();
+        //
         newSurConOrStOfExam.setOnAction(event -> {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -789,6 +837,34 @@ public class EmployeeSignedIn implements Initializable {
                 }
             }
         });
+        MenuToSignaturesButton.setOnAction(event -> {
+            signaturePane.setVisible(!signaturePane.isVisible());
+            Employee employee = new Employee();
+            employee.setUsername(DatabaseHandler.getOperatorSignature(reportno));
+            employee = DatabaseHandler.getEmployeeByUsername(employee.getUsername());
+
+            signOperatorNameTxtField.setText(employee.getFirstName() +
+                    " " + employee.getLastName());
+            signOperatorLevel.setText(String.valueOf(employee.getLevel()));
+            signOperatorDateTxt.setText(String.valueOf(ReportDateDatePicker.getValue()));
+            signOperatorSignatureTxt.setText(WelcomePageController.signedInEmployee.getUsername() + " " +
+                    WelcomePageController.signedInEmployee.getLastName());
+
+        });
+        signOperatorSignButton.setOnAction(event -> {
+            if (signOperatorNameTxtField.getText().length() != 0) {
+                signOperatorNameTxtField.setText(WelcomePageController.signedInEmployee.getFirstName() +
+                        " " + WelcomePageController.signedInEmployee.getLastName());
+                signOperatorLevel.setText(String.valueOf(WelcomePageController.signedInEmployee.getLevel()));
+                signOperatorDateTxt.setText(String.valueOf(ReportDateDatePicker.getValue()));
+                signOperatorSignatureTxt.setText(WelcomePageController.signedInEmployee.getUsername() + " " +
+                        WelcomePageController.signedInEmployee.getLastName());
+            }
+
+        });
+        signSaveAllButton.setOnAction(event -> {
+
+        });
 
         //
         //Standard info
@@ -976,6 +1052,10 @@ public class EmployeeSignedIn implements Initializable {
             counter++;
         }
         resultsTableView.setItems(list);
+    }
+
+    private void checkSignatures() {
+
     }
 
 

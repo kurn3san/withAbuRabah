@@ -24,7 +24,7 @@
                         layoutX="194.0" layoutY="78.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
                 <DatePicker fx:id="ReportDateDatePicker" layoutX="578.0" layoutY="10.0" promptText="Select Date"/>
-                <Label layoutX="492.0" layoutY="14.0" text="Report Date"/>
+                <Label layoutX="512.0" layoutY="16.0" text="Report Date"/>
                 <Button fx:id="newSurConOrStOfExam" layoutX="194.0" layoutY="113.0" mnemonicParsing="false"
                         prefHeight="70.0" prefWidth="26.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="+"/>
@@ -54,12 +54,12 @@
                            prefHeight="35.0" prefWidth="150.0" text="0"/>
                 <Label layoutX="305.0" layoutY="339.0" text="\%"/>
                 <Label layoutX="72.0" layoutY="330.0" prefHeight="35.0" prefWidth="117.0" text="Inspection Scope"/>
-                <Label layoutX="356.0" layoutY="14.0" text="Page No."/>
-                <TextField fx:id="pageNoTextField" layoutX="419.0" layoutY="11.0" prefHeight="25.0" prefWidth="64.0"
+                <Label layoutX="391.0" layoutY="14.0" text="Page No."/>
+                <TextField fx:id="pageNoTextField" layoutX="442.0" layoutY="11.0" prefHeight="25.0" prefWidth="64.0"
                            text="1"/>
-                <TextField fx:id="reportNoTxtField" alignment="CENTER" layoutX="204.0" layoutY="12.0" prefHeight="25.0"
-                           prefWidth="128.0"/>
-                <Label layoutX="100.0" layoutY="15.0" text="Report No."/>
+                <TextField fx:id="reportNoTxtField" alignment="CENTER" layoutX="199.0" layoutY="13.0" prefHeight="26.0"
+                           prefWidth="143.0" promptText="new ReportNo" visible="false"/>
+                <Label layoutX="71.0" layoutY="13.0" text="Report No."/>
                 <ImageView fitHeight="89.0" fitWidth="128.0" layoutX="67.0" layoutY="372.0" pickOnBounds="true"
                            preserveRatio="true">
                     <image>
@@ -88,6 +88,10 @@
                 <Button id="MenuToEquipmentSettings" fx:id="MenuToSignaturesButton" contentDisplay="CENTER"
                         layoutX="193.0" layoutY="494.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="149.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Signatures"/>
+                <Label fx:id="reportNoNOtAvailblLabel" layoutX="199.0" layoutY="16.0" text="not availible"
+                       visible="false"/>
+                <ChoiceBox fx:id="reportChoiceBox" layoutX="195.0" layoutY="9.0" prefHeight="35.0" prefWidth="149.0"/>
+                <CheckBox layoutX="145.0" layoutY="27.0" mnemonicParsing="false" text="new"/>
             </children>
         </AnchorPane>
         <Pane fx:id="resultsPane" layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="906.0"
@@ -392,5 +396,60 @@
             </children>
         </AnchorPane>
         <Label layoutX="35.0" layoutY="608.0" prefHeight="18.0" prefWidth="116.0" text="by Koro"/>
+        <Pane fx:id="signaturePane" layoutX="381.0" layoutY="79.0" prefHeight="466.0" prefWidth="637.0"
+              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
+            <children>
+                <HBox layoutY="62.0" prefHeight="357.0" prefWidth="690.0">
+                    <children>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="signOperatorNameTxtField" editable="false" layoutX="26.0"
+                                           layoutY="84.0" promptText="Name / Surname"/>
+                                <TextField fx:id="signOperatorLevel" editable="false" layoutX="26.0" layoutY="132.0"
+                                           promptText="Level"/>
+                                <TextField fx:id="signOperatorDateTxt" editable="false" layoutX="26.0" layoutY="186.0"
+                                           promptText="Date"/>
+                                <Label layoutX="76.0" layoutY="42.0" text="Operator"/>
+                                <Button fx:id="signOperatorSignButton" layoutX="80.0" layoutY="279.0"
+                                        mnemonicParsing="false" text="Sign"/>
+                                <TextField fx:id="signOperatorSignatureTxt" editable="false" layoutX="26.0"
+                                           layoutY="226.0" promptText="Signature"/>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="signEvalNameTxt" editable="false" layoutX="26.0" layoutY="85.0"
+                                           promptText="Name / Surname"/>
+                                <TextField fx:id="signEvaluLevelTxt" editable="false" layoutX="26.0" layoutY="131.0"
+                                           promptText="Level"/>
+                                <TextField fx:id="signEvaluDateTxt" editable="false" layoutX="26.0" layoutY="188.0"
+                                           promptText="Date"/>
+                                <TextField fx:id="signEvaluSignTxt1" editable="false" layoutX="26.0" layoutY="224.0"
+                                           promptText="Signature"/>
+                                <Button fx:id="signEvaluatedByButton" layoutX="80.0" layoutY="277.0"
+                                        mnemonicParsing="false" text="Sign"/>
+                                <Label layoutX="66.0" layoutY="43.0" text="Evaluated By"/>
+                            </children>
+                        </Pane>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="signConfirmationNameTxt" editable="false" layoutX="26.0"
+                                           layoutY="85.0" promptText="Name / Surname"/>
+                                <TextField fx:id="signConfirmatinoLvlTxt" editable="false" layoutX="26.0"
+                                           layoutY="131.0" promptText="Level"/>
+                                <TextField fx:id="signConfirmationDateTxt" editable="false" layoutX="26.0"
+                                           layoutY="188.0" promptText="Date"/>
+                                <TextField fx:id="signConfirmationSignatureTxt" editable="false" layoutX="26.0"
+                                           layoutY="224.0" promptText="Signature"/>
+                                <Button fx:id="signConfirmationSign" layoutX="80.0" layoutY="277.0"
+                                        mnemonicParsing="false" text="Sign"/>
+                                <Label layoutX="66.0" layoutY="43.0" text="Confirmation"/>
+                            </children>
+                        </Pane>
+                    </children>
+                </HBox>
+                <Button fx:id="signSaveAllButton" layoutX="328.0" layoutY="419.0" mnemonicParsing="false" text="Save"/>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
