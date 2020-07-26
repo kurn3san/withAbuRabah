@@ -865,8 +865,6 @@ public class EmployeeSignedIn implements Initializable {
         signSaveAllButton.setOnAction(event -> {
 
         });
-
-        //
         //Standard info
         ////end of initialise...
     }
@@ -1055,8 +1053,7 @@ public class EmployeeSignedIn implements Initializable {
     }
 
     private void checkSignatures() {
-
+        ///
     }
-
 
 }

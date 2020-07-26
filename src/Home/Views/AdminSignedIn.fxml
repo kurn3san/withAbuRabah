@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="Anchorpane" prefHeight="279.0" prefWidth="423.0"
-            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="Home.Controllers.AdminSignedInController">
     <children>
         <Label id="EmployeesManagementToAddWorker" alignment="CENTER" contentDisplay="CENTER" layoutX="474.0"
@@ -265,6 +265,7 @@
                 </Pane>
             </children>
         </AnchorPane>
+        <Button fx:id="LogoutButton" layoutX="14.0" layoutY="581.0" mnemonicParsing="false" text="Logout"/>
     </children>
 
 </AnchorPane>

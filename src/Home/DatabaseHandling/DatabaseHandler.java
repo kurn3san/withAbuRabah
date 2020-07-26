@@ -863,5 +863,30 @@ public class DatabaseHandler extends Configs {
 
     }
 
+    public static int getObservableListOfReports() {
+
+        String query = "SELECT reportno FROM project.reports  ";
+        ResultSet resultSet;
+        int i = 0;
+        try {
+            resultSet = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (!resultSet.next()) {
+                i = resultSet.getInt(2);
+            }
+        } catch (Exception e) {
+
+        }
+        return i;
+    }
+
+    public static void setReport(int n) {
+        String query = "INSERT INTO project.reports (reportno) VALUES ('" + n + "');";
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+    }
+
 
 }

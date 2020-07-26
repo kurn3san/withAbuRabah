@@ -23,6 +23,8 @@ public class AdminSignedInController implements Initializable {
     private static ResultSet onhandResultset = null;
     //edit general info stuff...
     @FXML
+    public Button LogoutButton;
+    @FXML
     public TextField EditFirstNameTextField;
     @FXML
     public CheckBox EditFirstNameCheckBox;
@@ -135,6 +137,11 @@ public class AdminSignedInController implements Initializable {
             EnterNewPasswordSecondPasswordField.clear();
             EditEmployeeChangePasswordCheckBox.setSelected(false);
             clearEditFields();
+        });
+        LogoutButton.setOnAction(event -> {
+            LogoutButton.getScene().getWindow().hide();
+            WelcomePageController.showWlcPageWindow();
+            WelcomePageController.signedInAdmin = null;
         });
         AddEmployeeButton.setOnAction((event) -> {
             System.out.println("Add Employee Button click!");

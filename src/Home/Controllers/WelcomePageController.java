@@ -150,7 +150,8 @@ public class WelcomePageController implements Initializable{
                                     //checking for that one match...
                                     System.out.println("successful...");
                                     goToAdminSignedIn();
-                                    //gotta move from hrereereererere
+                                    SignInUsernameTextField.clear();
+                                    SignInPasswordField.clear();
                                 } else {
                                     userRow = DatabaseHandler.getUserByUserName(admin);
                                     while (userRow.next()) {
@@ -184,6 +185,8 @@ public class WelcomePageController implements Initializable{
                             if (signedInEmployee != null) {
                                 ///here the sign in is complete!
                                 goToEmployeeSignedIn();
+                                SignInUsernameTextField.clear();
+                                SignInPasswordField.clear();
 
                             } else {
                                 if (DatabaseHandler.isThereSuchNEmployee(employee)) {
@@ -218,6 +221,7 @@ public class WelcomePageController implements Initializable{
         primaryStage.setScene(scene);
         ErrorEmptyFieldsLabel.getScene().getWindow().hide();
         primaryStage.show();
+
     }
 
     private void goToEmployeeSignedIn() {

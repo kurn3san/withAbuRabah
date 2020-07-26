@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="EmployeeSignedInAPane" prefHeight="640.4" prefWidth="1391.4"
-            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
+            style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
         <Button fx:id="EmployeeLogOutButton" layoutX="1230.0" layoutY="46.0" mnemonicParsing="false" text="Log out"/>
@@ -58,7 +58,7 @@
                 <TextField fx:id="pageNoTextField" layoutX="442.0" layoutY="11.0" prefHeight="25.0" prefWidth="64.0"
                            text="1"/>
                 <TextField fx:id="reportNoTxtField" alignment="CENTER" layoutX="199.0" layoutY="13.0" prefHeight="26.0"
-                           prefWidth="143.0" promptText="new ReportNo" visible="false"/>
+                           prefWidth="143.0" promptText="new ReportNo"/>
                 <Label layoutX="71.0" layoutY="13.0" text="Report No."/>
                 <ImageView fitHeight="89.0" fitWidth="128.0" layoutX="67.0" layoutY="372.0" pickOnBounds="true"
                            preserveRatio="true">
@@ -90,7 +90,8 @@
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Signatures"/>
                 <Label fx:id="reportNoNOtAvailblLabel" layoutX="199.0" layoutY="16.0" text="not availible"
                        visible="false"/>
-                <ChoiceBox fx:id="reportChoiceBox" layoutX="195.0" layoutY="9.0" prefHeight="35.0" prefWidth="149.0"/>
+                <ChoiceBox fx:id="reportChoiceBox" layoutX="195.0" layoutY="9.0" prefHeight="35.0" prefWidth="149.0"
+                           visible="false"/>
                 <CheckBox layoutX="145.0" layoutY="27.0" mnemonicParsing="false" text="new"/>
             </children>
         </AnchorPane>
@@ -397,7 +398,7 @@
         </AnchorPane>
         <Label layoutX="35.0" layoutY="608.0" prefHeight="18.0" prefWidth="116.0" text="by Koro"/>
         <Pane fx:id="signaturePane" layoutX="381.0" layoutY="79.0" prefHeight="466.0" prefWidth="637.0"
-              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
+              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;" visible="false">
             <children>
                 <HBox layoutY="62.0" prefHeight="357.0" prefWidth="690.0">
                     <children>
