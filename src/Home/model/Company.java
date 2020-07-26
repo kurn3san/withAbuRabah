@@ -3,6 +3,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 public class Company {
+    private int companyid;
     private String name = "";
     private String address = "";
     private Date registerDate;
@@ -68,4 +69,11 @@ public class Company {
         this.registerDate = registerDate;
     }
 
+    public int getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(int companyid) {
+        this.companyid = companyid;
+    }
 }

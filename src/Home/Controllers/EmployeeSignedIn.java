@@ -12,11 +12,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -77,6 +81,21 @@ public class EmployeeSignedIn implements Initializable {
     public AnchorPane EmployeeSignedInAPane;
     public Button newEquipSave;
     public Button addNewEquipCancelButton;
+    public ChoiceBox<Integer> jobOfferNoChoiceBox;
+    public ChoiceBox<Integer> orderNoChoiceBox;
+    public TextField CmpnyJobOfferNoTXtField;
+    public TextField CmpnyOrderNoTxtFiled;
+    public CheckBox newOfferCheckBOx;
+    public CheckBox newOrderCheckBox;
+    public TextField addCompanyjobofferno;
+    public TextField addCompanyJobOrderNo;
+    public ChoiceBox<String> surfaceConditionChoiceBox;
+    public Button newSurConOrStOfExam;
+    public ChoiceBox<String> stageOfExamChoiceBox;
+    public DatePicker ReportDateDatePicker;
+    public ChoiceBox ProjectsChoiceBox;
+    public CheckBox newProjectCheckBox;
+    public TextField newProjectNameTextField;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -113,18 +132,75 @@ public class EmployeeSignedIn implements Initializable {
     public Button equipClearAllButton;
     public Button equipRstPageButton;
     boolean companySettingsClicks = false;
+    int orderno = 0;
+    int offerno = 0;
+    String Project = "";
 
-    /*
-    <TextField fx:id="equipTempTxtField" layoutX="780.0" layoutY="359.0" prefHeight="17.0"
-                                       prefWidth="51.0"/>
-        */
+    public static ObservableList<Integer> observableListFromNumbersRs(ResultSet rs) {
+        ObservableList<Integer> list = FXCollections.observableArrayList();
+        while (true) {
+            try {
+                //going through each row of results
+                if (!rs.next()) break;
+                list.add(rs.getInt(1));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (list.isEmpty()) list.add(0);
+        return list;
+    }
+
+    public void newOffer() {
+        CmpnyJobOfferNoTXtField.setEditable(!CmpnyJobOfferNoTXtField.isEditable());
+    }
+
+    public void newOrder() {
+        CmpnyOrderNoTxtFiled.setEditable(!CmpnyOrderNoTxtFiled.isEditable());
+    }
+
+    public void refreshSurfaceConditionChoiceBox() {
+        surfaceConditionChoiceBox.setItems(DatabaseHandler.getSurfaceConditions());
+    }
+
+    public void refreshStageOfExamChoiceBox() {
+        stageOfExamChoiceBox.setItems(DatabaseHandler.getStageOfExaminatinos());
+    }
+
+    private void standardEquipSelections() {
+        equipExaminAreaTxtField.setText("KAYNAK+HAZ");
+        equipTempTxtField.setText("");
+        equipGausFldStrnthTxtField.setText("3.2");
+        equipCurntTypCBox.setItems(FXCollections.observableArrayList("AC", "DC"));
+        equipCurntTypCBox.setValue("AC");
+        equipLuxMtrTxtField.setText("1200");
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        newSurConOrStOfExam.setOnAction(event -> {
+            Stage primaryStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Home/Views/popups/newSurConOrStageOfExam.fxml"));
+            try {
+                loader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            primaryStage.setTitle("Insert new updates!");
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            refreshSurfaceConditionChoiceBox();
+        });
         EmployeeSignedInAPane.setOnMouseClicked(event -> {
             companySettingsPane.setVisible(false);
             companySettingsPane.setVisible(false);
-
         });
+        refreshSurfaceConditionChoiceBox();
+        refreshStageOfExamChoiceBox();
         double deviderV = 0.8704;
         companySettingsPane.setVisible(false);
         EmployeeLogOutButton.setOnAction(event -> {
@@ -140,6 +216,7 @@ public class EmployeeSignedIn implements Initializable {
                 equipSettingsPane.setVisible(false);
                 //refreshCompaniesTable(new Company());
                 frefreshCmpnyTable();
+
                 if (selectedCompany.getName() != null) {
                     selectedCompnyLabel.setText("Selected company: " + selectedCompany.toString());
                 } else {
@@ -151,29 +228,77 @@ public class EmployeeSignedIn implements Initializable {
             addCompanyClearAll();
         });
         addCompanySaveButton.setOnAction(event -> {
-            if (!addCompanyNameTextField.equals("") && !addCompanyCityTextField.equals("")) {
+            if (!addCompanyNameTextField.equals("") && !addCompanyCityTextField.equals("") &&
+                    !addCompanyjobofferno.getText().equals("") && !addCompanyJobOrderNo.equals("")) {
                 Company company = new Company(addCompanyNameTextField.getText().toLowerCase(),
                         addCompanyCityTextField.getText().toLowerCase(),
                         new Date(Calendar.getInstance().getTime().getTime()));
-                if (!DatabaseHandler.isThereSuchACompany(company)) {
+                int i = DatabaseHandler.isThereSuchACompany(company);
+                company.setCompanyid(i);
+                if (i == -1) {
                     DatabaseHandler.addCompany(company);
+                    i = DatabaseHandler.isThereSuchACompany(company);
+                    company.setCompanyid(i);
+                    DatabaseHandler.addOrderNoOfCompany(company, Integer.parseInt(addCompanyJobOrderNo.getText()));
+                    DatabaseHandler.addJobOfferNoOfCompany(company, Integer.parseInt(addCompanyjobofferno.getText()));
                     addCompanyClearAll();
                     SearchCompaniesNameTextField.clear();
                     //refreshCompaniesTable(new Company());
                     frefreshCmpnyTable();
                     onHandCompany = company;
                     selectedCompnyLabel.setText("company: " + onHandCompany.toString() + " will be selected, don't forget to save!");
-                } else System.out.println("company already exists with the same name and same address");
+                } else {
+                    System.out.println("company already exists with the same name and same address");
+                }
             } else System.out.println("not enough infos");
+        });
+        addCompanyJobOrderNo.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) {
+                    try {
+                        Integer.parseInt(newValue);
+                    } catch (Exception e) {
+                        if (newValue.length() == 0) addCompanyJobOrderNo.setText("");
+                        else addCompanyJobOrderNo.setText(oldValue);
+                    }
+                }
+            }
+        });
+
+        addCompanyjobofferno.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) {
+                    try {
+                        Integer.parseInt(newValue);
+                    } catch (Exception e) {
+                        if (newValue.length() == 0) addCompanyjobofferno.setText("");
+                        else addCompanyjobofferno.setText(oldValue);
+                    }
+                }
+            }
         });
         CompaniesTableView.setRowFactory(tv -> {
             TableRow<Company> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getClickCount() == 2) onHandCompany = row.getItem();
+                if (!row.isEmpty() && event.getClickCount() == 2) {
+                    onHandCompany = row.getItem();
+                    onHandCompany.setCompanyid(DatabaseHandler.isThereSuchACompany(onHandCompany));
+                    jobOfferNoChoiceBox.setItems(observableListFromNumbersRs(DatabaseHandler.jobOffersOfCompany(onHandCompany)));
+                    orderNoChoiceBox.setItems(observableListFromNumbersRs(DatabaseHandler.ordersOfCompany(onHandCompany)));
+                    ProjectsChoiceBox.setItems(DatabaseHandler.getObservableListOfProjects(onHandCompany));
+                }
                 selectedCompnyLabel.setText("company: " + onHandCompany.toString() + " will be selected, don't forget to save!");
             });
             return row;
         });
+    /*    while(true){
+            if(newOfferCheckBOx.isSelected()) CmpnyJobOfferNoTXtField.setEditable(true);
+            else CmpnyJobOfferNoTXtField.setEditable(false);
+            if(newOrderCheckBox.isSelected()) CmpnyOrderNoTxtFiled.setEditable(true);
+        }*/
+        ///newOfferCheckBOx
         companySettingsCancelButton.setOnAction(event -> {
             addCompanyClearAll();
             companySettingsPane.setVisible(false);
@@ -187,14 +312,69 @@ public class EmployeeSignedIn implements Initializable {
             frefreshCmpnyTable();
         });
         companiesSaveNewSettingsButton.setOnAction(event -> {
-            if (onHandCompany != null) selectedCompany = onHandCompany;
-            else System.out.println("no selected companies");
-            addCompanyClearAll();
-            SearchCompaniesNameTextField.clear();
-            companySettingsPane.setVisible(!companySettingsPane.isVisible());
+            if ((CmpnyJobOfferNoTXtField.getText().trim() != "" || CmpnyJobOfferNoTXtField.getText() != null || jobOfferNoChoiceBox.getValue() != null)
+                    && onHandCompany != null
+                    && (CmpnyOrderNoTxtFiled.getText().trim() != "" || CmpnyOrderNoTxtFiled.getText() != null || orderNoChoiceBox.getValue() != null)
+            ) {
+                //from choice boxes
+                if (newOrderCheckBox.isSelected()) {
+                    orderno = Integer.parseInt(CmpnyOrderNoTxtFiled.getText());
+                    DatabaseHandler.addOrderNoOfCompany(onHandCompany, orderno);
+                } else orderno = orderNoChoiceBox.getValue();
+                System.out.println(orderno);
+                if (newOfferCheckBOx.isSelected()) {
+                    offerno = Integer.parseInt(CmpnyJobOfferNoTXtField.getText());
+                    DatabaseHandler.addJobOfferNoOfCompany(onHandCompany, offerno);
+                } else offerno = jobOfferNoChoiceBox.getValue();
+                System.out.println(offerno);
+                if (newProjectCheckBox.isSelected()) {
+                    Project = newProjectNameTextField.getText();
+                    DatabaseHandler.addProjectOfCompany(onHandCompany, Project);
+                }
+                selectedCompany = onHandCompany;
+                addCompanyClearAll();
+                SearchCompaniesNameTextField.clear();
+                companySettingsPane.setVisible(!companySettingsPane.isVisible());
+                newProjectNameTextField.clear();
+                CmpnyJobOfferNoTXtField.clear();
+                CmpnyOrderNoTxtFiled.clear();
+
+            }
+
+
         });
+        CmpnyOrderNoTxtFiled.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) {
+                    try {
+                        Integer.parseInt(newValue);
+                    } catch (Exception e) {
+                        if (newValue.length() == 0) CmpnyOrderNoTxtFiled.setText("");
+                        else CmpnyOrderNoTxtFiled.setText(oldValue);
+                    }
+                }
+            }
+        });
+        CmpnyJobOfferNoTXtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d")) {
+                    try {
+                        Integer.parseInt(newValue);
+                    } catch (Exception e) {
+                        if (newValue.length() == 0) CmpnyJobOfferNoTXtField.setText("");
+                        else CmpnyJobOfferNoTXtField.setText(oldValue);
+                    }
+                }
+            }
+        });
+
         companySettingsCancelButton.setOnAction(event -> {
             addCompanyClearAll();
+            newProjectNameTextField.clear();
+            CmpnyJobOfferNoTXtField.clear();
+            CmpnyOrderNoTxtFiled.clear();
             SearchCompaniesNameTextField.clear();
             companySettingsPane.setVisible(false);
             companySettingsClicks = !companySettingsClicks;
@@ -439,6 +619,8 @@ public class EmployeeSignedIn implements Initializable {
                     if (DatabaseHandler.addEquipment(equipSec)) {
                         System.out.println("added new equipment!");
                         refreshEquipTable();
+                        equipSettingsPane.setVisible(false);
+
                     }
                 }
                 System.out.println(i + "   " + selectedEquipSec);
@@ -448,18 +630,11 @@ public class EmployeeSignedIn implements Initializable {
         ////end of initialise...
     }
 
-    private void standardEquipSelections() {
-        equipExaminAreaTxtField.setText("KAYNAK+HAZ");
-        equipTempTxtField.setText("");
-        equipGausFldStrnthTxtField.setText("3.2");
-        equipCurntTypCBox.setItems(FXCollections.observableArrayList("AC", "DC"));
-        equipCurntTypCBox.setValue("AC");
-        equipLuxMtrTxtField.setText("1200");
-    }
-
     private void addCompanyClearAll() {
         addCompanyCityTextField.clear();
         addCompanyNameTextField.clear();
+        addCompanyjobofferno.clear();
+        addCompanyJobOrderNo.clear();
     }
 
     public ObservableList getObservableListOfCompanies(@NotNull ResultSet rsRow) {

@@ -4,6 +4,8 @@ import Home.model.Admin;
 import Home.model.Company;
 import Home.model.Employee;
 import Home.model.Equipment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 
@@ -330,7 +332,8 @@ public class DatabaseHandler extends Configs {
         }
     }
 
-    public static boolean isThereSuchACompany(Company company) {
+    public static int isThereSuchACompany(Company company) {
+        //returns -1 if there's not, or the index of the found company...
         String query = "SELECT * FROM " + Consts.COMPANIES_TABLE + " WHERE " + Consts.COMPANY_NAME + " = '" + company.getName() + "';";
         ResultSet rs = null;
         try {
@@ -339,12 +342,13 @@ public class DatabaseHandler extends Configs {
             e.printStackTrace();
         }
         Company foundCompany = new Company();
-        int counter = 0;
+        int counter = -1;
         while (true) {
 
             try {
                 //going through each row of results
                 if (!rs.next()) break;
+                foundCompany.setCompanyid(counter = rs.getInt(1));
                 foundCompany.setName(rs.getString(2));
                 foundCompany.setRegisterDate(rs.getDate(4));
                 foundCompany.setAddress(rs.getString(3));
@@ -356,9 +360,8 @@ public class DatabaseHandler extends Configs {
             System.out.println("Company found!" + foundCompany.toString() + " counter: " + counter);
             //adding each employee to the observable list  list
             // System.out.println("showing employee from oblist 'emps': "+ emps.get(counter).toString());
-            counter++;
         }
-        return counter != 0;
+        return counter;
     }
 
     public static Company getCompany(Company company) {
@@ -407,6 +410,192 @@ public class DatabaseHandler extends Configs {
         }
         return rs;
     }
+
+    public static ResultSet ordersOfCompany(Company company) {
+        String query = "SELECT * FROM project.orders WHERE companyid = " + company.getCompanyid();
+        ResultSet rs = null;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+        return rs;
+    }
+
+    public static boolean addOrderNoOfCompany(Company company, int no) {
+        String query = "INSERT INTO project.orders (joborderno, companyid) VALUES(" + no + ',' + company.getCompanyid() + ");";
+        System.out.println(query);
+        try {
+            int i = DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
+            System.out.println(i);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static ResultSet jobOffersOfCompany(Company company) {
+        String query = "SELECT * FROM project.joboffers WHERE companyid = " + company.getCompanyid();
+        ResultSet rs = null;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+        } catch (Exception e) {
+
+        }
+        return rs;
+    }
+
+    public static boolean addJobOfferNoOfCompany(Company company, int no) {
+        String query = "INSERT INTO project.joboffers (jobofferno, companyid) VALUES(" + no + ',' + company.getCompanyid() + ");";
+        System.out.println(query);
+        try {
+            int i = DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
+            System.out.println(i);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean addProjectOfCompany(Company company, String string) {
+        String query = "SELECT * FROM project.projects WHERE projectname = '" + string + "';";
+        ResultSet rs = null;
+        int counter = 0;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                counter++;
+            }
+
+        } catch (Exception e) {
+        }
+        if (counter == 0) {
+            String query2 = "INSERT INTO project.projects (projectname, companyid) VALUES(" + string + ',' + company.getCompanyid() + ");";
+            System.out.println(query);
+            try {
+                int i = DatabaseHandler.getDbConnection().prepareStatement(query2).executeUpdate();
+                System.out.println(i);
+                return true;
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    public static ObservableList<String> getObservableListOfProjects(Company company) {
+        String query = "SELECT * FROM project.projects WHERE companyid = " + company.getCompanyid();
+        ResultSet rs = null;
+        ObservableList<String> list = FXCollections.observableArrayList();
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                list.add(rs.getString(3));
+            }
+            if (list.isEmpty()) list.add("none");
+
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+
+    public static ObservableList<String> getSurfaceConditions() {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        String query = "SELECT * FROM project.surfacecondition ";
+        ResultSet rs = null;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                list.add(rs.getString(2));
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public static boolean addSurfaceCondition(String string) {
+        String query = "SELECT * FROM project.surfacecondition WHERE surfacecondition = '" + string + "';";
+        ResultSet rs = null;
+        int counter = 0;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                counter++;
+            }
+
+        } catch (Exception e) {
+        }
+        if (counter == 0) {
+            try {
+                String query2 = "INSERT INTO project.surfacecondition (surfacecondition) VALUES ( '" + string + "')";
+                DatabaseHandler.getDbConnection().prepareStatement(query2).executeUpdate();
+                return true;
+            } catch (Exception e) {
+            }
+
+        }
+        return false;
+    }
+
+    public static ObservableList<String> getStageOfExaminatinos() {
+        ObservableList<String> list = FXCollections.observableArrayList();
+        String query = "SELECT * FROM project.stageofexamination ";
+        ResultSet rs;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                list.add(rs.getString(2));
+            }
+
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+
+    public static boolean addStageOfExamination(String string) {
+
+        String query = "SELECT * FROM project.stageofexamination WHERE stageofexamination = " + string + " ;";
+        ResultSet rs = null;
+        int counter = 0;
+        try {
+            rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
+            while (true) {
+
+                //going through each row of results
+                if (!rs.next()) break;
+                counter++;
+            }
+        } catch (Exception e) {
+        }
+        if (counter == 0) {
+            try {
+                String query2 = "INSERT INTO project.stageofexamination (stageofexamination) VALUES ( '" + string + "')";
+                DatabaseHandler.getDbConnection().prepareStatement(query2).executeUpdate();
+                return true;
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+
+    ////equip
 
     public static boolean addEquipment(Equipment equipment) {
         String query = " INSERT INTO " + Consts.EQUIPMENT_TABLE + " ( " +
@@ -470,8 +659,6 @@ public class DatabaseHandler extends Configs {
         }
         return null;
     }
-
-
 
 
 }

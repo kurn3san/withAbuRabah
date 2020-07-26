@@ -6,6 +6,7 @@
             style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
+        <Button fx:id="EmployeeLogOutButton" layoutX="1319.0" layoutY="14.0" mnemonicParsing="false" text="Log out"/>
         <Label id="CurrentEmployeeSessionLabel" fx:id="currentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
                prefHeight="18.0" prefWidth="873.0"/>
         <AnchorPane id="EmployeeSignedInMenuAnchorPane" layoutX="35.0" layoutY="39.0" prefHeight="572.0"
@@ -19,10 +20,25 @@
                 <Button id="MenuToEquipmentSettings" fx:id="MenuToEquipmentSettings" layoutX="217.0" layoutY="78.0"
                         mnemonicParsing="false" prefHeight="35.0" prefWidth="126.0"
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="equipment settings"/>
+                <DatePicker fx:id="ReportDateDatePicker" layoutX="578.0" layoutY="10.0" promptText="Select Date"/>
+                <Label layoutX="492.0" layoutY="14.0" text="Report Date"/>
+                <Button fx:id="newSurConOrStOfExam" layoutX="217.0" layoutY="113.0" mnemonicParsing="false"
+                        prefHeight="70.0" prefWidth="26.0"
+                        style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="+"/>
+                <ChoiceBox fx:id="surfaceConditionChoiceBox" layoutX="242.0" layoutY="113.0"
+                           onMouseClicked="#refreshSurfaceConditionChoiceBox" prefHeight="35.0" prefWidth="101.0"
+                           style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;"/>
+                <ChoiceBox fx:id="stageOfExamChoiceBox" layoutX="241.0" layoutY="148.0"
+                           onMouseClicked="#refreshStageOfExamChoiceBox" prefHeight="35.0" prefWidth="102.0"
+                           style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;"/>
+                <Label layoutX="101.0" layoutY="113.0" prefHeight="35.0" prefWidth="118.0" text="Surface Condition"/>
+                <Label layoutX="102.0" layoutY="148.0" prefHeight="35.0" prefWidth="117.0" text="Stage of Examination"/>
+                <Label layoutX="101.0" layoutY="78.0" prefHeight="35.0" prefWidth="118.0" text="Equipment Menu"/>
+                <Label layoutX="101.0" layoutY="43.0" prefHeight="35.0" prefWidth="118.0" text="Company Menu"/>
             </children>
         </AnchorPane>
         <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8704372242278379"
-                   layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 ">
+                   layoutX="377.0" layoutY="84.0" prefHeight="476.0" prefWidth="999.0 " visible="false">
             <items>
                 <Pane fx:id="equipSelectMenuPane" prefHeight="474.0" prefWidth="692.0">
                     <children>
@@ -178,7 +194,7 @@
                 </Pane>
             </items>
         </SplitPane>
-        <AnchorPane id="companySettingsPane" fx:id="companySettingsPane" layoutX="375.0" layoutY="81.0" visible="false">
+        <AnchorPane id="companySettingsPane" fx:id="companySettingsPane" layoutX="375.0" layoutY="81.0">
             <children>
 
                 <HBox style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
@@ -189,7 +205,7 @@
                                 <Label alignment="CENTER" contentDisplay="CENTER" layoutX="183.0" layoutY="14.0"
                                        prefHeight="35.0" prefWidth="221.0" text="Select company from list"/>
                                 <TableView id="CompaniesTableView" fx:id="CompaniesTableView" layoutX="61.0"
-                                           layoutY="172.0" prefHeight="203.0" prefWidth="510.0">
+                                           layoutY="122.0" prefHeight="203.0" prefWidth="510.0">
                                     <columns>
                                         <TableColumn id="CompanyNameColumn" fx:id="CompanyNameColumn"
                                                      prefWidth="162.39998626708984" text="company name"/>
@@ -202,27 +218,48 @@
                                 <TextField id="SearchCompaniesNameTextField" fx:id="SearchCompaniesNameTextField"
                                            layoutX="61.0" layoutY="74.0" prefHeight="35.0" prefWidth="162.0"
                                            promptText="search company by name"/>
-                                <Button id="SearchCompaniesButton" fx:id="SearchCompaniesButton" layoutX="155.0"
-                                        layoutY="125.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="68.0"
+                                <Button id="SearchCompaniesButton" fx:id="SearchCompaniesButton" layoutX="343.0"
+                                        layoutY="74.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="68.0"
                                         text="search "/>
-                                <Button id="companyMenuCancelButton" fx:id="companySettingsCancelButton" layoutX="61.0"
-                                        layoutY="426.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="68.0"
+                                <Button id="companyMenuCancelButton" fx:id="companySettingsCancelButton" layoutX="33.0"
+                                        layoutY="442.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0"
                                         style="-fx-border-color: #E8EAF6;" text="Cancel"/>
-                                <Label id="SelectedCompnyLabel" fx:id="selectedCompnyLabel" layoutX="61.0"
-                                       layoutY="375.0" prefHeight="35.0" prefWidth="510.0"/>
+                                <Label id="SelectedCompnyLabel" fx:id="selectedCompnyLabel" layoutX="31.0"
+                                       layoutY="414.0" prefHeight="27.0" prefWidth="510.0"/>
                                 <Button id="companiesSaveNewSettingsButton" fx:id="companiesSaveNewSettingsButton"
-                                        layoutX="405.0" layoutY="426.0" mnemonicParsing="false" prefHeight="35.0"
+                                        layoutX="391.0" layoutY="443.0" mnemonicParsing="false" prefHeight="25.0"
                                         prefWidth="162.0" text="save new Settings"/>
+                                <ChoiceBox fx:id="jobOfferNoChoiceBox" layoutX="138.0" layoutY="337.0" prefHeight="26.0"
+                                           prefWidth="77.0"/>
+                                <ChoiceBox fx:id="orderNoChoiceBox" layoutX="295.0" layoutY="337.0" prefHeight="26.0"
+                                           prefWidth="78.0"/>
+                                <TextField fx:id="CmpnyJobOfferNoTXtField" editable="false" layoutX="64.0"
+                                           layoutY="381.0" promptText="new offer no"/>
+                                <TextField fx:id="CmpnyOrderNoTxtFiled" editable="false" layoutX="242.0" layoutY="381.0"
+                                           prefHeight="26.0" prefWidth="134.0" promptText="new job order no"/>
+                                <Label layoutX="67.0" layoutY="342.0" text="Job Offer No."/>
+                                <Label layoutX="243.0" layoutY="341.0" text="Order No."/>
+                                <CheckBox fx:id="newOfferCheckBOx" layoutX="65.0" layoutY="364.0"
+                                          mnemonicParsing="false" onAction="#newOffer" text="new offer"/>
+                                <CheckBox fx:id="newOrderCheckBox" layoutX="243.0" layoutY="364.0"
+                                          mnemonicParsing="false" onAction="#newOrder" text="new order"/>
+                                <ChoiceBox fx:id="ProjectsChoiceBox" layoutX="466.0" layoutY="336.0" prefHeight="26.0"
+                                           prefWidth="93.0"/>
+                                <Label layoutX="421.0" layoutY="342.0" text="Project"/>
+                                <CheckBox fx:id="newProjectCheckBox" layoutX="424.0" layoutY="364.0"
+                                          mnemonicParsing="false" text="new Project"/>
+                                <TextField fx:id="newProjectNameTextField" layoutX="426.0" layoutY="382.0"
+                                           prefHeight="26.0" prefWidth="134.0" promptText="new Project name"/>
                             </children>
                         </AnchorPane>
                         <Pane prefHeight="482.0" prefWidth="222.0" style="-fx-border-color: #CFD8DC;">
                             <children>
                                 <Button id="addCompanySaveButton" fx:id="addCompanySaveButton" layoutX="37.0"
-                                        layoutY="274.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="161.0"
+                                        layoutY="340.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="161.0"
                                         style="-fx-border-color: #E0E0E0; -fx-background-color: #EEEEEE;"
                                         text="Save new company"/>
                                 <Button id="addCompanyClearAllButtons" fx:id="addCompanyClearAllButton" layoutX="14.0"
-                                        layoutY="227.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0"
+                                        layoutY="301.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0"
                                         style="-fx-border-color: #E8EAF6;" text="Clear all fields"/>
                                 <TextField id="addCompanyNameTextField" fx:id="addCompanyNameTextField" layoutX="14.0"
                                            layoutY="104.0" prefHeight="27.0" prefWidth="181.0"
@@ -235,12 +272,15 @@
                                        text="Company city"/>
                                 <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="35.0"
                                        prefWidth="193.0" text="Add new Company to the list" textAlignment="CENTER"/>
+                                <TextField fx:id="addCompanyjobofferno" layoutX="14.0" layoutY="216.0" prefHeight="25.0"
+                                           prefWidth="181.0" promptText="offer no"/>
+                                <TextField fx:id="addCompanyJobOrderNo" layoutX="14.0" layoutY="259.0" prefHeight="25.0"
+                                           prefWidth="181.0" promptText="job order no"/>
                             </children>
                         </Pane>
                     </children>
                 </HBox>
             </children>
         </AnchorPane>
-        <Button fx:id="EmployeeLogOutButton" layoutX="1308.0" layoutY="27.0" mnemonicParsing="false" text="Log out"/>
     </children>
 </AnchorPane>
