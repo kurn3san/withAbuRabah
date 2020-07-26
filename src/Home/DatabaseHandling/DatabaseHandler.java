@@ -733,4 +733,16 @@ public class DatabaseHandler extends Configs {
         return null;
     }
 
+    public static void deleteWeldPiece(Company company, WeldedPiece weldedPiece, int no) {
+
+        String query = "DELETE FROM project.weldedpiece WHERE weldPieceNo = '" + weldedPiece.getWeldPieceNo() + "' AND companyid = '" + company.getCompanyid()
+                + "' AND reportno = '" + no + "';";
+        System.out.println(query);
+        try {
+            DatabaseHandler.getDbConnection().prepareStatement(query).executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
+
 }

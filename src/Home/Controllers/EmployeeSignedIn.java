@@ -19,7 +19,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -122,7 +121,6 @@ public class EmployeeSignedIn implements Initializable {
     public TableColumn<WeldedPiece, String> defectTypeCol;
     public TableColumn<WeldedPiece, String> defectLocCol;
     public TableColumn<WeldedPiece, String> resultCol;
-    public TableColumn<WeldedPiece, Button> updateCol;
     public Button resultsReloadButton;
     public TextField serialnumber;
     public TextField resultsWeldingProgressTxtField;
@@ -133,8 +131,10 @@ public class EmployeeSignedIn implements Initializable {
     public TextField resultsDefectTypeTxtField;
     public TextField resultsDefectLocTxtField;
     public TextField resultsResultTxtField;
-    public Button resultsSaveButton;
+    public static WeldedPiece onhandWPiece = new WeldedPiece();
     public Pane resultsPane;
+    public static WeldedPiece[] onhandWPieceArray = new WeldedPiece[14];
+    public Button resultsSaveNewElementButton;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -177,6 +177,8 @@ public class EmployeeSignedIn implements Initializable {
     int reportno = 0;
     int resultSerialNo = 0;
     String Project = "";
+    public Button resultsDeleteButton;
+    public Button resultsSaveMenuButton;
 
 
     public static ObservableList<Integer> observableListFromNumbersRs(ResultSet rs) {
@@ -705,7 +707,7 @@ public class EmployeeSignedIn implements Initializable {
         okOrRed.add("OK");
         okOrRed.add("red");
         resultChoiceBox.setItems(okOrRed);
-        resultsSaveButton.setOnAction(event -> {
+        resultsSaveNewElementButton.setOnAction(event -> {
             if (resultsWeldingProgressTxtField.getLength() != 0 && resultsWeldPieceNoTxtField.getLength() != 0 &&
                     resultsTestLengthTxtField.getLength() != 0 && resultstThicknessTxtField.getLength() != 0) {
 
@@ -726,6 +728,38 @@ public class EmployeeSignedIn implements Initializable {
                     System.out.println("added");
                 else System.out.println("problema");
             }
+        });
+        resultsTableView.setRowFactory(tv -> {
+            TableRow<WeldedPiece> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getClickCount() == 2) {
+                    onhandWPiece = row.getItem();
+                }
+                selectedCompnyLabel.setText("onhandWPiece: " + onhandWPiece.toString() + " will be selected, don't forget to save!");
+            });
+            return row;
+        });
+        resultsDeleteButton.setOnAction(event -> {
+            DatabaseHandler.deleteWeldPiece(onHandCompany, onhandWPiece, reportno);
+            reportno = Integer.parseInt(reportNoTxtField.getText());
+            initResultsTable();
+            loadResultsTable(DatabaseHandler.getWeldPieceOfCompany(onHandCompany, reportno));
+        });
+        resultsSaveMenuButton.setOnAction(event -> {
+            int i = 0;
+            for (WeldedPiece w : onhandWPieceArray) {
+                onhandWPieceArray[i] = resultsTableView.getItems().get(i);
+            }
+            reportno = Integer.parseInt(reportNoTxtField.getText());
+            initResultsTable();
+            loadResultsTable(DatabaseHandler.getWeldPieceOfCompany(onHandCompany, reportno));
+            resultsPane.setVisible(!resultsPane.isVisible());
+            resultsPane.setVisible(!resultsPane.isVisible());
+        });
+        resultsReloadButton.setOnAction(event -> {
+            reportno = Integer.parseInt(reportNoTxtField.getText());
+            initResultsTable();
+            loadResultsTable(DatabaseHandler.getWeldPieceOfCompany(onHandCompany, reportno));
         });
 
         resultsTestLengthTxtField.textProperty().addListener(new ChangeListener<String>() {
@@ -910,48 +944,6 @@ public class EmployeeSignedIn implements Initializable {
         defectTypeCol.setCellValueFactory(new PropertyValueFactory<>("defectType"));
         defectLocCol.setCellValueFactory(new PropertyValueFactory<>("defectLoc"));
         resultCol.setCellValueFactory(new PropertyValueFactory<>("result"));
-        updateCol.setCellValueFactory(new PropertyValueFactory<>("update"));
-        editableCols();
-    }
-
-    private void editableCols() {
-        resultCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        resultCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        defectLocCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        defectLocCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        defectTypeCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        defectTypeCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        diameterCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        diameterCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        SNumCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        SNumCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        WPNoCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        WPNoCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        tstLenthCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        tstLenthCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        welProcessCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        welProcessCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        ThicknsCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        ThicknsCol.setOnEditCommit(event -> {
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setSerialNo(event.getNewValue());
-        });
-        resultsTableView.setEditable(true);
     }
 
     private void loadResultsTable(ResultSet resultSet) {

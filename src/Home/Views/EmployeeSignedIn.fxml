@@ -8,7 +8,7 @@
             style="-fx-background-color: #CFD8DC;" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="Home.Controllers.EmployeeSignedIn">
     <children>
-        <Button fx:id="EmployeeLogOutButton" layoutX="1286.0" layoutY="39.0" mnemonicParsing="false" text="Log out"/>
+        <Button fx:id="EmployeeLogOutButton" layoutX="1230.0" layoutY="46.0" mnemonicParsing="false" text="Log out"/>
         <Label id="CurrentEmployeeSessionLabel" fx:id="currentEmployeeSessionLabel" layoutX="186.0" layoutY="618.0"
                prefHeight="18.0" prefWidth="873.0"/>
         <AnchorPane id="EmployeeSignedInMenuAnchorPane" layoutX="35.0" layoutY="39.0" prefHeight="572.0"
@@ -90,10 +90,10 @@
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Signatures"/>
             </children>
         </AnchorPane>
-        <Pane fx:id="resultsPane" layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="962.0"
+        <Pane fx:id="resultsPane" layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="906.0"
               style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;" visible="false">
             <children>
-                <TableView fx:id="resultsTableView" layoutX="18.0" layoutY="213.0" prefHeight="214.0" prefWidth="927.0">
+                <TableView fx:id="resultsTableView" layoutX="18.0" layoutY="213.0" prefHeight="214.0" prefWidth="859.0">
                     <columns>
                         <TableColumn fx:id="SNumCol" prefWidth="83.20001220703125" text="Serial number"/>
                         <TableColumn fx:id="WPNoCol" prefWidth="205.60009765625" text="Weld/ Piece No"/>
@@ -104,7 +104,6 @@
                         <TableColumn fx:id="defectTypeCol" prefWidth="73.5999755859375" text="Defect Type"/>
                         <TableColumn fx:id="defectLocCol" prefWidth="115.199951171875" text="Defect Location"/>
                         <TableColumn fx:id="resultCol" prefWidth="52.0" text="Result"/>
-                        <TableColumn fx:id="updateCol" prefWidth="75.0" text="update"/>
                     </columns>
                 </TableView>
                 <Button fx:id="resultsReloadButton" layoutX="18.0" layoutY="427.0" mnemonicParsing="false"
@@ -118,11 +117,11 @@
                            prefWidth="86.0"/>
                 <TextField fx:id="resultstThicknessTxtField" layoutX="155.0" layoutY="46.0" prefHeight="25.0"
                            prefWidth="85.0"/>
-                <TextField fx:id="resultsDiameterTxtField" layoutX="284.0" layoutY="46.0" prefHeight="25.0"
+                <TextField fx:id="resultsDiameterTxtField" layoutX="282.0" layoutY="101.0" prefHeight="25.0"
                            prefWidth="85.0"/>
-                <TextField fx:id="resultsDefectTypeTxtField" layoutX="284.0" layoutY="101.0" prefHeight="25.0"
+                <TextField fx:id="resultsDefectTypeTxtField" layoutX="283.0" layoutY="46.0" prefHeight="25.0"
                            prefWidth="85.0"/>
-                <TextField fx:id="resultsDefectLocTxtField" layoutX="284.0" layoutY="158.0" prefHeight="25.0"
+                <TextField fx:id="resultsDefectLocTxtField" layoutX="378.0" layoutY="46.0" prefHeight="25.0"
                            prefWidth="85.0"/>
                 <Label layoutX="24.0" layoutY="14.0" prefHeight="27.0" prefWidth="94.0" text="Serial number"/>
                 <Label layoutX="24.0" layoutY="71.0" prefHeight="27.0" prefWidth="94.0" text="Weld/ Piece No"/>
@@ -130,17 +129,21 @@
                 <Label layoutX="151.0" layoutY="126.0" prefHeight="27.0" prefWidth="94.0" text="Welding Process"/>
                 <Label alignment="CENTER" contentDisplay="CENTER" layoutX="151.0" layoutY="14.0" prefHeight="27.0"
                        prefWidth="94.0" text="Thickness" textAlignment="CENTER"/>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="275.0" layoutY="14.0" prefHeight="27.0"
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="278.0" layoutY="71.0" prefHeight="27.0"
                        prefWidth="94.0" text="Diameter" textAlignment="CENTER"/>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="71.0" prefHeight="27.0"
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="279.0" layoutY="14.0" prefHeight="27.0"
                        prefWidth="94.0" text="Defect Type" textAlignment="CENTER"/>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="126.0" prefHeight="27.0"
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="373.0" layoutY="14.0" prefHeight="27.0"
                        prefWidth="94.0" text="Defect Loc" textAlignment="CENTER"/>
-                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="374.0" layoutY="131.0" prefHeight="27.0"
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="373.0" layoutY="71.0" prefHeight="27.0"
                        prefWidth="94.0" text="Result" textAlignment="CENTER"/>
-                <Button fx:id="resultsSaveButton" layoutX="402.0" layoutY="101.0" mnemonicParsing="false"
-                        prefHeight="25.0" prefWidth="61.0" text="Save"/>
-                <ChoiceBox fx:id="resultChoiceBox" layoutX="406.0" layoutY="158.0" prefHeight="25.0" prefWidth="61.0"/>
+                <Button fx:id="resultsSaveNewElementButton" layoutX="283.0" layoutY="148.0" mnemonicParsing="false"
+                        prefHeight="35.0" prefWidth="171.0" text="Save new Element"/>
+                <ChoiceBox fx:id="resultChoiceBox" layoutX="390.0" layoutY="101.0" prefHeight="25.0" prefWidth="61.0"/>
+                <Button fx:id="resultsDeleteButton" layoutX="815.0" layoutY="183.0" mnemonicParsing="false"
+                        text="Delete"/>
+                <Button fx:id="resultsSaveMenuButton" layoutX="77.0" layoutY="427.0" mnemonicParsing="false"
+                        text="save Menu"/>
             </children>
         </Pane>
         <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8683784876668014"

@@ -1,7 +1,5 @@
 package Home.model;
 
-import java.awt.*;
-
 public class WeldedPiece {
     private String serialNo;
     private String weldPieceNo;
@@ -12,10 +10,10 @@ public class WeldedPiece {
     private String defectType;
     private String defectLoc;
     private String result;
-    private Button update;
 
+    private int id;
 
-    public WeldedPiece(String serialNo, String weldPieceNo, String testLength, String weldingProcess, String thickness, String diameter, String result, Button update) {
+    public WeldedPiece(String serialNo, String weldPieceNo, String testLength, String weldingProcess, String thickness, String diameter, String result) {
         this.serialNo = serialNo;
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
@@ -23,7 +21,14 @@ public class WeldedPiece {
         this.thickness = thickness;
         this.diameter = diameter;
         this.result = result;
-        this.update = update;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public WeldedPiece(String weldPieceNo, String testLength,
@@ -36,14 +41,6 @@ public class WeldedPiece {
         this.result = result;
         this.defectType = defectType;
         this.defectLoc = defectLoc;
-    }
-
-    public Button getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Button update) {
-        this.update = update;
     }
 
     public WeldedPiece() {
