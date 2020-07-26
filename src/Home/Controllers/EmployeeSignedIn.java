@@ -112,6 +112,7 @@ public class EmployeeSignedIn implements Initializable {
     public TextField inspectionDatesTxtField;
     public Button MenuToResultsButton;
     public Button MenuToSignaturesButton;
+    public TableView<WeldedPiece> resultsTableView;
     public TableColumn<WeldedPiece, String> SNumCol;
     public TableColumn<WeldedPiece, String> WPNoCol;
     public TableColumn<WeldedPiece, String> tstLenthCol;
@@ -121,8 +122,19 @@ public class EmployeeSignedIn implements Initializable {
     public TableColumn<WeldedPiece, String> defectTypeCol;
     public TableColumn<WeldedPiece, String> defectLocCol;
     public TableColumn<WeldedPiece, String> resultCol;
-    public TableView<WeldedPiece> resultsTableView;
     public TableColumn<WeldedPiece, Button> updateCol;
+    public Button resultsReloadButton;
+    public TextField serialnumber;
+    public TextField resultsWeldingProgressTxtField;
+    public TextField resultsWeldPieceNoTxtField;
+    public TextField resultsTestLengthTxtField;
+    public TextField resultstThicknessTxtField;
+    public TextField resultsDiameterTxtField;
+    public TextField resultsDefectTypeTxtField;
+    public TextField resultsDefectLocTxtField;
+    public TextField resultsResultTxtField;
+    public Button resultsSaveButton;
+    public Pane resultsPane;
     @FXML
     private Button EmployeeLogOutButton;
     public TextField addequipUvLghtIntTxtField;
@@ -159,10 +171,13 @@ public class EmployeeSignedIn implements Initializable {
     public Button equipClearAllButton;
     public Button equipRstPageButton;
     boolean companySettingsClicks = false;
+    public ChoiceBox<String> resultChoiceBox = new ChoiceBox<>();
     int orderno = 0;
     int offerno = 0;
     int reportno = 0;
+    int resultSerialNo = 0;
     String Project = "";
+
 
     public static ObservableList<Integer> observableListFromNumbersRs(ResultSet rs) {
         ObservableList<Integer> list = FXCollections.observableArrayList();
@@ -678,7 +693,7 @@ public class EmployeeSignedIn implements Initializable {
         });
 
         MenuToResultsButton.setOnAction(event -> {
-            MenuToResultsButton.setVisible(!MenuToResultsButton.isVisible());
+            resultsPane.setVisible(!resultsPane.isVisible());
             if (onHandCompany != (new Company()) && onHandCompany != null && Integer.parseInt(reportNoTxtField.getText()) != 0 && (MenuToResultsButton.isVisible())) {
                 reportno = Integer.parseInt(reportNoTxtField.getText());
                 initResultsTable();
@@ -686,7 +701,62 @@ public class EmployeeSignedIn implements Initializable {
                 System.out.println("got here");
             }
         });
+        ObservableList<String> okOrRed = FXCollections.observableArrayList();
+        okOrRed.add("OK");
+        okOrRed.add("red");
+        resultChoiceBox.setItems(okOrRed);
+        resultsSaveButton.setOnAction(event -> {
+            if (resultsWeldingProgressTxtField.getLength() != 0 && resultsWeldPieceNoTxtField.getLength() != 0 &&
+                    resultsTestLengthTxtField.getLength() != 0 && resultstThicknessTxtField.getLength() != 0) {
 
+
+                resultSerialNo++;
+                WeldedPiece weldedPiece = new WeldedPiece(resultsWeldPieceNoTxtField.getText(), resultsTestLengthTxtField.getText(), resultsWeldingProgressTxtField.getText(),
+                        resultstThicknessTxtField.getText(), resultChoiceBox.getValue());
+                if (resultsDiameterTxtField.getLength() != 0)
+                    weldedPiece.setDiameter(resultsDiameterTxtField.getText());
+                if (resultsDefectTypeTxtField.getLength() != 0)
+                    weldedPiece.setDefectType(resultsDefectTypeTxtField.getText());
+                if (resultsDefectLocTxtField.getLength() != 0)
+                    weldedPiece.setDefectLoc(resultsDefectLocTxtField.getText());
+                weldedPiece.setSerialNo(String.valueOf(resultSerialNo));
+                System.out.println("on hand company" + onHandCompany.toString());
+                System.out.println(reportno);
+                if (DatabaseHandler.addWeldPieceOfCompany(onHandCompany, weldedPiece, reportno))
+                    System.out.println("added");
+                else System.out.println("problema");
+            }
+        });
+
+        resultsTestLengthTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d+")) {
+                    if (newValue.length() == 0) resultsTestLengthTxtField.setText("0");
+                    else resultsTestLengthTxtField.setText(oldValue);
+                }
+            }
+        });
+        resultstThicknessTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d+")) {
+                    if (newValue.length() == 0) resultstThicknessTxtField.setText("0");
+                    else resultstThicknessTxtField.setText(oldValue);
+                }
+            }
+        });
+        resultsDiameterTxtField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d+")) {
+                    if (newValue.length() == 0) resultsDiameterTxtField.setText("");
+                    else resultsDiameterTxtField.setText(oldValue);
+                }
+            }
+        });
+
+        //
         //Standard info
         ////end of initialise...
     }
@@ -893,6 +963,17 @@ public class EmployeeSignedIn implements Initializable {
             try {
                 //going through each row of results
                 if (!resultSet.next()) break;
+                weldedPiece.setSerialNo(resultSet.getString(2));
+                weldedPiece.setWeldPieceNo(resultSet.getString(3));
+                weldedPiece.setTestLength(resultSet.getString(4));
+                weldedPiece.setWeldingProcess(resultSet.getString(5));
+                weldedPiece.setThickness(resultSet.getString(6));
+                weldedPiece.setDiameter(resultSet.getString(7));
+                weldedPiece.setDefectType(resultSet.getString(8));
+                weldedPiece.setDefectLoc(resultSet.getString(9));
+                weldedPiece.setResult(resultSet.getString(10));
+
+                list.add(counter, weldedPiece);
 
 
             } catch (SQLException e) {
@@ -900,7 +981,6 @@ public class EmployeeSignedIn implements Initializable {
             }
             System.out.println("added to list! " + weldedPiece.toString());
             //adding each company to the observable list  list
-            list.add(counter, weldedPiece);
             counter++;
         }
         resultsTableView.setItems(list);

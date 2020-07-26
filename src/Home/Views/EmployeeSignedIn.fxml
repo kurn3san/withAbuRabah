@@ -90,8 +90,8 @@
                         style="-fx-background-color: #E8EAF6; -fx-border-color: #FAFAFA;" text="Signatures"/>
             </children>
         </AnchorPane>
-        <Pane layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="962.0"
-              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;">
+        <Pane fx:id="resultsPane" layoutX="382.0" layoutY="80.0" prefHeight="466.0" prefWidth="962.0"
+              style="-fx-background-color: #E8EAF6; -fx-border-color: #CFD8DC;" visible="false">
             <children>
                 <TableView fx:id="resultsTableView" layoutX="18.0" layoutY="213.0" prefHeight="214.0" prefWidth="927.0">
                     <columns>
@@ -124,8 +124,6 @@
                            prefWidth="85.0"/>
                 <TextField fx:id="resultsDefectLocTxtField" layoutX="284.0" layoutY="158.0" prefHeight="25.0"
                            prefWidth="85.0"/>
-                <TextField fx:id="resultsResultTxtField" layoutX="397.0" layoutY="158.0" prefHeight="25.0"
-                           prefWidth="64.0"/>
                 <Label layoutX="24.0" layoutY="14.0" prefHeight="27.0" prefWidth="94.0" text="Serial number"/>
                 <Label layoutX="24.0" layoutY="71.0" prefHeight="27.0" prefWidth="94.0" text="Weld/ Piece No"/>
                 <Label layoutX="24.0" layoutY="126.0" prefHeight="27.0" prefWidth="94.0" text="Test Length"/>
@@ -140,7 +138,9 @@
                        prefWidth="94.0" text="Defect Loc" textAlignment="CENTER"/>
                 <Label alignment="CENTER" contentDisplay="CENTER" layoutX="374.0" layoutY="131.0" prefHeight="27.0"
                        prefWidth="94.0" text="Result" textAlignment="CENTER"/>
-                <Button fx:id="resultsSaveButton" layoutX="402.0" layoutY="101.0" mnemonicParsing="false" text="Save"/>
+                <Button fx:id="resultsSaveButton" layoutX="402.0" layoutY="101.0" mnemonicParsing="false"
+                        prefHeight="25.0" prefWidth="61.0" text="Save"/>
+                <ChoiceBox fx:id="resultChoiceBox" layoutX="406.0" layoutY="158.0" prefHeight="25.0" prefWidth="61.0"/>
             </children>
         </Pane>
         <SplitPane id="equipSettingsPane" fx:id="equipSettingsPane" dividerPositions="0.8683784876668014"

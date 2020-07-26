@@ -456,14 +456,14 @@ public class DatabaseHandler extends Configs {
 
     public static boolean addProjectOfCompany(Company company, String string) {
         String query = "SELECT * FROM project.projects WHERE projectname = '" + string + "';";
-        ResultSet rs = null;
+        ResultSet rs;
         int counter = 0;
         try {
             rs = DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
             while (true) {
-
                 //going through each row of results
                 if (!rs.next()) break;
+                System.out.println("adding project counter");
                 counter++;
             }
 
@@ -668,6 +668,7 @@ public class DatabaseHandler extends Configs {
 
                 //going through each row of results
                 if (!rs.next()) break;
+                System.out.println(counter);
                 counter++;
             }
 
@@ -687,7 +688,7 @@ public class DatabaseHandler extends Configs {
                     "result," +
                     "reportno," +
                     " companyid) " +
-                    "VALUES(" +
+                    "VALUES('" +
                     weldedPiece.getSerialNo() + "', '" +
                     weldedPiece.getWeldPieceNo() + "', '" +
                     weldedPiece.getTestLength() + "', '" +
@@ -699,7 +700,7 @@ public class DatabaseHandler extends Configs {
                     weldedPiece.getResult() + "', '" +
                     no + "', '" +
                     company.getCompanyid() + "' );";
-            System.out.println(query);
+            System.out.println(query2);
             try {
                 int i = DatabaseHandler.getDbConnection().prepareStatement(query2).executeUpdate();
                 System.out.println(i);

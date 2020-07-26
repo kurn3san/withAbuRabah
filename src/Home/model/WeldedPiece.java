@@ -4,14 +4,14 @@ import java.awt.*;
 
 public class WeldedPiece {
     private String serialNo;
-    private String weldPieceNo = "";
+    private String weldPieceNo;
     private String testLength;
-    private String weldingProcess = "";
+    private String weldingProcess;
     private String thickness;
     private String diameter;
-    private String defectType = "";
-    private String defectLoc = "";
-    private String result = "RED";
+    private String defectType;
+    private String defectLoc;
+    private String result;
     private Button update;
 
 
@@ -26,19 +26,16 @@ public class WeldedPiece {
         this.update = update;
     }
 
-    public WeldedPiece(int serialNo, String weldPieceNo, String testLength,
+    public WeldedPiece(String weldPieceNo, String testLength,
                        String weldingProcess, String thickness,
-                       String diameter, String defectType,
-                       String defectLoc, String result, Button update) {
+                       String result) {
         this.weldPieceNo = weldPieceNo;
         this.testLength = testLength;
         this.weldingProcess = weldingProcess;
         this.thickness = thickness;
         this.result = result;
-        this.diameter = diameter;
         this.defectType = defectType;
         this.defectLoc = defectLoc;
-        this.update = update;
     }
 
     public Button getUpdate() {
