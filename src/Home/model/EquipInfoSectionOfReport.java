@@ -3,13 +3,54 @@ package Home.model;
 import java.util.Objects;
 
 public class EquipInfoSectionOfReport extends Equipment {
+    private int selectedEquipSecid;
+    private int luxumeter = 1200;
+    private int temp = 0;
+
     private String examinArea = "";
     private String currentType = "AC";
-    private int Luxumeter = 1200;
+
+    public EquipInfoSectionOfReport(String equipmentName, int poleDistance, String mpCarrierMedium,
+                                    double uVLightIntensity, int distanceOfLight, String magTech,
+                                    String examinArea, String currentType,
+                                    int luxumeter, String testMedium, String demag,
+                                    String heatTreat, int temp, double gaussFieldStrnth,
+                                    String surfaceCon, String idOfLightEquip, String liftTestDateAndNumber) {
+        super(equipmentName, poleDistance, mpCarrierMedium, uVLightIntensity, distanceOfLight, magTech);
+        this.examinArea = examinArea;
+        this.currentType = currentType;
+        this.luxumeter = luxumeter;
+        this.testMedium = testMedium;
+        this.demag = demag;
+        this.heatTreat = heatTreat;
+        this.temp = temp;
+        this.gaussFieldStrnth = gaussFieldStrnth;
+        this.surfaceCon = surfaceCon;
+        this.idOfLightEquip = idOfLightEquip;
+        this.liftTestDateAndNumber = liftTestDateAndNumber;
+    }
+
     private String testMedium = "";
     private String demag = "";
     private String heatTreat = "";
-    private double temp = 0;
+
+    public EquipInfoSectionOfReport(String examinArea, String currentType, int luxumeter,
+                                    String testMedium, String demag, String heatTreat,
+                                    int temp, double gaussFieldStrnth, String surfaceCon,
+                                    String idOfLightEquip, String liftTestDateAndNumber) {
+        this.examinArea = examinArea;
+        this.currentType = currentType;
+        this.luxumeter = luxumeter;
+        this.testMedium = testMedium;
+        this.demag = demag;
+        this.heatTreat = heatTreat;
+        this.temp = temp;
+        this.gaussFieldStrnth = gaussFieldStrnth;
+        this.surfaceCon = surfaceCon;
+        this.idOfLightEquip = idOfLightEquip;
+        this.liftTestDateAndNumber = liftTestDateAndNumber;
+    }
+
     private double gaussFieldStrnth = 0;//     kA/m
     private String surfaceCon = "";
     private String idOfLightEquip = "";
@@ -18,41 +59,12 @@ public class EquipInfoSectionOfReport extends Equipment {
     public EquipInfoSectionOfReport() {
     }
 
-    public EquipInfoSectionOfReport(String equipmentName, int poleDistance, String mpCarrierMedium,
-                                    double uVLightIntensity, int distanceOfLight, String magTech,
-                                    boolean testType, String examinArea, String currentType,
-                                    int luxumeter, String testMedium, String demag,
-                                    String heatTreat, double temp, double gaussFieldStrnth,
-                                    String surfaceCon, String idOfLightEquip, String liftTestDateAndNumber) {
-        super(equipmentName, poleDistance, mpCarrierMedium, uVLightIntensity, distanceOfLight, magTech);
-        this.examinArea = examinArea;
-        this.currentType = currentType;
-        Luxumeter = luxumeter;
-        this.testMedium = testMedium;
-        this.demag = demag;
-        this.heatTreat = heatTreat;
-        this.temp = temp;
-        this.gaussFieldStrnth = gaussFieldStrnth;
-        this.surfaceCon = surfaceCon;
-        this.idOfLightEquip = idOfLightEquip;
-        this.liftTestDateAndNumber = liftTestDateAndNumber;
+    public int getSelectedEquipSecid() {
+        return selectedEquipSecid;
     }
 
-    public EquipInfoSectionOfReport(String examinArea, String currentType, int luxumeter,
-                                    String testMedium, String demag, String heatTreat,
-                                    double temp, double gaussFieldStrnth, String surfaceCon,
-                                    String idOfLightEquip, String liftTestDateAndNumber) {
-        this.examinArea = examinArea;
-        this.currentType = currentType;
-        Luxumeter = luxumeter;
-        this.testMedium = testMedium;
-        this.demag = demag;
-        this.heatTreat = heatTreat;
-        this.temp = temp;
-        this.gaussFieldStrnth = gaussFieldStrnth;
-        this.surfaceCon = surfaceCon;
-        this.idOfLightEquip = idOfLightEquip;
-        this.liftTestDateAndNumber = liftTestDateAndNumber;
+    public void setSelectedEquipSecid(int selectedEquipSecid) {
+        this.selectedEquipSecid = selectedEquipSecid;
     }
 
     public EquipInfoSectionOfReport(Equipment equipment) {
@@ -78,11 +90,11 @@ public class EquipInfoSectionOfReport extends Equipment {
     }
 
     public int getLuxumeter() {
-        return Luxumeter;
+        return luxumeter;
     }
 
     public void setLuxumeter(int luxumeter) {
-        Luxumeter = luxumeter;
+        this.luxumeter = luxumeter;
     }
 
     public String getTestMedium() {
@@ -109,11 +121,11 @@ public class EquipInfoSectionOfReport extends Equipment {
         this.heatTreat = heatTreat;
     }
 
-    public double getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public void setTemp(double temp) {
+    public void setTemp(int temp) {
         this.temp = temp;
     }
 
@@ -173,7 +185,7 @@ public class EquipInfoSectionOfReport extends Equipment {
         return "EquipInfoSectionOfReport{" +
                 "examinArea='" + examinArea + '\'' +
                 ", currentType='" + currentType + '\'' +
-                ", Luxumeter=" + Luxumeter +
+                ", Luxumeter=" + luxumeter +
                 ", gaussFieldStrnth=" + gaussFieldStrnth +
                 ", surfaceCon='" + surfaceCon + '\'' +
                 ", idOfLightEquip='" + idOfLightEquip + '\'' +

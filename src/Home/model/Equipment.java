@@ -6,14 +6,23 @@ import javafx.beans.property.SimpleDoubleProperty;
 import java.util.Objects;
 
 public class Equipment {
-
+    private int equipmentid;
+    private int poleDistance;
+    private int distanceOfLight;
     private String equipmentName = "";
-    private int poleDistance = 0;
+    private double uVLightIntensity;
     private String mpCarrierMedium = "";
     private final DoubleProperty uVLightIntnsity = new SimpleDoubleProperty();
-    private int distanceOfLight = 0;
+
+    public int getEquipmentid() {
+        return equipmentid;
+    }
+
     private String magTech = "";
-    private double uVLightIntensity = 0.0;
+
+    public void setEquipmentid(int equipmentid) {
+        this.equipmentid = equipmentid;
+    }
 
     public Equipment(String equipmentName,
                      int poleDistance, String mpCarrierMedium,
@@ -106,21 +115,15 @@ public class Equipment {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Equipment)) return false;
-        Equipment equipment = (Equipment) o;
-        return getPoleDistance() == equipment.getPoleDistance() &&
-                getDistanceOfLight() == equipment.getDistanceOfLight() &&
-                getEquipmentName().equals(equipment.getEquipmentName()) &&
-                getMpCarrierMedium().equals(equipment.getMpCarrierMedium()) &&
-                getDoubleuVLightIntensity() == equipment.getDoubleuVLightIntensity() &&
-                getMagTech().equals(equipment.getMagTech());
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(getEquipmentName(), getPoleDistance(), getMpCarrierMedium(), getDoubleuVLightIntensity(), getDistanceOfLight(), getMagTech());
     }
 
+    public boolean equals(Equipment equipment) {
+        return getPoleDistance() == equipment.getPoleDistance() &&
+                getDistanceOfLight() == equipment.getDistanceOfLight() &&
+                Double.compare(equipment.getuVLightIntensity(), getuVLightIntensity()) == 0 &&
+                getEquipmentName().equals(equipment.getEquipmentName()) &&
+                getMpCarrierMedium().equals(equipment.getMpCarrierMedium());
+    }
 }

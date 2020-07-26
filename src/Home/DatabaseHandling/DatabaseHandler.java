@@ -429,8 +429,10 @@ public class DatabaseHandler extends Configs {
 
     }
 
-    public static boolean isThereSuchEquipment(Equipment equipment) {
+    public static int isThereSuchEquipment(Equipment equipment) {
+        //returns: table Index of found equipment, or -1, if there's no such Equipment...
         ResultSet rs = null;
+        int i = -1;
         String query = " SELECT * FROM " + Consts.EQUIPMENT_TABLE + " WHERE " + Consts.EQUIPMENT_NAME + "= '" + equipment.getEquipmentName() + "' AND " +
                 Consts.EQUIPMENT_POLE_DISTANCE + "= '" + equipment.getPoleDistance() + "' AND " +
                 Consts.EQUIPMENT_M_P_CARRIER_MEDIUM + "= '" + equipment.getMpCarrierMedium() + "' AND " +
@@ -448,16 +450,17 @@ public class DatabaseHandler extends Configs {
             try {
                 //going through each row of results
                 if (!rs.next()) break;
+                i = rs.getInt(1);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             System.out.println("equipment found! #" + counter);
             counter++;
         }
-        return counter != 0;
+        return i;
     }
 
-    public static ResultSet getEquipmentResultSet(Equipment equipment) {
+    public static ResultSet getEquipmentResultSet() {
         String query = " SELECT * " + " FROM " + Consts.EQUIPMENT_TABLE + ";";
         try {
             return DatabaseHandler.getDbConnection().prepareStatement(query).executeQuery();
